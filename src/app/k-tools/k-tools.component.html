@@ -1,6 +1,7 @@
 <div class="row">
   <div class="col-xs-10">
-    <app-k-tool-edit></app-k-tool-edit>
+    <app-k-tool-edit
+      (ingredientAdded)="onIngredientAdded($event)"></app-k-tool-edit>
     <hr>
     <ul class="list-group">
       <a 

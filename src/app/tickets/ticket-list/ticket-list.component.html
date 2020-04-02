@@ -9,6 +9,7 @@
     <app-ticket-item 
       *ngFor="let ticketEl of tickets"
       [ticket]="ticketEl"
+      (ticketSelected)="onTicketSelected(ticketEl)"
       ></app-ticket-item>
   </div>
 </div>

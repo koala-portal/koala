@@ -3,13 +3,12 @@
     <button class="btn btn-success">New Ticket</button>
   </div>
 </div>
-<hr>
+<hr />
 <div class="row">
   <div class="col-xs-12">
-    <app-ticket-item 
+    <app-ticket-item
       *ngFor="let ticketEl of tickets"
       [ticket]="ticketEl"
-      (ticketSelected)="onTicketSelected(ticketEl)"
-      ></app-ticket-item>
+    ></app-ticket-item>
   </div>
 </div>

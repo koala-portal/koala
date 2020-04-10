@@ -1,8 +1,10 @@
 {
     "editor.tabSize": 2,
+    "editor.wordWrap": "on",
     "editor.rulers": [
         80
     ],
     // Command Prompt
-    "terminal.integrated.shell.windows": "C:\\Windows\\System32\\cmd.exe"
+    "terminal.integrated.shell.windows": "C:\\Windows\\System32\\cmd.exe",
+    "editor.formatOnSave": true
 }

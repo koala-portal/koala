@@ -1,23 +1,20 @@
-import { Ingredient } from './../shared/ingredient.model';
 import { Component, OnInit } from '@angular/core';
-
+import { KToolsService } from './k-tools.service';
+import { Ingredient } from './../shared/ingredient.model';
 @Component({
   selector: 'app-k-tools',
   templateUrl: './k-tools.component.html',
-  styleUrls: ['./k-tools.component.scss']
+  styleUrls: ['./k-tools.component.scss'],
 })
 export class KToolsComponent implements OnInit {
-  ingredients: Ingredient[] = [
-    new Ingredient("Apples", 3),
-    new Ingredient("Bananas", 12),
-  ];
+  ingredients: Ingredient[];
 
-  constructor() { }
+  constructor(private ktService: KToolsService) {}
 
-  ngOnInit(): void {
-  }
-
-  onIngredientAdded(ingredient: Ingredient){
-    this.ingredients.push(ingredient)
+  ngOnInit() {
+    this.ingredients = this.ktService.getIngredients();
+    this.ktService.ingredientsChanged.subscribe((ingredients: Ingredient[]) => {
+      this.ingredients = ingredients;
+    });
   }
 }

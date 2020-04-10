@@ -1,23 +1,20 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { TicketService } from './../../ticket.service';
+import { Component, OnInit, Input } from '@angular/core';
 import { Ticket } from '../../ticket.model';
 
 @Component({
   selector: 'app-ticket-item',
   templateUrl: './ticket-item.component.html',
-  styleUrls: ['./ticket-item.component.scss']
+  styleUrls: ['./ticket-item.component.scss'],
 })
 export class TicketItemComponent implements OnInit {
   @Input() ticket: Ticket;
-  @Output() ticketSelected = new EventEmitter<void>();
 
-  constructor() { }
+  constructor(private ticketService: TicketService) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onSelected() {
-    console.log('adesfas')
-    this.ticketSelected.emit();
+    this.ticketService.ticketSelected.emit(this.ticket);
   }
-
 }

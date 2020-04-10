@@ -1,26 +1,18 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Ticket } from '../ticket.model';
+import { TicketService } from '../ticket.service';
 
 @Component({
   selector: 'app-ticket-list',
   templateUrl: './ticket-list.component.html',
-  styleUrls: ['./ticket-list.component.scss']
+  styleUrls: ['./ticket-list.component.scss'],
 })
 export class TicketListComponent implements OnInit {
-  @Output() ticketWasSelected = new EventEmitter<Ticket>();
+  tickets: Ticket[];
 
-  tickets: Ticket[] = [
-    new Ticket('Test', 'Another test', "https://www.aarki.com/hs-fs/hubfs/blog%20header_deep%20thinking_2%20copy%20(2).jpg?width=2044&name=blog%20header_deep%20thinking_2%20copy%20(2).jpg"),
-    new Ticket('Test 2', 'Another test', "https://www.aarki.com/hs-fs/hubfs/blog%20header_deep%20thinking_2%20copy%20(2).jpg?width=2044&name=blog%20header_deep%20thinking_2%20copy%20(2).jpgE")
-  ];
+  constructor(private ticketService: TicketService) {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-  
-  onTicketSelected(ticket: Ticket) {
-    console.log('asdfs')
-    this.ticketWasSelected.emit(ticket)
+  ngOnInit() {
+    this.tickets = this.ticketService.getTickets();
   }
 }

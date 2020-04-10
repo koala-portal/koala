@@ -1,1 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
+$fa-font-path: "../node_modules/font-awesome/fonts";
+@import "../node_modules/font-awesome/scss/font-awesome";
+
+.k-container {
+  //background: linear-gradient(#007f86, #0b717e, #1c6373, #255566, #2a4858);
+  // height: 100%;
+  background-image: url("./assets/images/koala_forest.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  min-height: 700px;
+}
+
+.bg-primary {
+  background-color: #56a423;
+}
+
+// #85b268
+// #536786
+//caab76
+// 42a700
+// 56a423 green
+// b96c7f
+// b3c6a6
+// 7f8895

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { KToolsService } from './k-tools.service';
 import { Ingredient } from './../shared/ingredient.model';
 @Component({
@@ -8,13 +9,20 @@ import { Ingredient } from './../shared/ingredient.model';
 })
 export class KToolsComponent implements OnInit {
   ingredients: Ingredient[];
+  private igChangeSub: Subscription;
 
   constructor(private ktService: KToolsService) {}
 
   ngOnInit() {
     this.ingredients = this.ktService.getIngredients();
-    this.ktService.ingredientsChanged.subscribe((ingredients: Ingredient[]) => {
-      this.ingredients = ingredients;
-    });
+    this.igChangeSub = this.ktService.ingredientsChanged.subscribe(
+      (ingredients: Ingredient[]) => {
+        this.ingredients = ingredients;
+      }
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.igChangeSub.unsubscribe();
   }
 }

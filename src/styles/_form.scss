@@ -1,0 +1,28 @@
+// borders
+
+@function set-text-color($k-colors) {
+  @if (lightness($color) > 50) {
+    @return #000000;
+  } @else {
+    @return #ffffff;
+  }
+}
+
+@each $k-color in $k-colors {
+  // borders
+  .k-bt-#{nth($k-color,1)} {
+    border-top: 5px solid nth($k-color, 2);
+  }
+  .k-bb-#{nth($k-color,1)} {
+    border-bottom: 5px solid nth($k-color, 2);
+  }
+
+  .k-by {
+    @extend .k-bt-#{nth($k-color,1)};
+    @extend .k-bb-#{nth($k-color,1)};
+  }
+}
+
+.mat-form-field {
+  margin: 0px 5px;
+}

@@ -1,6 +1,7 @@
-import { TicketService } from './../ticket.service';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Ticket } from '../ticket.model';
+import { TicketService } from '../ticket.service';
 
 @Component({
   selector: 'app-ticket-detail',
@@ -8,12 +9,29 @@ import { Ticket } from '../ticket.model';
   styleUrls: ['./ticket-detail.component.scss'],
 })
 export class TicketDetailComponent implements OnInit {
-  @Input() ticket: Ticket;
-  constructor(private ticketService: TicketService) {}
+  ticket: Ticket;
+  id: number;
 
-  ngOnInit(): void {}
+  constructor(
+    private ticketService: TicketService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
+
+  ngOnInit() {
+    this.route.params.subscribe((params: Params) => {
+      this.id = +params['id'];
+      console.log(this.id);
+      this.ticket = this.ticketService.getTicket(this.id);
+    });
+  }
 
   onAddToKTools() {
     this.ticketService.addIngredientsToKTools(this.ticket.ingredients);
+  }
+
+  onEditTicket() {
+    this.router.navigate(['edit'], { relativeTo: this.route });
+    // this.router.navigate(['../', this.id, 'edit'], { relativeTo: this.route });
   }
 }

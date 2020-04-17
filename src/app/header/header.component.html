@@ -37,7 +37,7 @@
   id="main-nav"
 >
   <div class="container">
-    <a href="index.html" class="navbar-brand">Koala</a>
+    <a href="" class="navbar-brand">Koala</a>
     <button
       class="navbar-toggler"
       data-toggle="collapse"
@@ -47,16 +47,18 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="#" (click)="onSelect('faqs')">FAQs</a>
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" routerLink="/faqs">FAQs</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#" (click)="onSelect('ticket')"
-            >Submit Ticket</a
+          <a class="nav-link" routerLinkActive="active" routerLink="/tickets"
+            >Ticket <span class="badge">3</span></a
           >
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#" (click)="onSelect('k-tools')">Tools</a>
+          <a class="nav-link" routerLink="/k-tools" routerLinkActive="active"
+            >Tools</a
+          >
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Contact</a>

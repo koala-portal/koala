@@ -1,0 +1,41 @@
+<div class="d-flex justify-content-center row-hl" style="height: 464px;">
+  <div class="p-4 display-4 w-80 pb-10">
+    <div class="d-flex flex-column row-hl">
+      <div class="p-4 item-hl">
+        Welcome to <strong>Koala</strong>, K's Service Desk
+      </div>
+      <div class="item-hl">
+        <input
+          type="text"
+          class="form-control form-control-lg"
+          placeholder="Find help and services"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Service Desk-->
+<div class="row" id="service-desk-containter">
+  <div class="d-flex justify-content-center row-hl">
+    <app-service-desk></app-service-desk>
+    <app-service-desk></app-service-desk>
+    <app-service-desk></app-service-desk>
+  </div>
+</div>
+
+<!--Top FAQ links-->
+<section id="explore-head-section" class="bg-dark">
+  <div class="text-center py-5">
+    <h1 class="display-5 pt-3">Top Questions Answered</h1>
+    <p class="lead">
+      Before you submit a ticket, view the top answers our teams get.
+    </p>
+    <div class="d-flex w-7 flex-wrap row-hl" style="width: 70%; margin: auto;">
+      <app-faq-top-ten class="w-100"></app-faq-top-ten>
+    </div>
+    <div class="p-4">
+      <a href="#" class="btn btn-outline-secondary">View more FAQs Out</a>
+    </div>
+  </div>
+</section>

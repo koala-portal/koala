@@ -1,8 +1,8 @@
-import { EventEmitter } from '@angular/core';
+import { Subject } from 'rxjs';
 import { Ingredient } from './../shared/ingredient.model';
 
 export class KToolsService {
-  ingredientsChanged = new EventEmitter<Ingredient[]>();
+  ingredientsChanged = new Subject<Ingredient[]>();
 
   private ingredients: Ingredient[] = [
     new Ingredient('Apples', 3),
@@ -14,17 +14,12 @@ export class KToolsService {
   }
 
   addIngredient(ingredient: Ingredient) {
-    console.log('added');
     this.ingredients.push(ingredient);
-    this.ingredientsChanged.emit(this.ingredients.slice());
+    this.ingredientsChanged.next(this.ingredients.slice());
   }
 
   addIngredients(indgredients: Ingredient[]) {
-    // for (let ingredeint of this.ingredients) {
-    //   this.addIngredient(ingredeint);
-    // }
-
     this.ingredients.push(...indgredients);
-    this.ingredientsChanged.emit(this.ingredients.slice());
+    this.ingredientsChanged.next(this.ingredients.slice());
   }
 }

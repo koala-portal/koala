@@ -1,0 +1,14 @@
+.clickable {
+  cursor: pointer;
+}
+
+.btn-row {
+  button {
+    display: table-cell;
+    margin: 5px 8px 5px 0px;
+  }
+}
+
+.button:focus {
+  outline: 0px transparent;
+}

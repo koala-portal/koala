@@ -1,11 +1,10 @@
-import { KToolsService } from './../k-tools/k-tools.service';
-import { EventEmitter, Injectable } from '@angular/core';
+import { KToolsService } from '../k-tools/k-tools.service';
+import { Injectable } from '@angular/core';
 import { Ticket } from './ticket.model';
 import { Ingredient } from '../shared/ingredient.model';
 
 @Injectable()
 export class TicketService {
-  ticketSelected = new EventEmitter<Ticket>();
   private tickets: Ticket[] = [
     new Ticket(
       'Trouble Accessing Site',
@@ -25,6 +24,10 @@ export class TicketService {
 
   getTickets() {
     return this.tickets.slice();
+  }
+
+  getTicket(index: number) {
+    return this.tickets[index];
   }
 
   addIngredientsToKTools(ingredients: Ingredient[]) {

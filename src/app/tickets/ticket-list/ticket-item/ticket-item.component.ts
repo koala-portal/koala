@@ -1,4 +1,3 @@
-import { TicketService } from './../../ticket.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { Ticket } from '../../ticket.model';
 
@@ -9,12 +8,7 @@ import { Ticket } from '../../ticket.model';
 })
 export class TicketItemComponent implements OnInit {
   @Input() ticket: Ticket;
-
-  constructor(private ticketService: TicketService) {}
+  @Input() index: number;
 
   ngOnInit(): void {}
-
-  onSelected() {
-    this.ticketService.ticketSelected.emit(this.ticket);
-  }
 }

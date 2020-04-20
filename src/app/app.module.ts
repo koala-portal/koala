@@ -30,6 +30,8 @@ import { AbodeComponent } from './abode/abode.component';
 import { FaqEditComponent } from './faqs/faq-edit/faq-edit.component';
 import { ServiceDeskListComponent } from './service-desk/service-desk-list/service-desk-list.component';
 import { ServiceDeskEditComponent } from './service-desk/service-desk-edit/service-desk-edit.component';
+import { FaqListComponent } from './faqs/faq-list/faq-list.component';
+import { CategoryEditComponent } from './faqs/category-edit/category-edit.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +57,8 @@ import { ServiceDeskEditComponent } from './service-desk/service-desk-edit/servi
     FaqEditComponent,
     ServiceDeskListComponent,
     ServiceDeskEditComponent,
+    FaqListComponent,
+    CategoryEditComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,144 @@
+<div class="d-flex row-hl">
+  <!-- Category Selector -->
+  <div class="p-2 w-20">
+    <div *ngFor="let faqCategory of faqCategories">
+      <button
+        mat-raised-button
+        [color]="selectedFaqCategory == faqCategory ? 'accent' : ''"
+        class="card mb-3 w-100"
+        (click)="onClickCategory(faqCategory)"
+      >
+        <div
+          class="d-flex align-items-center justify-content-between flex-row p-3"
+        >
+          <i class="fa mr-4" [ngClass]="faqCategory.icon"></i>
+          <div class="d-flex flex-column align-items-center w-100">
+            <mat-card-title>
+              {{ faqCategory.title }}
+            </mat-card-title>
+            <span class="font-weight-normal line-height-normal text-wrap">
+              {{ faqCategory.description }}
+            </span>
+          </div>
+        </div>
+      </button>
+    </div>
+    <button
+      *ngIf="userIsAdmin"
+      mat-raised-button
+      color="primary"
+      class="w-100"
+      routerLink="category/add"
+    >
+      Add Category
+    </button>
+  </div>
+
+  <!-- Categories -->
+  <div class="p-2 w-60 d-flex flex-column align-items-center">
+    <!-- Title -->
+    <h2 class="text-center">
+      Frequently Asked Questions
+    </h2>
+
+    <!-- Clear Filter Button -->
+    <button
+      class="mb-2"
+      mat-button
+      color="warn"
+      (click)="onClickCategory(null)"
+      *ngIf="faqCategories.length - getFilteredCategories().length"
+    >
+      {{ faqCategories.length - getFilteredCategories().length }} Category
+      hidden
+    </button>
+
+    <!-- Categories Accordian -->
+    <mat-accordion class="w-100">
+      <mat-expansion-panel
+        *ngFor="let faqCategory of getFilteredCategories(); let i = index"
+        [expanded]="faqCategory == selectedFaqCategory"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{ faqCategory.title }}
+          </mat-panel-title>
+          <mat-panel-description class="w-100">
+            {{ faqCategory.description }}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <!-- FAQ Accordian -->
+        <mat-accordion>
+          <mat-expansion-panel *ngFor="let faq of faqCategory.faqs">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{ faq.title }}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <p class="ml-4">{{ faq.description }}</p>
+
+            <!-- FAQ Admin Toolbar -->
+            <mat-divider *ngIf="userIsAdmin" class="mb-1"></mat-divider>
+            <div
+              class="d-flex flex-row justify-content-end"
+              *ngIf="userIsAdmin"
+            >
+              <button
+                mat-icon-button
+                color="primary"
+                (click)="onClickStarFaq(faq)"
+              >
+                <mat-icon>
+                  {{ faq.starred ? "star" : "star_border" }}
+                </mat-icon>
+              </button>
+              <button mat-icon-button (click)="onClickEditFaq(faq)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                color="warn"
+                (click)="onClickDeleteFaq(faq)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+
+        <!-- Category Admin Toolbar -->
+        <div
+          class="d-flex flex-row justify-content-end mt-3"
+          *ngIf="userIsAdmin"
+        >
+          <button
+            [routerLink]="['category', faqCategory.id, 'faq', 'add']"
+            *ngIf="userIsAdmin"
+            mat-raised-button
+            color="primary"
+            class="mr-2 w-100"
+          >
+            Add FAQ
+          </button>
+          <button
+            mat-raised-button
+            class="mr-2 w-100"
+            [routerLink]="['category', faqCategory.id, 'edit']"
+          >
+            Edit Category
+          </button>
+          <button
+            mat-raised-button
+            color="warn"
+            class="mr-2 w-100"
+            [disabled]="!!faqCategory.faqs.length"
+            (click)="onClickDeleteCategory(faqCategory)"
+          >
+            Delete Category
+          </button>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>

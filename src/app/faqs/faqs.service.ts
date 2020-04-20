@@ -6,6 +6,7 @@ import { Faq } from './faq.model';
 export class FaqsService {
   private faqCategories: FaqCategory[] = [
     {
+      id: 'a',
       title: 'General',
       description: 'General Questions',
       icon: 'fa-life-saver',
@@ -33,6 +34,7 @@ export class FaqsService {
       ],
     },
     {
+      id: 'b',
       title: 'One',
       description:
         'One Questions and other things related to the One. This is just going to be a very long description and you are going to have to deal with that.',

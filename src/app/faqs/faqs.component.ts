@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Faq } from './faq.model';
 import { FaqCategory } from './faq-category.model';
 import { FaqsService } from './faqs.service';
+import { DialogService } from '../shared/dialog.service';
 
 @Component({
   selector: 'app-faqs',
@@ -15,7 +16,10 @@ export class FaqsComponent implements OnInit {
 
   userIsAdmin = true; // TODO: Placeholder
 
-  constructor(private faqsService: FaqsService) {}
+  constructor(
+    private faqsService: FaqsService,
+    private dialogService: DialogService
+  ) {}
 
   ngOnInit(): void {
     this.faqCategories = this.faqsService.getFaqCategories();
@@ -40,7 +44,17 @@ export class FaqsComponent implements OnInit {
   }
 
   onClickDeleteFaq(faq: Faq): void {
-    alert('TODO: onClickDeleteFaq');
+    this.dialogService
+      .openConfirmDialog(
+        'Delete FAQ',
+        'Are you sure you want to delete this FAQ?'
+      )
+      .afterClosed()
+      .subscribe((confirm) => {
+        if (confirm) {
+          this.faqsService.deleteFaq(faq);
+        }
+      });
   }
 
   onClickEditFaq(faq: Faq): void {

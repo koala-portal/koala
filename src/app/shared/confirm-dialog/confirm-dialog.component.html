@@ -1,0 +1,10 @@
+<h2>{{ data.title }}</h2>
+<p class="mb-4">{{ data.message }}</p>
+<div class="d-flex flex-row">
+  <button mat-button color="primary" class="w-100 mr-2" (click)="onClickYes()">
+    Yes
+  </button>
+  <button mat-button color="warn" class="w-100" (click)="onClickNo()">
+    No
+  </button>
+</div>

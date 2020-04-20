@@ -11,6 +11,7 @@ export class FaqsService {
       icon: 'fa-life-saver',
       faqs: [
         {
+          id: 'a',
           title: 'How do I do the thing?',
           description: 'You can do the thing in a number of ways.',
           starred: false,
@@ -20,6 +21,7 @@ export class FaqsService {
           updatedBy: null,
         },
         {
+          id: 'b',
           title: 'If I do it this way, how can it be done?',
           description: 'You should do the thing the way we told you.',
           starred: false,
@@ -37,6 +39,7 @@ export class FaqsService {
       icon: 'fa-times',
       faqs: [
         {
+          id: 'c',
           title: 'I think I am doing this wrong. Am I doing this wrong?',
           description: 'Yes you should consider doing it the other way.',
           starred: false,
@@ -53,7 +56,17 @@ export class FaqsService {
     return this.faqCategories.slice();
   }
 
+  getFaqs(): Faq[] {
+    return this.faqCategories.flatMap((category) => category.faqs);
+  }
+
   starFaq(faq: Faq): void {
     faq.starred = !faq.starred;
+  }
+
+  deleteFaq(faqToDelete: Faq): void {
+    this.faqCategories.forEach((category) => {
+      category.faqs = category.faqs.filter((faq) => faqToDelete.id !== faq.id);
+    });
   }
 }

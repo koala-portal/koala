@@ -1,55 +1,129 @@
 <div class="d-flex flex-column bd-highlight mb-3">
   <div class="k-body shadow m-3 p-3 mb-5 bg-light rounded">
-    <div>
-      <h2 class="d-flex justify-content-center display-4">
-        Frequently Asked Questions
-      </h2>
-      <div class="d-flex justify-content-start row-hl">
-        <div class="p-2">
-          <div
-            *ngFor="let faqCategory of faqCategories"
-            class="card mb-3 shadow q-faq"
+    <div class="d-flex row-hl">
+      <!-- Category Selector -->
+      <div class="p-2 w-20">
+        <div *ngFor="let faqCategory of faqCategories">
+          <button
+            mat-raised-button
+            [color]="selectedFaqCategory == faqCategory ? 'accent' : ''"
+            class="card mb-3 w-100"
+            (click)="onClickCategory(faqCategory)"
           >
-            <div class="d-flex justify-content-start align-self-center">
-              <i class="fa pl-3" [ngClass]="faqCategory.icon"></i>
+            <div
+              class="d-flex align-items-center justify-content-between flex-row p-3"
+            >
+              <i class="fa mr-4" [ngClass]="faqCategory.icon"></i>
+              <div class="d-flex flex-column align-items-center w-100">
+                <mat-card-title>
+                  {{ faqCategory.title }}
+                </mat-card-title>
+                <span class="font-weight-normal line-height-normal text-wrap">
+                  {{ faqCategory.description }}
+                </span>
+              </div>
             </div>
-            <div class="card-body d-flex justify-content-start">
-              <h5 class="card-title display-3">{{ faqCategory.title }}</h5>
-              <h6 class="card-subtitle mb-2 text-muted">
-                {{ faqCategory.description }}
-              </h6>
-            </div>
-          </div>
+          </button>
         </div>
-        <div class="p-2 w-75">
-          <ngb-accordion #a="ngbAccordion" activeIds="custom-panel-1">
-            <ngb-panel *ngFor="let faqElement of faqs">
-              <ng-template ngbPanelHeader let-opened="opened">
-                <div class="d-flex align-items-center justify-content-between">
+        <button
+          *ngIf="userIsAdmin"
+          mat-raised-button
+          color="primary"
+          class="w-100"
+          (click)="onClickAddCategory()"
+        >
+          Add Category
+        </button>
+      </div>
+
+      <!-- Categories -->
+      <div class="p-2 w-60 d-flex flex-column align-items-center">
+        <!-- Title -->
+        <h2 class="text-center">
+          Frequently Asked Questions
+        </h2>
+
+        <!-- Clear Filter Button -->
+        <button
+          class="mb-2"
+          mat-button
+          color="warn"
+          (click)="onClickCategory(null)"
+          *ngIf="faqCategories.length - getFilteredCategories().length"
+        >
+          {{ faqCategories.length - getFilteredCategories().length }} Category
+          hidden
+        </button>
+
+        <!-- Categories Accordian -->
+        <mat-accordion class="w-100">
+          <mat-expansion-panel
+            *ngFor="let faqCategory of getFilteredCategories(); let i = index"
+            [expanded]="faqCategory == selectedFaqCategory"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{ faqCategory.title }}
+              </mat-panel-title>
+              <mat-panel-description class="w-100">
+                {{ faqCategory.description }}
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <!-- FAQ Accordian -->
+            <mat-accordion>
+              <mat-expansion-panel *ngFor="let faq of faqCategory.faqs">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    {{ faq.title }}
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <p class="ml-4">{{ faq.description }}</p>
+
+                <!-- FAQ Admin Toolbar -->
+                <mat-divider *ngIf="userIsAdmin" class="mb-1"></mat-divider>
+                <div
+                  class="d-flex flex-row justify-content-end"
+                  *ngIf="userIsAdmin"
+                >
                   <button
-                    ngbPanelToggle
-                    mat-button
-                    class="container-fluid text-left pl-0"
+                    mat-icon-button
+                    color="accent"
+                    (click)="onClickStarFaq(faq)"
                   >
-                    {{ faqElement.title }}
-                    <span class="fa-stack fa-2x float-right">
-                      <i class="fa fa-circle fa-stack-2x"></i>
-                      <i
-                        [ngClass]="!opened ? 'fa-times' : 'fa-minus'"
-                        class="fa fa-stack-1x fa-inverse"
-                      ></i>
-                    </span>
+                    <mat-icon>
+                      {{ faq.starred ? "star" : "star_border" }}
+                    </mat-icon>
+                  </button>
+                  <button
+                    mat-icon-button
+                    color="primary"
+                    (click)="onClickEditFaq(faq)"
+                  >
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button
+                    mat-icon-button
+                    color="warn"
+                    (click)="onClickDeleteFaq(faq)"
+                  >
+                    <mat-icon>delete</mat-icon>
                   </button>
                 </div>
-              </ng-template>
-              <ng-template ngbPanelContent>
-                {{ faqElement.description }}
-              </ng-template>
-            </ngb-panel>
-          </ngb-accordion>
+              </mat-expansion-panel>
+            </mat-accordion>
 
-          <ul class="list-group list-group-flush mb-5"></ul>
-        </div>
+            <button
+              *ngIf="userIsAdmin"
+              mat-raised-button
+              color="primary"
+              (click)="onClickAddFaq(faqCategory)"
+              class="w-100 mt-3"
+            >
+              Add FAQ
+            </button>
+          </mat-expansion-panel>
+        </mat-accordion>
       </div>
     </div>
   </div>

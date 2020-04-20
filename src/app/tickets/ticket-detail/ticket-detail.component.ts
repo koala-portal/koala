@@ -21,13 +21,12 @@ export class TicketDetailComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
       this.id = +params['id'];
-      console.log(this.id);
       this.ticket = this.ticketService.getTicket(this.id);
     });
   }
 
   onAddToKTools() {
-    this.ticketService.addIngredientsToKTools(this.ticket.ingredients);
+    this.ticketService.addToKTools(this.ticket.ktools);
   }
 
   onEditTicket() {

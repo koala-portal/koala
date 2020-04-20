@@ -1,13 +1,7 @@
 import { KToolsService } from './../k-tools.service';
-import {
-  Component,
-  OnInit,
-  ElementRef,
-  ViewChild,
-  EventEmitter,
-  Output,
-} from '@angular/core';
-import { Ingredient } from '../../shared/ingredient.model';
+import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { KTool } from '../../shared/k-tool.model';
 
 @Component({
   selector: 'app-k-tool-edit',
@@ -15,17 +9,14 @@ import { Ingredient } from '../../shared/ingredient.model';
   styleUrls: ['./k-tool-edit.component.scss'],
 })
 export class KToolEditComponent implements OnInit {
-  @ViewChild('nameInput') nameInputRef: ElementRef;
-  @ViewChild('amountInput') amountInputRef: ElementRef;
   constructor(private ktService: KToolsService) {}
 
   ngOnInit(): void {}
 
-  onAddItem() {
-    const ingName = this.nameInputRef.nativeElement.value;
-    const ingAmount = this.amountInputRef.nativeElement.value;
-    const newIngredient = new Ingredient(ingName, ingAmount);
+  onAddItem(form: NgForm) {
+    const value = form.value;
+    const newTool = new KTool(value.name, value.amount);
 
-    this.ktService.addIngredient(newIngredient);
+    this.ktService.addkTool(newTool);
   }
 }

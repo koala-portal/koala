@@ -15,7 +15,6 @@ export class FaqTopTenComponent implements OnInit {
   ngOnInit(): void {}
 
   onSelected() {
-    console.log('adesfas');
-    this.faqSelected.emit();
+    alert('open faq page and highlight selected faq');
   }
 }

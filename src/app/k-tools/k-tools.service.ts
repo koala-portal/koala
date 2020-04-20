@@ -1,25 +1,22 @@
 import { Subject } from 'rxjs';
-import { Ingredient } from './../shared/ingredient.model';
+import { KTool } from '../shared/k-tool.model';
 
 export class KToolsService {
-  ingredientsChanged = new Subject<Ingredient[]>();
+  kToolsChanged = new Subject<KTool[]>();
 
-  private ingredients: Ingredient[] = [
-    new Ingredient('Apples', 3),
-    new Ingredient('Bananas', 12),
-  ];
+  private kTools: KTool[] = [new KTool('PAL', 3), new KTool('ZYX', 12)];
 
-  getIngredients() {
-    return this.ingredients.slice();
+  getkTools() {
+    return this.kTools.slice();
   }
 
-  addIngredient(ingredient: Ingredient) {
-    this.ingredients.push(ingredient);
-    this.ingredientsChanged.next(this.ingredients.slice());
+  addkTool(kTool: KTool) {
+    this.kTools.push(kTool);
+    this.kToolsChanged.next(this.kTools.slice());
   }
 
-  addIngredients(indgredients: Ingredient[]) {
-    this.ingredients.push(...indgredients);
-    this.ingredientsChanged.next(this.ingredients.slice());
+  addkTools(kTools: KTool[]) {
+    this.kTools.push(...kTools);
+    this.kToolsChanged.next(this.kTools.slice());
   }
 }

@@ -1,19 +1,15 @@
-import { Ingredient } from '../shared/ingredient.model';
+import { KTool } from '../shared/k-tool.model';
 export class Ticket {
+  // this form will be the 20+ fields
   public name: string;
   public description: string;
   public imagePath: string;
-  public ingredients: Ingredient[];
+  public ktools: KTool[];
 
-  constructor(
-    name: string,
-    desc: string,
-    imagePath: string,
-    ingredients: Ingredient[]
-  ) {
+  constructor(name: string, desc: string, imagePath: string, ktools: KTool[]) {
     this.name = name;
     this.description = desc;
     this.imagePath = imagePath;
-    this.ingredients = ingredients;
+    this.ktools = ktools;
   }
 }

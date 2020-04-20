@@ -15,9 +15,9 @@ export class FaqsComponent implements OnInit {
     new Faq('Test 3', 'Another 3 test', 'Topic Three', false),
     new Faq('Test 4', 'Another 4 test', 'Topic Four', true),
     new Faq('Test 5', 'Another 5 test', 'Topic Five', true),
-    new Faq('Test 5', 'Another  6 test', 'Topic Three', true),
-    new Faq('Test 5', 'Another 7  test', 'Topic Six', false),
-    new Faq('Test 5', 'Another 8 test', 'General', true),
+    new Faq('Test 6', 'Another  6 test', 'Topic Three', true),
+    new Faq('Test 7', 'Another 7  test', 'Topic Six', false),
+    new Faq('Test 8', 'Another 8 test', 'General', true),
   ];
 
   faqCategories = [
@@ -61,6 +61,8 @@ export class FaqsComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+
+  // TO DO  on the faq categories click filter the faqs to that specific value (ie Topic Six should filter to show only test 7)
 
   onFaqSelected(faq: Faq) {
     console.log('faq clicked');

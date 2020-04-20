@@ -15,7 +15,8 @@ export class FaqItemComponent implements OnInit {
   ngOnInit(): void {}
 
   onSelected() {
-    console.log('asdf as');
     this.faqSelected.emit();
   }
+
+  // TO DO: allow for modal dialog or drawer (slide on on right) to show the form
 }

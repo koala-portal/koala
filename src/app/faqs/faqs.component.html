@@ -1,20 +1,9 @@
 <div class="d-flex flex-column bd-highlight mb-3">
   <div class="k-body shadow m-3 p-3 mb-5 bg-light rounded">
     <div>
-      <h3 class="d-flex justify-content-center display-4">
+      <h2 class="d-flex justify-content-center display-4">
         Frequently Asked Questions
-      </h3>
-      <div class="d-flex justify-content-center p-2">
-        <!-- <div class="form-group w-50">
-          <input
-            class="form-control form-control-lg"
-            type="search"
-            id="search"
-            placeholder="Search for the answers you seek"
-          />
-        </div> -->
-      </div>
-
+      </h2>
       <div class="d-flex justify-content-start row-hl">
         <div class="p-2">
           <div
@@ -33,27 +22,14 @@
           </div>
         </div>
         <div class="p-2 w-75">
-          <!--TO DO: config this only if none on left is selected-->
-          <!-- <div
-            class="d-flex justify-content-center p-2"
-            *ngFor="let faqStarred of faqs"C
-          >
-            <app-faq-top-ten *ngIf="faqStarred.starred == true"></app-faq-top-ten>
-          </div> -->
-
-          <!-- <app-faq-top-ten
-            *ngFor="let faqEl of faqs"
-            [faq]="faqEl"
-            (faqSelected)="onFaqSelected(faqEl)"
-          ></app-faq-top-ten> -->
-          <!--TO DO: config Left panel selected to filter these-->
           <ngb-accordion #a="ngbAccordion" activeIds="custom-panel-1">
             <ngb-panel *ngFor="let faqElement of faqs">
               <ng-template ngbPanelHeader let-opened="opened">
                 <div class="d-flex align-items-center justify-content-between">
                   <button
                     ngbPanelToggle
-                    class="btn btn-link container-fluid text-left pl-0"
+                    mat-button
+                    class="container-fluid text-left pl-0"
                   >
                     {{ faqElement.title }}
                     <span class="fa-stack fa-2x float-right">

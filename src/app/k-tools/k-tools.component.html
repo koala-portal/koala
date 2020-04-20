@@ -1,11 +1,12 @@
-<app-k-tool-edit></app-k-tool-edit>
-<hr />
 <ul class="list-group">
   <a
     class="list-group-item"
     style="cursor: pointer;"
-    *ngFor="let ingredient of ingredients"
+    *ngFor="let ktool of kTools"
   >
-    {{ ingredient.name }} ({{ ingredient.amount }})
+    {{ ktool.name }} ({{ ktool.amount }})
   </a>
 </ul>
+
+<mat-divider></mat-divider>
+<app-k-tool-edit></app-k-tool-edit>

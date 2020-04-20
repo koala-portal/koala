@@ -1,22 +1,10 @@
-<div class="row">
-  <div class="col-xs-12">
-    <img
-      style="max-height: 150px;"
-      [src]="ticket.imagePath"
-      alt=" {{ ticket.name }}"
-      class="img-responsive"
-    />
-  </div>
-</div>
-<div class="row">
-  <div class="col-xs-12">
-    <h1>{{ ticket.name }}</h1>
-  </div>
-</div>
-<div class="row">
-  <div class="col-xs-12">
+<mat-card class="k-bt-mint m-2">
+  <mat-card-title
+    >Ticket: {{ ticket.name }}
     <div ngbDropdown class="d-inline-block">
       <button
+        mat-raised-button
+        color="primary"
         class="btn btn-outline-primary"
         id="dropdownBasic1"
         ngbDropdownToggle
@@ -30,20 +18,22 @@
         <button ngbDropdownItem (click)="onEditTicket()">Edit</button>
         <button ngbDropdownItem>Delete</button>
       </div>
+    </div></mat-card-title
+  >
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <div>
+      {{ ticket.description }}
     </div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-xs-12">
-    {{ ticket.description }}
-  </div>
-</div>
-<div class="row">
-  <div class="col-xs-12">
-    <ul class="list-group">
-      <li class="list-group-item" *ngFor="let ingredient of ticket.ingredients">
-        {{ ingredient.name }} - {{ ingredient.amount }}
-      </li>
-    </ul>
-  </div>
-</div>
+    <div>
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let ktool of ticket.ktools">
+          {{ ktool.name }} - {{ ktool.amount }}
+        </li>
+      </ul>
+    </div>
+  </mat-card-content>
+
+  <mat-divider></mat-divider>
+  <mat-card-footer> </mat-card-footer>
+</mat-card>

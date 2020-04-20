@@ -1,23 +1,23 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { KToolsService } from './k-tools.service';
-import { Ingredient } from './../shared/ingredient.model';
+import { KTool } from '../shared/k-tool.model';
 @Component({
   selector: 'app-k-tools',
   templateUrl: './k-tools.component.html',
   styleUrls: ['./k-tools.component.scss'],
 })
 export class KToolsComponent implements OnInit {
-  ingredients: Ingredient[];
+  kTools: KTool[];
   private igChangeSub: Subscription;
 
   constructor(private ktService: KToolsService) {}
 
   ngOnInit() {
-    this.ingredients = this.ktService.getIngredients();
-    this.igChangeSub = this.ktService.ingredientsChanged.subscribe(
-      (ingredients: Ingredient[]) => {
-        this.ingredients = ingredients;
+    this.kTools = this.ktService.getkTools();
+    this.igChangeSub = this.ktService.kToolsChanged.subscribe(
+      (kTools: KTool[]) => {
+        this.kTools = kTools;
       }
     );
   }

@@ -9,6 +9,7 @@ import { Ticket } from '../../ticket.model';
 export class TicketItemComponent implements OnInit {
   @Input() ticket: Ticket;
   @Input() index: number;
+  @Input() ticketNumber: number;
 
   ngOnInit(): void {}
 }

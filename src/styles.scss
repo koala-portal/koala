@@ -29,6 +29,7 @@ $koala-theme: mat-light-theme($koala-primary, $koala-accent, $koala-warn);
 @import "../src/styles/cards";
 @import "../src/styles/buttons";
 @import "../src/styles/form";
+@import "../src/styles/fontAwesome";
 
 $fa-font-path: "../node_modules/font-awesome/fonts";
 @import "../node_modules/font-awesome/scss/font-awesome";

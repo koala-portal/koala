@@ -18,8 +18,7 @@ import { TicketItemComponent } from './tickets/ticket-list/ticket-item/ticket-it
 import { KToolEditComponent } from './k-tools/k-tool-edit/k-tool-edit.component';
 import { DropdownDirective } from './shared/dropdown.directive';
 import { FaqsComponent } from './faqs/faqs.component';
-import { FaqItemComponent } from './faqs/faq-item/faq-item.component';
-import { FaqTopTenComponent } from './faqs/faq-top-ten/faq-top-ten.component';
+import { FaqStarredComponent } from './faqs/faq-starred/faq-starred.component';
 import { ServiceDeskComponent } from './service-desk/service-desk.component';
 import { UserGuideComponent } from './user-guide/user-guide.component';
 import { KoalaSearchComponent } from './koala-search/koala-search.component';
@@ -48,8 +47,7 @@ import { FaqFormComponent } from './faqs/faq-form/faq-form.component';
     TicketItemComponent,
     DropdownDirective,
     FaqsComponent,
-    FaqItemComponent,
-    FaqTopTenComponent,
+    FaqStarredComponent,
     ServiceDeskComponent,
     UserGuideComponent,
     KoalaSearchComponent,

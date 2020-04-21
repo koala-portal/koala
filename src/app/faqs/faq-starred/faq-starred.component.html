@@ -3,12 +3,12 @@
 
   <a
     *ngFor="let faq of faqs; let i = index"
-    class="text-center w-50 float-left clickable"
+    class="w-50 float-left clickable text-reset"
     matRipple
     [routerLink]="['faqs', faq.id]"
   >
     <div class="d-flex bd-highlight">
-      <div class="p-2 flex-fill text-right">
+      <div class="p-2">
         <span class="fa-stack">
           <span class="fa fa-circle-thin fa-stack-2x text-primary"></span>
           <strong class="fa-stack-1x">
@@ -16,8 +16,8 @@
           </strong>
         </span>
       </div>
-      <div class="p-2 flex-fill text-left">
-        <app-faq-item [faq]="faq"></app-faq-item>
+      <div class="p-2">
+        <h3>{{ faq.title }}</h3>
       </div>
     </div>
   </a>

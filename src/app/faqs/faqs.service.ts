@@ -28,7 +28,7 @@ export class FaqsService {
       id: 'a',
       title: 'How do I do the thing?',
       description: 'You can do the thing in a number of ways.',
-      starred: false,
+      starred: true,
       created: new Date(),
       createdBy: 'user1',
       updated: null,
@@ -39,7 +39,7 @@ export class FaqsService {
       id: 'b',
       title: 'If I do it this way, how can it be done?',
       description: 'You should do the thing the way we told you.',
-      starred: false,
+      starred: true,
       created: new Date(),
       createdBy: 'user2',
       updated: null,
@@ -50,7 +50,7 @@ export class FaqsService {
       id: 'c',
       title: 'I think I am doing this wrong. Am I doing this wrong?',
       description: 'Yes you should consider doing it the other way.',
-      starred: false,
+      starred: true,
       created: new Date(),
       createdBy: 'user1',
       updated: new Date(),
@@ -58,8 +58,6 @@ export class FaqsService {
       category: this.faqCategories[1],
     },
   ];
-
-  constructor() {}
 
   getFaqCategories(): FaqCategory[] {
     return this.faqCategories.slice();

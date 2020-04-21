@@ -30,7 +30,6 @@ export class FaqFormComponent implements OnInit {
   constructor(private fb: FormBuilder, private faqsService: FaqsService) {}
 
   ngOnInit(): void {
-    debugger;
     this.faqCategories = this.faqsService.getFaqCategories();
     if (this.faq) {
       this.faqForm.patchValue(this.faq);

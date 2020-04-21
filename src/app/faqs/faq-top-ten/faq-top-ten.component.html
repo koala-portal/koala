@@ -1,34 +1,24 @@
 <div>
   <!-- TO DO update this with the faqs (that are starred) in the faq.component.ts file...  -->
 
-  <div
+  <a
+    *ngFor="let faq of faqs; let i = index"
     class="text-center w-50 float-left clickable"
     matRipple
-    (click)="onSelected()"
+    [routerLink]="['faqs', faq.id]"
   >
     <div class="d-flex bd-highlight">
       <div class="p-2 flex-fill text-right">
         <span class="fa-stack">
           <span class="fa fa-circle-thin fa-stack-2x text-primary"></span>
           <strong class="fa-stack-1x">
-            2
+            {{ i + 1 }}
           </strong>
         </span>
       </div>
-      <div class="p-2 flex-fill text-left"><app-faq-item></app-faq-item></div>
-    </div>
-  </div>
-  <div class="text-center w-50 float-left clickable" matRipple>
-    <div class="d-flex bd-highlight">
-      <div class="p-2 flex-fill text-right">
-        <span class="fa-stack">
-          <span class="fa fa-circle-thin fa-stack-2x text-primary"></span>
-          <strong class="fa-stack-1x">
-            2
-          </strong>
-        </span>
+      <div class="p-2 flex-fill text-left">
+        <app-faq-item [faq]="faq"></app-faq-item>
       </div>
-      <div class="p-2 flex-fill text-left"><app-faq-item></app-faq-item></div>
     </div>
-  </div>
+  </a>
 </div>

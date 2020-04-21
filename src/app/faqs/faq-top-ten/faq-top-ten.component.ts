@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Faq } from '../faq.model';
+import { FaqsService } from '../faqs.service';
 
 @Component({
   selector: 'app-faq-top-ten',
@@ -7,12 +8,13 @@ import { Faq } from '../faq.model';
   styleUrls: ['./faq-top-ten.component.scss'],
 })
 export class FaqTopTenComponent implements OnInit {
-  @Input() faq: Faq;
-  @Output() faqSelected = new EventEmitter<void>();
+  faqs: Faq[];
 
-  constructor() {}
+  constructor(private faqsService: FaqsService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.faqs = this.faqsService.getFaqs();
+  }
 
   onSelected() {
     alert('open faq page and highlight selected faq');

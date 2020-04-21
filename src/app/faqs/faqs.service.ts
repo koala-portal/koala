@@ -62,6 +62,10 @@ export class FaqsService {
     return this.faqCategories.flatMap((category) => category.faqs);
   }
 
+  findFaqById(id: string): Faq {
+    return this.getFaqs().find((faq) => faq.id === id);
+  }
+
   starFaq(faq: Faq): void {
     faq.starred = !faq.starred;
   }

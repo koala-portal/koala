@@ -9,6 +9,4 @@ export class FaqEditComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
-
-  // TO DO faq new and edit form
 }

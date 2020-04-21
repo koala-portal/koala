@@ -52,6 +52,10 @@ const appRoutes: Routes = [
         path: 'category/:categoryId/faq/:faqId/edit',
         component: FaqEditComponent,
       },
+      {
+        path: ':id',
+        component: FaqListComponent,
+      },
     ],
   },
 ];

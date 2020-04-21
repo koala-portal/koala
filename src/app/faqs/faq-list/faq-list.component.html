@@ -28,7 +28,7 @@
       mat-raised-button
       color="primary"
       class="w-100"
-      routerLink="category/add"
+      (click)="onClickAddCategory()"
     >
       Add Category
     </button>
@@ -57,7 +57,7 @@
     <mat-accordion class="w-100">
       <mat-expansion-panel
         *ngFor="let faqCategory of getFilteredCategories(); let i = index"
-        [expanded]="faqCategory == selectedFaqCategory"
+        [expanded]="faqCategory === selectedFaqCategory"
       >
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -70,7 +70,11 @@
 
         <!-- FAQ Accordian -->
         <mat-accordion>
-          <mat-expansion-panel *ngFor="let faq of faqCategory.faqs">
+          <mat-expansion-panel
+            *ngFor="let faq of faqCategory.faqs"
+            [expanded]="selectedFaq === faq"
+            (opened)="onOpenFaq(faq)"
+          >
             <mat-expansion-panel-header>
               <mat-panel-title>
                 {{ faq.title }}
@@ -113,25 +117,25 @@
           *ngIf="userIsAdmin"
         >
           <button
-            [routerLink]="['category', faqCategory.id, 'faq', 'add']"
             *ngIf="userIsAdmin"
             mat-raised-button
             color="primary"
             class="mr-2 w-100"
+            (click)="onClickAddFaq(faqCategory)"
           >
             Add FAQ
           </button>
           <button
             mat-raised-button
             class="mr-2 w-100"
-            [routerLink]="['category', faqCategory.id, 'edit']"
+            (click)="onClickEditCategory(faqCategory)"
           >
             Edit Category
           </button>
           <button
             mat-raised-button
             color="warn"
-            class="mr-2 w-100"
+            class="w-100"
             [disabled]="!!faqCategory.faqs.length"
             (click)="onClickDeleteCategory(faqCategory)"
           >

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Faq } from '../faq.model';
 import { FaqCategory } from '../faq-category.model';
 import { FaqsService } from '../faqs.service';
-import { DialogService } from '../../shared/dialog.service';
+import { MessageService } from '../../shared/message.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -24,7 +24,7 @@ export class FaqListComponent implements OnInit, OnDestroy {
 
   constructor(
     private faqsService: FaqsService,
-    private dialogService: DialogService,
+    private MessageService: MessageService,
     private route: ActivatedRoute
   ) {}
 
@@ -71,11 +71,10 @@ export class FaqListComponent implements OnInit, OnDestroy {
   }
 
   onClickDeleteFaq(faq: Faq): void {
-    this.dialogService
-      .openConfirmDialog(
-        'Delete FAQ',
-        'Are you sure you want to delete this FAQ?'
-      )
+    this.MessageService.openConfirmDialog(
+      'Delete FAQ',
+      'Are you sure you want to delete this FAQ?'
+    )
       .afterClosed()
       .subscribe((confirm) => {
         if (confirm) {

@@ -1,8 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { Faq } from './faq.model';
-import { FaqCategory } from './faq-category.model';
-import { FaqsService } from './faqs.service';
-import { DialogService } from '../shared/dialog.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-faqs',

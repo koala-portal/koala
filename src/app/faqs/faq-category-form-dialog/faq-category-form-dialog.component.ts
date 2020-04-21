@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FaqCategory } from '../faq-category.model';
 import { FaqsService } from '../faqs.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MessageService } from 'src/app/shared/message.service';
 
 @Component({
   selector: 'app-faq-category-form-dialog',
@@ -11,6 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class FaqCategoryFormDialogComponent {
   constructor(
+    private messageService: MessageService,
     private faqsService: FaqsService,
     public dialogRef: MatDialogRef<FaqCategoryFormDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: FaqCategory,
@@ -22,10 +24,10 @@ export class FaqCategoryFormDialogComponent {
       this.faqsService.putFaqCategory(faqCategory).subscribe(
         () => {
           this.dialogRef.close(true);
-          this.showMessage('FAQ Category Updated');
+          this.messageService.showMessage('FAQ Category Updated');
         },
         () => {
-          this.showError('Updating FAQ Category Failed');
+          this.messageService.showError('Updating FAQ Category Failed');
         }
       );
     } else {
@@ -33,25 +35,13 @@ export class FaqCategoryFormDialogComponent {
       this.faqsService.postFaqCategory(faqCategory).subscribe(
         () => {
           this.dialogRef.close(true);
-          this.showMessage('FAQ Category Saved');
+          this.messageService.showMessage('FAQ Category Saved');
         },
         () => {
-          this.showError('Creating FAQ Category Failed');
+          this.messageService.showError('Creating FAQ Category Failed');
         }
       );
     }
-  }
-
-  showError(message) {
-    return this.snackBar.open(message, 'Okay', {
-      duration: 4000,
-    });
-  }
-
-  showMessage(message) {
-    return this.snackBar.open(message, 'Okay', {
-      duration: 4000,
-    });
   }
 
   onCancel(): void {

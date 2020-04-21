@@ -1,3 +1,4 @@
+import { TicketService } from './tickets/ticket.service';
 import { AppRoutingModule } from './app-routing.module';
 import { KToolsService } from './k-tools/k-tools.service';
 import { NgModule } from '@angular/core';
@@ -5,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FlexLayoutModule } from "@angular/flex-layout";
 
 import { AppComponent } from './app.component';
 import { MaterialModule } from './shared/material.module';
@@ -64,8 +66,9 @@ import { ServiceDeskEditComponent } from './service-desk/service-desk-edit/servi
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
+    FlexLayoutModule
   ],
-  providers: [KToolsService],
+  providers: [KToolsService, TicketService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

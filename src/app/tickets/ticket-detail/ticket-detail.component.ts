@@ -11,6 +11,7 @@ import { TicketService } from '../ticket.service';
 export class TicketDetailComponent implements OnInit {
   ticket: Ticket;
   id: number;
+  ticketNumber: string;
 
   constructor(
     private ticketService: TicketService,
@@ -20,8 +21,8 @@ export class TicketDetailComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
-      this.id = +params['id'];
-      this.ticket = this.ticketService.getTicket(this.id);
+      this.ticketNumber = params['ticketNumber'];
+      this.ticket = this.ticketService.getTicket(this.ticketNumber);
     });
   }
 

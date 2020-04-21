@@ -2,9 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Faq } from '../faq.model';
 import { FaqCategory } from '../faq-category.model';
 import { FaqsService } from '../faqs.service';
-import { MessageService } from '../../shared/message.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { MessageService } from 'src/app/shared/message.service';
 
 @Component({
   selector: 'app-faqs-list',
@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./faq-list.component.scss'],
 })
 export class FaqListComponent implements OnInit, OnDestroy {
+  filterFaqCategory: FaqCategory;
   selectedFaqCategory: FaqCategory;
   selectedFaq: Faq;
 
@@ -24,7 +25,7 @@ export class FaqListComponent implements OnInit, OnDestroy {
 
   constructor(
     private faqsService: FaqsService,
-    private MessageService: MessageService,
+    private messageService: MessageService,
     private route: ActivatedRoute
   ) {}
 
@@ -33,7 +34,8 @@ export class FaqListComponent implements OnInit, OnDestroy {
     this.paramsSub = this.route.params.subscribe((params) => {
       if (params.id) {
         this.selectedFaq = this.faqsService.findFaqById(params.id);
-        this.selectedFaqCategory = this.selectedFaq.category;
+        this.filterFaqCategory = this.selectedFaq.category;
+        this.selectedFaqCategory = this.filterFaqCategory;
       }
     });
     this.faqCategoriesSub = this.faqsService.faqCategorie$.subscribe(
@@ -49,8 +51,8 @@ export class FaqListComponent implements OnInit, OnDestroy {
   }
 
   getFilteredCategories(): FaqCategory[] {
-    return this.selectedFaqCategory
-      ? [this.selectedFaqCategory]
+    return this.filterFaqCategory
+      ? [this.filterFaqCategory]
       : this.faqCategories;
   }
 
@@ -59,10 +61,10 @@ export class FaqListComponent implements OnInit, OnDestroy {
   }
 
   onClickCategory(category: FaqCategory): void {
-    if (this.selectedFaqCategory === category) {
-      this.selectedFaqCategory = null;
+    if (!category || this.filterFaqCategory?.id === category.id) {
+      this.filterFaqCategory = null;
     } else {
-      this.selectedFaqCategory = category;
+      this.filterFaqCategory = category;
     }
   }
 
@@ -71,14 +73,15 @@ export class FaqListComponent implements OnInit, OnDestroy {
   }
 
   onClickDeleteFaq(faq: Faq): void {
-    this.MessageService.openConfirmDialog(
-      'Delete FAQ',
-      'Are you sure you want to delete this FAQ?'
-    )
+    this.messageService
+      .openConfirmDialog(
+        'Delete FAQ',
+        'Are you sure you want to delete this FAQ?'
+      )
       .afterClosed()
       .subscribe((confirm) => {
         if (confirm) {
-          this.faqsService.deleteFaq(faq);
+          this.faqsService.delete(faq);
         }
       });
   }
@@ -88,7 +91,7 @@ export class FaqListComponent implements OnInit, OnDestroy {
   }
 
   onClickAddFaq(category: FaqCategory): void {
-    this.faqsService.openFaqFormDialog();
+    this.faqsService.openFaqFormDialog(null, category);
   }
 
   onClickAddCategory(): void {
@@ -100,10 +103,24 @@ export class FaqListComponent implements OnInit, OnDestroy {
   }
 
   onClickDeleteCategory(category: FaqCategory): void {
-    alert('TODO: onClickDeleteCategory');
+    this.messageService
+      .openConfirmDialog(
+        'Delete Category',
+        'Are you sure you want to delete this Category?'
+      )
+      .afterClosed()
+      .subscribe((confirm) => {
+        if (confirm) {
+          this.faqsService.deleteFaqCategory(category);
+        }
+      });
   }
 
   onOpenFaq(faq: Faq): void {
     this.selectedFaq = faq;
+  }
+
+  onOpenFaqCategory(faqCategory: FaqCategory): void {
+    this.selectedFaqCategory = faqCategory;
   }
 }

@@ -4,7 +4,7 @@
     <div *ngFor="let faqCategory of faqCategories">
       <button
         mat-raised-button
-        [color]="selectedFaqCategory == faqCategory ? 'accent' : ''"
+        [color]="filterFaqCategory?.id == faqCategory.id ? 'accent' : ''"
         class="card mb-3 w-100"
         (click)="onClickCategory(faqCategory)"
       >
@@ -57,7 +57,11 @@
     <mat-accordion class="w-100">
       <mat-expansion-panel
         *ngFor="let faqCategory of getFilteredCategories(); let i = index"
-        [expanded]="faqCategory === selectedFaqCategory"
+        (opened)="onOpenFaqCategory(faqCategory)"
+        [expanded]="
+          faqCategory.id === filterFaqCategory?.id ||
+          faqCategory.id === selectedFaqCategory?.id
+        "
       >
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -73,7 +77,7 @@
           <mat-accordion>
             <mat-expansion-panel
               *ngFor="let faq of findAllFaqsByFaqCategory(faqCategory)"
-              [expanded]="selectedFaq === faq"
+              [expanded]="selectedFaq?.id === faq.id"
               (opened)="onOpenFaq(faq)"
             >
               <mat-expansion-panel-header>

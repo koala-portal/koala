@@ -12,6 +12,7 @@ import { FaqsService } from '../faqs.service';
 })
 export class FaqFormComponent implements OnInit {
   @Input() faq: Faq;
+  @Input() category: FaqCategory;
 
   @Output() formSubmit: EventEmitter<Faq> = new EventEmitter();
   @Output() cancel: EventEmitter<void> = new EventEmitter();
@@ -20,7 +21,7 @@ export class FaqFormComponent implements OnInit {
 
   faqForm = this.fb.group({
     id: [''],
-    category: [null, Validators.required],
+    category: [this.category, Validators.required],
     title: ['', Validators.required],
     description: ['', Validators.required],
     starred: false,
@@ -29,9 +30,13 @@ export class FaqFormComponent implements OnInit {
   constructor(private fb: FormBuilder, private faqsService: FaqsService) {}
 
   ngOnInit(): void {
+    debugger;
     this.faqCategories = this.faqsService.getFaqCategories();
     if (this.faq) {
       this.faqForm.patchValue(this.faq);
+    }
+    if (this.category) {
+      this.faqForm.patchValue({ category: this.category });
     }
   }
 
@@ -41,5 +46,9 @@ export class FaqFormComponent implements OnInit {
 
   onClickCancel(): void {
     this.cancel.emit();
+  }
+
+  compareFaqCategories(cat1: any, cat2: any): boolean {
+    return cat1 && cat2 && cat1.id === cat2.id;
   }
 }

@@ -77,20 +77,16 @@ export class FaqsService {
   }
 
   findAllFaqsByFaqCategory(faqCategory: FaqCategory): Faq[] {
-    return this.faqs.filter((faq) => faq.category === faqCategory);
+    return this.faqs.filter((faq) => faq.category.id === faqCategory.id);
   }
 
   findFaqCategoryById(id: string): FaqCategory {
     return this.faqCategories.find((cat) => cat.id === id);
   }
 
-  starFaq(faq: Faq): void {
+  starFaq(faq: Faq): Observable<Faq> {
     faq.starred = !faq.starred;
-  }
-
-  deleteFaq(faqToDelete: Faq): void {
-    this.faqs = this.faqs.filter((faq) => faqToDelete.id !== faq.id);
-    this.faq$.next(this.getFaqs());
+    return this.put(faq);
   }
 
   openFaqCategoryFormDialog(
@@ -103,21 +99,31 @@ export class FaqsService {
     });
   }
 
-  openFaqFormDialog(faq?: Faq): MatDialogRef<FaqFormDialogComponent, Faq> {
+  openFaqFormDialog(
+    faq?: Faq,
+    faqCategory?: FaqCategory
+  ): MatDialogRef<FaqFormDialogComponent, Faq> {
     return this.dialog.open(FaqFormDialogComponent, {
       disableClose: true,
       width: '500px',
-      data: faq,
+      data: {
+        faq,
+        category: faqCategory,
+      },
     });
   }
 
   putFaqCategory(faqCategory: FaqCategory): Observable<FaqCategory> {
     // TODO: Rest Call
-    const catToUpdate = this.findFaqCategoryById(faqCategory.id);
-    catToUpdate.title = faqCategory.title;
-    catToUpdate.description = faqCategory.description;
-    catToUpdate.icon = faqCategory.icon;
-    return of(catToUpdate);
+    this.faqCategories.splice(
+      this.faqs.findIndex(
+        (faqCategoryIt) => faqCategoryIt.id === faqCategory.id
+      ),
+      1,
+      faqCategory
+    );
+    this.faqCategorie$.next(this.getFaqCategories());
+    return of(faqCategory);
   }
 
   postFaqCategory(faqCategory: FaqCategory): Observable<FaqCategory> {
@@ -125,6 +131,14 @@ export class FaqsService {
     this.faqCategories.push(faqCategory);
     this.faqCategorie$.next(this.getFaqCategories());
     return of(faqCategory);
+  }
+
+  deleteFaqCategory(faqCategory: FaqCategory): Observable<void> {
+    this.faqCategories = this.faqCategories.filter(
+      (faqCategoryIt) => faqCategory.id !== faqCategoryIt.id
+    );
+    this.faqCategorie$.next(this.getFaqCategories());
+    return of();
   }
 
   put(faq: Faq): Observable<Faq> {
@@ -142,5 +156,12 @@ export class FaqsService {
     this.faqs.push(faq);
     this.faq$.next(this.getFaqs());
     return of(faq);
+  }
+
+  delete(faqToDelete: Faq): Observable<void> {
+    // TODO: Rest Call
+    this.faqs = this.faqs.filter((faq) => faqToDelete.id !== faq.id);
+    this.faq$.next(this.getFaqs());
+    return of();
   }
 }

@@ -1,5 +1,6 @@
 <app-faq-form
-  [faq]="data"
+  [faq]="data.faq"
+  [category]="data.category"
   (formSubmit)="onSubmit($event)"
   (cancel)="onCancel()"
 ></app-faq-form>

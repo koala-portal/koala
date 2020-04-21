@@ -7,7 +7,7 @@
 >
   <mat-form-field>
     <mat-label>Category</mat-label>
-    <mat-select formControlName="category">
+    <mat-select formControlName="category" [compareWith]="compareFaqCategories">
       <mat-option
         *ngFor="let faqCategory of faqCategories"
         [value]="faqCategory"

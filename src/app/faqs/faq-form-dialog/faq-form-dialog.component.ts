@@ -3,6 +3,7 @@ import { Faq } from '../faq.model';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FaqsService } from '../faqs.service';
 import { MessageService } from 'src/app/shared/message.service';
+import { FaqCategory } from '../faq-category.model';
 
 @Component({
   selector: 'app-faq-form-dialog',
@@ -14,7 +15,7 @@ export class FaqFormDialogComponent {
     private messageService: MessageService,
     private faqsService: FaqsService,
     public dialogRef: MatDialogRef<FaqFormDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Faq
+    @Inject(MAT_DIALOG_DATA) public data: { category: FaqCategory; faq: Faq }
   ) {}
 
   onSubmit(faq: Faq): void {

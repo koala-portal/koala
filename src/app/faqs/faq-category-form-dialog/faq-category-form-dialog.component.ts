@@ -53,4 +53,8 @@ export class FaqCategoryFormDialogComponent {
       duration: 4000,
     });
   }
+
+  onCancel(): void {
+    this.dialogRef.close(false);
+  }
 }

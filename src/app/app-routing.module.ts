@@ -34,6 +34,10 @@ const appRoutes: Routes = [
         pathMatch: 'full',
         component: FaqListComponent,
       },
+      {
+        path: ':id',
+        component: FaqListComponent,
+      },
     ],
   },
 ];

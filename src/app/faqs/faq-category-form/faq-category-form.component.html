@@ -24,14 +24,17 @@
     <mat-label>Icon</mat-label>
     <input type="text" matInput required formControlName="icon" />
   </mat-form-field>
-  <div class="d-flex flex-row justify-content-end">
+  <div class="d-flex flex-row justify-content-between">
+    <button mat-raised-button type="button" (click)="onClickCancel()">
+      Cancel
+    </button>
     <button
       mat-raised-button
       color="primary"
       type="submit"
       [disabled]="!faqCategoryForm.valid"
     >
-      Submit
+      Save
     </button>
   </div>
 </form>

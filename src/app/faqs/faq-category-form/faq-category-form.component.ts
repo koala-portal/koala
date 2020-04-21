@@ -11,13 +11,13 @@ export class FaqCategoryFormComponent implements OnInit {
   @Input() faqCategory: FaqCategory;
 
   @Output() formSubmit: EventEmitter<FaqCategory> = new EventEmitter();
+  @Output() cancel: EventEmitter<void> = new EventEmitter();
 
   faqCategoryForm = this.fb.group({
     id: [''],
     title: ['', Validators.required],
     description: ['', Validators.required],
     icon: ['', Validators.required],
-    faqs: [[]],
   });
 
   constructor(private fb: FormBuilder) {}
@@ -30,5 +30,9 @@ export class FaqCategoryFormComponent implements OnInit {
 
   onSubmit(form: FormGroup): void {
     this.formSubmit.emit(form.value);
+  }
+
+  onClickCancel(): void {
+    this.cancel.emit();
   }
 }

@@ -2,6 +2,8 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Faq } from '../faq.model';
+import { FaqCategory } from '../faq-category.model';
+import { FaqsService } from '../faqs.service';
 
 @Component({
   selector: 'app-faq-form',
@@ -12,17 +14,22 @@ export class FaqFormComponent implements OnInit {
   @Input() faq: Faq;
 
   @Output() formSubmit: EventEmitter<Faq> = new EventEmitter();
+  @Output() cancel: EventEmitter<void> = new EventEmitter();
+
+  faqCategories: FaqCategory[];
 
   faqForm = this.fb.group({
     id: [''],
+    category: [null, Validators.required],
     title: ['', Validators.required],
     description: ['', Validators.required],
     starred: false,
   });
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private faqsService: FaqsService) {}
 
   ngOnInit(): void {
+    this.faqCategories = this.faqsService.getFaqCategories();
     if (this.faq) {
       this.faqForm.patchValue(this.faq);
     }
@@ -30,5 +37,9 @@ export class FaqFormComponent implements OnInit {
 
   onSubmit(form: FormGroup): void {
     this.formSubmit.emit(form.value);
+  }
+
+  onClickCancel(): void {
+    this.cancel.emit();
   }
 }

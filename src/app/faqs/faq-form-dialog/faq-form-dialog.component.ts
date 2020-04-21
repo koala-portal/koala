@@ -42,6 +42,10 @@ export class FaqFormDialogComponent {
     }
   }
 
+  onCancel(): void {
+    this.dialogRef.close(false);
+  }
+
   showError(message) {
     return this.snackBar.open(message, 'Okay', {
       duration: 4000,

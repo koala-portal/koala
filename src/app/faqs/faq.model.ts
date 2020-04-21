@@ -1,3 +1,5 @@
+import { FaqCategory } from './faq-category.model';
+
 export interface Faq {
   id: string;
   title: string;
@@ -7,4 +9,5 @@ export interface Faq {
   createdBy: string;
   updated: Date;
   updatedBy: string;
+  category: FaqCategory;
 }

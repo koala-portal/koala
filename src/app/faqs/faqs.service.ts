@@ -8,34 +8,13 @@ import { FaqFormDialogComponent } from './faq-form-dialog/faq-form-dialog.compon
 
 @Injectable({ providedIn: 'root' })
 export class FaqsService {
+  faqCategorie$ = new Subject<FaqCategory[]>();
   private faqCategories: FaqCategory[] = [
     {
       id: 'a',
       title: 'General',
       description: 'General Questions',
       icon: 'fa-life-saver',
-      faqs: [
-        {
-          id: 'a',
-          title: 'How do I do the thing?',
-          description: 'You can do the thing in a number of ways.',
-          starred: false,
-          created: new Date(),
-          createdBy: 'user1',
-          updated: null,
-          updatedBy: null,
-        },
-        {
-          id: 'b',
-          title: 'If I do it this way, how can it be done?',
-          description: 'You should do the thing the way we told you.',
-          starred: false,
-          created: new Date(),
-          createdBy: 'user2',
-          updated: null,
-          updatedBy: null,
-        },
-      ],
     },
     {
       id: 'b',
@@ -43,22 +22,45 @@ export class FaqsService {
       description:
         'One Questions and other things related to the One. This is just going to be a very long description and you are going to have to deal with that.',
       icon: 'fa-times',
-      faqs: [
-        {
-          id: 'c',
-          title: 'I think I am doing this wrong. Am I doing this wrong?',
-          description: 'Yes you should consider doing it the other way.',
-          starred: false,
-          created: new Date(),
-          createdBy: 'user1',
-          updated: new Date(),
-          updatedBy: 'user1',
-        },
-      ],
     },
   ];
 
-  faqCategorie$ = new Subject<FaqCategory[]>();
+  faq$ = new Subject<Faq[]>();
+  private faqs: Faq[] = [
+    {
+      id: 'a',
+      title: 'How do I do the thing?',
+      description: 'You can do the thing in a number of ways.',
+      starred: false,
+      created: new Date(),
+      createdBy: 'user1',
+      updated: null,
+      updatedBy: null,
+      category: this.faqCategories[0],
+    },
+    {
+      id: 'b',
+      title: 'If I do it this way, how can it be done?',
+      description: 'You should do the thing the way we told you.',
+      starred: false,
+      created: new Date(),
+      createdBy: 'user2',
+      updated: null,
+      updatedBy: null,
+      category: this.faqCategories[0],
+    },
+    {
+      id: 'c',
+      title: 'I think I am doing this wrong. Am I doing this wrong?',
+      description: 'Yes you should consider doing it the other way.',
+      starred: false,
+      created: new Date(),
+      createdBy: 'user1',
+      updated: new Date(),
+      updatedBy: 'user1',
+      category: this.faqCategories[1],
+    },
+  ];
 
   constructor(private dialog: MatDialog) {}
 
@@ -67,11 +69,15 @@ export class FaqsService {
   }
 
   getFaqs(): Faq[] {
-    return this.faqCategories.flatMap((category) => category.faqs);
+    return this.faqs.slice();
   }
 
   findFaqById(id: string): Faq {
-    return this.getFaqs().find((faq) => faq.id === id);
+    return this.faqs.find((faq) => faq.id === id);
+  }
+
+  findAllFaqsByFaqCategory(faqCategory: FaqCategory): Faq[] {
+    return this.faqs.filter((faq) => faq.category === faqCategory);
   }
 
   findFaqCategoryById(id: string): FaqCategory {
@@ -83,15 +89,15 @@ export class FaqsService {
   }
 
   deleteFaq(faqToDelete: Faq): void {
-    this.faqCategories.forEach((category) => {
-      category.faqs = category.faqs.filter((faq) => faqToDelete.id !== faq.id);
-    });
+    this.faqs = this.faqs.filter((faq) => faqToDelete.id !== faq.id);
+    this.faq$.next(this.getFaqs());
   }
 
   openFaqCategoryFormDialog(
     faqCategory?: FaqCategory
   ): MatDialogRef<FaqCategoryFormDialogComponent, FaqCategory> {
     return this.dialog.open(FaqCategoryFormDialogComponent, {
+      disableClose: true,
       width: '500px',
       data: faqCategory,
     });
@@ -99,6 +105,7 @@ export class FaqsService {
 
   openFaqFormDialog(faq?: Faq): MatDialogRef<FaqFormDialogComponent, Faq> {
     return this.dialog.open(FaqFormDialogComponent, {
+      disableClose: true,
       width: '500px',
       data: faq,
     });
@@ -122,14 +129,18 @@ export class FaqsService {
 
   put(faq: Faq): Observable<Faq> {
     // TODO: Rest Call
-    const faqToUpdate = this.findFaqById(faq.id);
-    faqToUpdate.title = faq.title;
-    faqToUpdate.description = faq.description;
-    return of(faqToUpdate);
+    this.faqs.splice(
+      this.faqs.findIndex((faqIt) => faqIt.id === faq.id),
+      1,
+      faq
+    );
+    return of(faq);
   }
 
   post(faq: Faq): Observable<Faq> {
     // TODO: Rest Call
+    this.faqs.push(faq);
+    this.faq$.next(this.getFaqs());
     return of(faq);
   }
 }

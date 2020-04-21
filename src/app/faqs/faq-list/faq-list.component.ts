@@ -33,9 +33,7 @@ export class FaqListComponent implements OnInit, OnDestroy {
     this.paramsSub = this.route.params.subscribe((params) => {
       if (params.id) {
         this.selectedFaq = this.faqsService.findFaqById(params.id);
-        this.selectedFaqCategory = this.faqCategories.find((cat) =>
-          cat.faqs.find((faq) => faq.id === this.selectedFaq.id)
-        );
+        this.selectedFaqCategory = this.selectedFaq.category;
       }
     });
     this.faqCategoriesSub = this.faqsService.faqCategorie$.subscribe(
@@ -54,6 +52,10 @@ export class FaqListComponent implements OnInit, OnDestroy {
     return this.selectedFaqCategory
       ? [this.selectedFaqCategory]
       : this.faqCategories;
+  }
+
+  findAllFaqsByFaqCategory(faqCategory: FaqCategory): Faq[] {
+    return this.faqsService.findAllFaqsByFaqCategory(faqCategory);
   }
 
   onClickCategory(category: FaqCategory): void {

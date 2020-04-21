@@ -7,7 +7,14 @@
 >
   <mat-form-field>
     <mat-label>Category</mat-label>
-    <input type="text" matInput required formControlName="category" />
+    <mat-select formControlName="category">
+      <mat-option
+        *ngFor="let faqCategory of faqCategories"
+        [value]="faqCategory"
+      >
+        {{ faqCategory.title }}
+      </mat-option>
+    </mat-select>
   </mat-form-field>
 
   <mat-form-field>
@@ -25,14 +32,17 @@
     ></textarea>
   </mat-form-field>
 
-  <div class="d-flex flex-row justify-content-end">
+  <div class="d-flex flex-row justify-content-between">
+    <button mat-raised-button type="button" (click)="onClickCancel()">
+      Cancel
+    </button>
     <button
       mat-raised-button
       color="primary"
       type="submit"
       [disabled]="!faqForm.valid"
     >
-      Submit
+      Save
     </button>
   </div>
 </form>

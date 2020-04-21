@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FaqCategory } from './faq-category.model';
 import { Faq } from './faq.model';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { FaqCategoryFormDialogComponent } from './faq-category-form-dialog/faq-category-form-dialog.component';
 import { Observable, of, Subject } from 'rxjs';
-import { FaqFormDialogComponent } from './faq-form-dialog/faq-form-dialog.component';
 
 @Injectable({ providedIn: 'root' })
 export class FaqsService {
@@ -62,7 +59,7 @@ export class FaqsService {
     },
   ];
 
-  constructor(private dialog: MatDialog) {}
+  constructor() {}
 
   getFaqCategories(): FaqCategory[] {
     return this.faqCategories.slice();
@@ -87,30 +84,6 @@ export class FaqsService {
   starFaq(faq: Faq): Observable<Faq> {
     faq.starred = !faq.starred;
     return this.put(faq);
-  }
-
-  openFaqCategoryFormDialog(
-    faqCategory?: FaqCategory
-  ): MatDialogRef<FaqCategoryFormDialogComponent, FaqCategory> {
-    return this.dialog.open(FaqCategoryFormDialogComponent, {
-      disableClose: true,
-      width: '500px',
-      data: faqCategory,
-    });
-  }
-
-  openFaqFormDialog(
-    faq?: Faq,
-    faqCategory?: FaqCategory
-  ): MatDialogRef<FaqFormDialogComponent, Faq> {
-    return this.dialog.open(FaqFormDialogComponent, {
-      disableClose: true,
-      width: '500px',
-      data: {
-        faq,
-        category: faqCategory,
-      },
-    });
   }
 
   putFaqCategory(faqCategory: FaqCategory): Observable<FaqCategory> {

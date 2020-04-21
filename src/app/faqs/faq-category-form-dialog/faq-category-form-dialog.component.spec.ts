@@ -8,9 +8,8 @@ describe('FaqCategoryFormDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FaqCategoryFormDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [FaqCategoryFormDialogComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

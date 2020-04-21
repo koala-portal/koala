@@ -5,6 +5,9 @@ import { FaqsService } from '../faqs.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MessageService } from 'src/app/shared/message.service';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { FaqFormDialogComponent } from '../faq-form-dialog/faq-form-dialog.component';
+import { FaqCategoryFormDialogComponent } from '../faq-category-form-dialog/faq-category-form-dialog.component';
 
 @Component({
   selector: 'app-faqs-list',
@@ -26,7 +29,8 @@ export class FaqListComponent implements OnInit, OnDestroy {
   constructor(
     private faqsService: FaqsService,
     private messageService: MessageService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -87,19 +91,19 @@ export class FaqListComponent implements OnInit, OnDestroy {
   }
 
   onClickEditFaq(faq: Faq): void {
-    this.faqsService.openFaqFormDialog(faq);
+    this.openFaqFormDialog(faq);
   }
 
   onClickAddFaq(category: FaqCategory): void {
-    this.faqsService.openFaqFormDialog(null, category);
+    this.openFaqFormDialog(null, category);
   }
 
   onClickAddCategory(): void {
-    this.faqsService.openFaqCategoryFormDialog();
+    this.openFaqCategoryFormDialog();
   }
 
   onClickEditCategory(category: FaqCategory): void {
-    this.faqsService.openFaqCategoryFormDialog(category);
+    this.openFaqCategoryFormDialog(category);
   }
 
   onClickDeleteCategory(category: FaqCategory): void {
@@ -122,5 +126,29 @@ export class FaqListComponent implements OnInit, OnDestroy {
 
   onOpenFaqCategory(faqCategory: FaqCategory): void {
     this.selectedFaqCategory = faqCategory;
+  }
+
+  openFaqCategoryFormDialog(
+    faqCategory?: FaqCategory
+  ): MatDialogRef<FaqCategoryFormDialogComponent, FaqCategory> {
+    return this.dialog.open(FaqCategoryFormDialogComponent, {
+      disableClose: true,
+      width: '500px',
+      data: faqCategory,
+    });
+  }
+
+  openFaqFormDialog(
+    faq?: Faq,
+    faqCategory?: FaqCategory
+  ): MatDialogRef<FaqFormDialogComponent, Faq> {
+    return this.dialog.open(FaqFormDialogComponent, {
+      disableClose: true,
+      width: '500px',
+      data: {
+        faq,
+        category: faqCategory,
+      },
+    });
   }
 }

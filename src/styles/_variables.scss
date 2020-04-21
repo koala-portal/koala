@@ -16,19 +16,21 @@ $teal: #009c8f;
 $white: #fff;
 $black: #000;
 
-// koala's custom colors:
+// k's custom colors:
 $mint: #00c6a9;
 $carminePink: #f15e6e;
 $amber: #ffc100;
 $charcoal: #3d4c5f;
 $livid: #5e96cd;
-$k-colors: ("mint", $mint), ("carminePink", $carminePink), ("amber", $amber),
-  ("charcoal", $charcoal), ("livid", $livid);
 
 // Bootstrap Color System
 $primary: $mint;
 $secondary: $livid;
 
+$k-colors: ("mint", $mint), ("carminePink", $carminePink), ("amber", $amber),
+  ("charcoal", $charcoal), ("livid", $livid);
+
+// Make lighter or darker version of the core colors
 @mixin color-weight($class, $base-color, $weight) {
   $bg-color: null;
 
@@ -52,3 +54,4 @@ $secondary: $livid;
 
 @include color-weight(bg-mint, $mint, 4);
 @include color-weight(bg-charcoal, $charcoal, 4);
+@include color-weight(bg-charcoal, $livid, 4);

@@ -8,15 +8,12 @@ import { TicketService } from '../tickets/ticket.service';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  // TO DO: set up hide/show for "Manage Service Desk" 
+  // TO DO: set up hide/show for "Manage Service Desk"
   // to only be certain user group
   tickets: Ticket[];
-  constructor(
-    private ticketService: TicketService,
-  ) {}
-  
+  constructor(private ticketService: TicketService) {}
+
   ngOnInit() {
     this.tickets = this.ticketService.getTickets();
   }
-
 }

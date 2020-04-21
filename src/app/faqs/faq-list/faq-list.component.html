@@ -69,47 +69,49 @@
         </mat-expansion-panel-header>
 
         <!-- FAQ Accordian -->
-        <mat-accordion>
-          <mat-expansion-panel
-            *ngFor="let faq of faqCategory.faqs"
-            [expanded]="selectedFaq === faq"
-            (opened)="onOpenFaq(faq)"
-          >
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                {{ faq.title }}
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <p class="ml-4">{{ faq.description }}</p>
-
-            <!-- FAQ Admin Toolbar -->
-            <mat-divider *ngIf="userIsAdmin" class="mb-1"></mat-divider>
-            <div
-              class="d-flex flex-row justify-content-end"
-              *ngIf="userIsAdmin"
+        <div class="mt-2">
+          <mat-accordion>
+            <mat-expansion-panel
+              *ngFor="let faq of faqCategory.faqs"
+              [expanded]="selectedFaq === faq"
+              (opened)="onOpenFaq(faq)"
             >
-              <button
-                mat-icon-button
-                color="primary"
-                (click)="onClickStarFaq(faq)"
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  {{ faq.title }}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <p class="ml-4">{{ faq.description }}</p>
+
+              <!-- FAQ Admin Toolbar -->
+              <mat-divider *ngIf="userIsAdmin" class="mb-1"></mat-divider>
+              <div
+                class="d-flex flex-row justify-content-end"
+                *ngIf="userIsAdmin"
               >
-                <mat-icon>
-                  {{ faq.starred ? "star" : "star_border" }}
-                </mat-icon>
-              </button>
-              <button mat-icon-button (click)="onClickEditFaq(faq)">
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button
-                mat-icon-button
-                color="warn"
-                (click)="onClickDeleteFaq(faq)"
-              >
-                <mat-icon>delete</mat-icon>
-              </button>
-            </div>
-          </mat-expansion-panel>
-        </mat-accordion>
+                <button
+                  mat-icon-button
+                  color="primary"
+                  (click)="onClickStarFaq(faq)"
+                >
+                  <mat-icon>
+                    {{ faq.starred ? "star" : "star_border" }}
+                  </mat-icon>
+                </button>
+                <button mat-icon-button (click)="onClickEditFaq(faq)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button
+                  mat-icon-button
+                  color="warn"
+                  (click)="onClickDeleteFaq(faq)"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
 
         <!-- Category Admin Toolbar -->
         <div

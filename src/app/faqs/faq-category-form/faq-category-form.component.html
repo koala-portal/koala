@@ -1,13 +1,13 @@
-<h2>New Category</h2>
+<h2>{{ faqCategory ? "Edit" : "New" }} Category</h2>
 <form
   class="d-flex flex-column"
-  #form="ngForm"
+  [formGroup]="faqCategoryForm"
   novalidate
-  (ngSubmit)="onSubmit(form)"
+  (ngSubmit)="onSubmit(faqCategoryForm)"
 >
   <mat-form-field>
     <mat-label>Title</mat-label>
-    <input type="text" matInput ngModel name="title" required />
+    <input type="text" matInput required formControlName="title" />
   </mat-form-field>
 
   <mat-form-field>
@@ -15,22 +15,21 @@
     <textarea
       type="text"
       matInput
-      ngModel
-      name="description"
       required
+      formControlName="description"
     ></textarea>
   </mat-form-field>
 
   <mat-form-field>
     <mat-label>Icon</mat-label>
-    <input type="text" matInput ngModel name="icon" required />
+    <input type="text" matInput required formControlName="icon" />
   </mat-form-field>
   <div class="d-flex flex-row justify-content-end">
     <button
       mat-raised-button
       color="primary"
       type="submit"
-      [disabled]="form.form.invalid"
+      [disabled]="!faqCategoryForm.valid"
     >
       Submit
     </button>

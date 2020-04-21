@@ -1,7 +1,7 @@
 import { AppRoutingModule } from './app-routing.module';
 import { KToolsService } from './k-tools/k-tools.service';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -31,7 +31,8 @@ import { FaqEditComponent } from './faqs/faq-edit/faq-edit.component';
 import { ServiceDeskListComponent } from './service-desk/service-desk-list/service-desk-list.component';
 import { ServiceDeskEditComponent } from './service-desk/service-desk-edit/service-desk-edit.component';
 import { FaqListComponent } from './faqs/faq-list/faq-list.component';
-import { CategoryEditComponent } from './faqs/category-edit/category-edit.component';
+import { FaqCategoryFormDialogComponent } from './faqs/faq-category-form-dialog/faq-category-form-dialog.component';
+import { FaqCategoryFormComponent } from './faqs/faq-category-form/faq-category-form.component';
 
 @NgModule({
   declarations: [
@@ -58,11 +59,13 @@ import { CategoryEditComponent } from './faqs/category-edit/category-edit.compon
     ServiceDeskListComponent,
     ServiceDeskEditComponent,
     FaqListComponent,
-    CategoryEditComponent,
+    FaqCategoryFormComponent,
+    FaqCategoryFormDialogComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     NgbModule,
     AppRoutingModule,

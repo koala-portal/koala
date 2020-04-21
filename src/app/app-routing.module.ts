@@ -11,7 +11,7 @@ import { FaqsComponent } from './faqs/faqs.component';
 import { KToolsComponent } from './k-tools/k-tools.component';
 import { FaqEditComponent } from './faqs/faq-edit/faq-edit.component';
 import { FaqListComponent } from './faqs/faq-list/faq-list.component';
-import { CategoryEditComponent } from './faqs/category-edit/category-edit.component';
+import { FaqCategoryFormComponent } from './faqs/faq-category-form/faq-category-form.component';
 
 const appRoutes: Routes = [
   // { path: '', redirectTo: '', pathMatch: 'full' },
@@ -38,11 +38,11 @@ const appRoutes: Routes = [
       },
       {
         path: 'category/add',
-        component: CategoryEditComponent,
+        component: FaqCategoryFormComponent,
       },
       {
         path: 'category/:categoryId/edit',
-        component: CategoryEditComponent,
+        component: FaqCategoryFormComponent,
       },
       {
         path: 'category/:categoryId/faq/add',

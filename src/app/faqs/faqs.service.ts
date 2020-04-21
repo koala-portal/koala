@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { FaqCategory } from './faq-category.model';
 import { Faq } from './faq.model';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { FaqCategoryFormDialogComponent } from './faq-category-form-dialog/faq-category-form-dialog.component';
+import { Observable, of, Subject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class FaqsService {
@@ -54,6 +57,10 @@ export class FaqsService {
     },
   ];
 
+  faqCategorie$ = new Subject<FaqCategory[]>();
+
+  constructor(private dialog: MatDialog) {}
+
   getFaqCategories(): FaqCategory[] {
     return this.faqCategories.slice();
   }
@@ -66,6 +73,10 @@ export class FaqsService {
     return this.getFaqs().find((faq) => faq.id === id);
   }
 
+  findFaqCategoryById(id: string): FaqCategory {
+    return this.faqCategories.find((cat) => cat.id === id);
+  }
+
   starFaq(faq: Faq): void {
     faq.starred = !faq.starred;
   }
@@ -74,5 +85,30 @@ export class FaqsService {
     this.faqCategories.forEach((category) => {
       category.faqs = category.faqs.filter((faq) => faqToDelete.id !== faq.id);
     });
+  }
+
+  openFaqCategoryFormDialog(
+    faqCategory: FaqCategory
+  ): MatDialogRef<FaqCategoryFormDialogComponent, FaqCategory> {
+    return this.dialog.open(FaqCategoryFormDialogComponent, {
+      width: '500px',
+      data: faqCategory,
+    });
+  }
+
+  putFaqCategory(faqCategory: FaqCategory): Observable<FaqCategory> {
+    // TODO: Rest Call
+    const catToUpdate = this.findFaqCategoryById(faqCategory.id);
+    catToUpdate.title = faqCategory.title;
+    catToUpdate.description = faqCategory.description;
+    catToUpdate.icon = faqCategory.icon;
+    return of(catToUpdate);
+  }
+
+  postFaqCategory(faqCategory: FaqCategory): Observable<FaqCategory> {
+    // TODO: Rest Call
+    this.faqCategories.push(faqCategory);
+    this.faqCategorie$.next(this.getFaqCategories());
+    return of(faqCategory);
   }
 }

@@ -18,8 +18,9 @@ export class FaqListComponent implements OnInit, OnDestroy {
   faqCategories: FaqCategory[];
 
   private paramsSub: Subscription;
+  private faqCategoriesSub: Subscription;
 
-  userIsAdmin = false; // TODO: Placeholder
+  userIsAdmin = true; // TODO: Placeholder
 
   constructor(
     private faqsService: FaqsService,
@@ -37,10 +38,16 @@ export class FaqListComponent implements OnInit, OnDestroy {
         );
       }
     });
+    this.faqCategoriesSub = this.faqsService.faqCategorie$.subscribe(
+      (faqCategories) => {
+        this.faqCategories = faqCategories;
+      }
+    );
   }
 
   ngOnDestroy(): void {
     this.paramsSub.unsubscribe();
+    this.faqCategoriesSub.unsubscribe();
   }
 
   getFilteredCategories(): FaqCategory[] {
@@ -84,11 +91,11 @@ export class FaqListComponent implements OnInit, OnDestroy {
   }
 
   onClickAddCategory(): void {
-    alert('TODO: onClickAddCategory');
+    this.faqsService.openFaqCategoryFormDialog(null);
   }
 
-  onClickEditCategory(): void {
-    alert('TODO: onClickEditCategory');
+  onClickEditCategory(category: FaqCategory): void {
+    this.faqsService.openFaqCategoryFormDialog(category);
   }
 
   onClickDeleteCategory(category: FaqCategory): void {

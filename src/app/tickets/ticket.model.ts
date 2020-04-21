@@ -5,11 +5,19 @@ export class Ticket {
   public description: string;
   public imagePath: string;
   public ktools: KTool[];
+  public ticketNumber: string;
 
-  constructor(name: string, desc: string, imagePath: string, ktools: KTool[]) {
+  constructor(
+    name: string,
+    desc: string,
+    imagePath: string,
+    ktools: KTool[],
+    ticketNumber: string
+  ) {
     this.name = name;
     this.description = desc;
     this.imagePath = imagePath;
     this.ktools = ktools;
+    this.ticketNumber = ticketNumber;
   }
 }

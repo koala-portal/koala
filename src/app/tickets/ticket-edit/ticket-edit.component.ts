@@ -1,5 +1,7 @@
+import { MatDialogModule } from '@angular/material/dialog';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+
 @Component({
   selector: 'app-ticket-edit',
   templateUrl: './ticket-edit.component.html',

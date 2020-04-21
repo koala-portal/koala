@@ -1,3 +1,4 @@
+import { TicketService } from './tickets/ticket.service';
 import { AppRoutingModule } from './app-routing.module';
 import { KToolsService } from './k-tools/k-tools.service';
 import { NgModule } from '@angular/core';
@@ -67,7 +68,7 @@ import { ServiceDeskEditComponent } from './service-desk/service-desk-edit/servi
     MaterialModule,
     FlexLayoutModule,
   ],
-  providers: [KToolsService],
+  providers: [KToolsService, TicketService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -18,7 +18,13 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLinkActive="active" routerLink="/tickets"
-            >Ticket <span class="badge">3</span></a
+            >Ticket
+            <span class="fa-stack">
+              <span class="fa fa-circle-thin fa-stack-2x text-primary"></span>
+              <strong class="fa-stack-1x">
+                {{ tickets.length }}
+              </strong>
+            </span></a
           >
         </li>
         <li class="nav-item">

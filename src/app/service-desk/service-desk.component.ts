@@ -1,5 +1,7 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ServiceDesk } from './service-desk.model';
+
 @Component({
   selector: 'app-service-desk',
   templateUrl: './service-desk.component.html',
@@ -23,12 +25,14 @@ export class ServiceDeskComponent implements OnInit {
     ),
   ];
 
-  constructor() {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {}
 
   ngOnInit(): void {}
 
   onNewServiceDesk() {
-    // TO DO - update router to new service desk item
-    alert('link to new form');
+    this.router.navigate(['tickets/new'], { relativeTo: this.route });
   }
 }

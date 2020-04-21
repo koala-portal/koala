@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FaqCategory } from '../faq-category.model';
 import { FaqsService } from '../faqs.service';
@@ -9,15 +9,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './faq-category-form-dialog.component.html',
   styleUrls: ['./faq-category-form-dialog.component.scss'],
 })
-export class FaqCategoryFormDialogComponent implements OnInit {
+export class FaqCategoryFormDialogComponent {
   constructor(
     private faqsService: FaqsService,
     public dialogRef: MatDialogRef<FaqCategoryFormDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: FaqCategory,
     private snackBar: MatSnackBar
   ) {}
-
-  ngOnInit(): void {}
 
   onSubmit(faqCategory: FaqCategory): void {
     if (faqCategory.id) {

@@ -83,15 +83,15 @@ export class FaqListComponent implements OnInit, OnDestroy {
   }
 
   onClickEditFaq(faq: Faq): void {
-    alert('TODO: onClickEditFaq');
+    this.faqsService.openFaqFormDialog(faq);
   }
 
   onClickAddFaq(category: FaqCategory): void {
-    alert('TODO: onClickAddFaq');
+    this.faqsService.openFaqFormDialog();
   }
 
   onClickAddCategory(): void {
-    this.faqsService.openFaqCategoryFormDialog(null);
+    this.faqsService.openFaqCategoryFormDialog();
   }
 
   onClickEditCategory(category: FaqCategory): void {

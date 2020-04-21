@@ -1,1 +1,38 @@
-<p>faq-form works!</p>
+<h2>{{ faq ? "Edit" : "New" }} FAQ</h2>
+<form
+  class="d-flex flex-column"
+  [formGroup]="faqForm"
+  novalidate
+  (ngSubmit)="onSubmit(faqForm)"
+>
+  <mat-form-field>
+    <mat-label>Category</mat-label>
+    <input type="text" matInput required formControlName="category" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Title</mat-label>
+    <input type="text" matInput required formControlName="title" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Description</mat-label>
+    <textarea
+      type="text"
+      matInput
+      required
+      formControlName="description"
+    ></textarea>
+  </mat-form-field>
+
+  <div class="d-flex flex-row justify-content-end">
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="!faqForm.valid"
+    >
+      Submit
+    </button>
+  </div>
+</form>

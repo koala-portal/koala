@@ -27,7 +27,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TicketStartComponent } from './tickets/ticket-start/ticket-start.component';
 import { TicketEditComponent } from './tickets/ticket-edit/ticket-edit.component';
 import { AbodeComponent } from './abode/abode.component';
-import { FaqEditComponent } from './faqs/faq-edit/faq-edit.component';
 import { ServiceDeskListComponent } from './service-desk/service-desk-list/service-desk-list.component';
 import { ServiceDeskEditComponent } from './service-desk/service-desk-edit/service-desk-edit.component';
 import { FaqListComponent } from './faqs/faq-list/faq-list.component';
@@ -57,7 +56,6 @@ import { FaqFormComponent } from './faqs/faq-form/faq-form.component';
     TicketStartComponent,
     TicketEditComponent,
     AbodeComponent,
-    FaqEditComponent,
     ServiceDeskListComponent,
     ServiceDeskEditComponent,
     FaqListComponent,

@@ -89,7 +89,7 @@ export class FaqsService {
   }
 
   openFaqCategoryFormDialog(
-    faqCategory: FaqCategory
+    faqCategory?: FaqCategory
   ): MatDialogRef<FaqCategoryFormDialogComponent, FaqCategory> {
     return this.dialog.open(FaqCategoryFormDialogComponent, {
       width: '500px',
@@ -97,7 +97,7 @@ export class FaqsService {
     });
   }
 
-  openFaqFormDialog(faq: Faq): MatDialogRef<FaqFormDialogComponent, Faq> {
+  openFaqFormDialog(faq?: Faq): MatDialogRef<FaqFormDialogComponent, Faq> {
     return this.dialog.open(FaqFormDialogComponent, {
       width: '500px',
       data: faq,
@@ -118,5 +118,18 @@ export class FaqsService {
     this.faqCategories.push(faqCategory);
     this.faqCategorie$.next(this.getFaqCategories());
     return of(faqCategory);
+  }
+
+  put(faq: Faq): Observable<Faq> {
+    // TODO: Rest Call
+    const faqToUpdate = this.findFaqById(faq.id);
+    faqToUpdate.title = faq.title;
+    faqToUpdate.description = faq.description;
+    return of(faqToUpdate);
+  }
+
+  post(faq: Faq): Observable<Faq> {
+    // TODO: Rest Call
+    return of(faq);
   }
 }

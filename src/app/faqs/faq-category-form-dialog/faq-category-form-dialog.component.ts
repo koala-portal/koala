@@ -29,7 +29,7 @@ export class FaqCategoryFormDialogComponent {
         }
       );
     } else {
-      faqCategory.id = (Math.random() * 1000).toString();
+      faqCategory.id = (Math.random() * 1000).toString(); // placeholder for mongo id gen
       this.faqsService.postFaqCategory(faqCategory).subscribe(
         () => {
           this.dialogRef.close(true);

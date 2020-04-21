@@ -4,6 +4,7 @@ import { Faq } from './faq.model';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FaqCategoryFormDialogComponent } from './faq-category-form-dialog/faq-category-form-dialog.component';
 import { Observable, of, Subject } from 'rxjs';
+import { FaqFormDialogComponent } from './faq-form-dialog/faq-form-dialog.component';
 
 @Injectable({ providedIn: 'root' })
 export class FaqsService {
@@ -93,6 +94,13 @@ export class FaqsService {
     return this.dialog.open(FaqCategoryFormDialogComponent, {
       width: '500px',
       data: faqCategory,
+    });
+  }
+
+  openFaqFormDialog(faq: Faq): MatDialogRef<FaqFormDialogComponent, Faq> {
+    return this.dialog.open(FaqFormDialogComponent, {
+      width: '500px',
+      data: faq,
     });
   }
 

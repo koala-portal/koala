@@ -33,6 +33,8 @@ import { ServiceDeskEditComponent } from './service-desk/service-desk-edit/servi
 import { FaqListComponent } from './faqs/faq-list/faq-list.component';
 import { FaqCategoryFormDialogComponent } from './faqs/faq-category-form-dialog/faq-category-form-dialog.component';
 import { FaqCategoryFormComponent } from './faqs/faq-category-form/faq-category-form.component';
+import { FaqFormDialogComponent } from './faqs/faq-form-dialog/faq-form-dialog.component';
+import { FaqFormComponent } from './faqs/faq-form/faq-form.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +63,8 @@ import { FaqCategoryFormComponent } from './faqs/faq-category-form/faq-category-
     FaqListComponent,
     FaqCategoryFormComponent,
     FaqCategoryFormDialogComponent,
+    FaqFormDialogComponent,
+    FaqFormComponent,
   ],
   imports: [
     BrowserModule,

@@ -9,6 +9,7 @@ import { TicketDetailComponent } from './tickets/ticket-detail/ticket-detail.com
 import { TicketStartComponent } from './tickets/ticket-start/ticket-start.component';
 import { FaqsComponent } from './faqs/faqs.component';
 import { KToolsComponent } from './k-tools/k-tools.component';
+import { FaqListComponent } from './faqs/faq-list/faq-list.component';
 
 const appRoutes: Routes = [
   // { path: '', redirectTo: '', pathMatch: 'full' },
@@ -24,7 +25,21 @@ const appRoutes: Routes = [
     ],
   },
   { path: 'k-tools', component: KToolsComponent },
-  { path: 'faqs', component: FaqsComponent },
+  {
+    path: 'faqs',
+    component: FaqsComponent,
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        component: FaqListComponent,
+      },
+      {
+        path: ':id',
+        component: FaqListComponent,
+      },
+    ],
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(appRoutes)],

@@ -63,3 +63,30 @@ body {
 .fa-inverse {
   bottom: 5px;
 }
+
+// Additional Bootstrap-like utility classes
+.w-20 {
+  width: 20%;
+}
+
+.w-60 {
+  width: 60%;
+}
+
+.line-height-normal {
+  line-height: normal;
+}
+
+.absolute-right {
+  position: absolute;
+  right: 0;
+}
+
+.background-primary {
+  background-color: mat-color($koala-primary);
+  color: mat-color($koala-primary, default-contrast);
+
+  mat-card-subtitle {
+    color: mat-color($koala-primary, default-contrast);
+  }
+}

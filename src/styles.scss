@@ -36,33 +36,12 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
 @import "../node_modules/bootstrap/scss/bootstrap";
 
 .k-container {
-  background-image: url("./assets/images/koala_forest.jpg");
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  min-height: 700px;
-  background-size: cover;
-  background-position-y: -60px;
+  @extend .bg-charcoal-5;
 }
 
 .pb-10 {
   padding-bottom: 150px !important;
 }
-
-#service-desk-containter {
-  position: relative;
-
-  .d-flex {
-    padding: 0 40px;
-    position: absolute;
-    top: -85px;
-  }
-}
-
-// $body-bg: #000;
-// $body-color: #111;
-// $primary: red;
-// $brand-primary: red;
-// $success: purple;
 
 html,
 body {

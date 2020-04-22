@@ -9,4 +9,6 @@ export class AbodeComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+
+  // nothing yet
 }

@@ -52,6 +52,8 @@ $k-colors: ("mint", $mint), ("carminePink", $carminePink), ("amber", $amber),
   }
 }
 
+// Build out all background color variants:
 @include color-weight(bg-mint, $mint, 4);
 @include color-weight(bg-charcoal, $charcoal, 4);
-@include color-weight(bg-charcoal, $livid, 4);
+@include color-weight(bg-livid, $livid, 4);
+@include color-weight(bg-livid, $livid, 4);

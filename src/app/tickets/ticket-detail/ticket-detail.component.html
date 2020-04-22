@@ -1,6 +1,6 @@
 <mat-card class="k-bt-mint m-2">
   <mat-card-title
-    >Ticket: {{ ticket.name }}
+    >Ticket: {{ ticket.title }}
     <div ngbDropdown class="d-inline-block">
       <button
         mat-raised-button
@@ -24,13 +24,6 @@
   <mat-card-content>
     <div>
       {{ ticket.description }}
-    </div>
-    <div>
-      <ul class="list-group">
-        <li class="list-group-item" *ngFor="let ktool of ticket.ktools">
-          {{ ktool.name }} - {{ ktool.amount }}
-        </li>
-      </ul>
     </div>
   </mat-card-content>
 

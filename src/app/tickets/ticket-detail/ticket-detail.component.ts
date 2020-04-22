@@ -19,18 +19,18 @@ export class TicketDetailComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       this.ticketNumber = params['ticketNumber'];
       this.ticket = this.ticketService.getTicket(this.ticketNumber);
     });
   }
 
-  onAddToKTools() {
-    this.ticketService.addToKTools(this.ticket.ktools);
+  onAddToKTools(): void {
+    // this.ticketService.addToKTools(this.ticket.ktools);
   }
 
-  onEditTicket() {
+  onEditTicket(): void {
     this.router.navigate(['edit'], { relativeTo: this.route });
     // this.router.navigate(['../', this.id, 'edit'], { relativeTo: this.route });
   }

@@ -16,7 +16,6 @@ import { FaqCategoryFormDialogComponent } from '../faq-category-form-dialog/faq-
 })
 export class FaqListComponent implements OnInit, OnDestroy {
   filterFaqCategory: FaqCategory;
-  selectedFaqCategory: FaqCategory;
   selectedFaq: Faq;
 
   faqCategories: FaqCategory[];
@@ -25,6 +24,7 @@ export class FaqListComponent implements OnInit, OnDestroy {
   private faqCategoriesSub: Subscription;
 
   userIsAdmin = true; // TODO: Placeholder
+  topOnly = true;
 
   constructor(
     private faqsService: FaqsService,
@@ -35,16 +35,22 @@ export class FaqListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.faqCategories = this.faqsService.getFaqCategories();
+    // this.filterFaqCategory = this.faqCategories[0];
     this.paramsSub = this.route.params.subscribe((params) => {
       if (params.id) {
+        this.topOnly = false;
         this.selectedFaq = this.faqsService.findFaqById(params.id);
         this.filterFaqCategory = this.selectedFaq.category;
-        this.selectedFaqCategory = this.filterFaqCategory;
       }
     });
     this.faqCategoriesSub = this.faqsService.faqCategorie$.subscribe(
       (faqCategories) => {
         this.faqCategories = faqCategories;
+        if (this.filterFaqCategory) {
+          this.filterFaqCategory = this.faqCategories.find(
+            (cat) => cat.id === this.filterFaqCategory.id
+          );
+        }
       }
     );
   }
@@ -55,47 +61,53 @@ export class FaqListComponent implements OnInit, OnDestroy {
   }
 
   getFilteredCategories(): FaqCategory[] {
-    return this.filterFaqCategory
-      ? [this.filterFaqCategory]
-      : this.faqCategories;
+    if (!this.topOnly) {
+      return this.filterFaqCategory
+        ? [this.filterFaqCategory]
+        : this.faqCategories;
+    } else {
+      return [];
+    }
   }
 
   findAllFaqsByFaqCategory(faqCategory: FaqCategory): Faq[] {
-    return this.faqsService.findAllFaqsByFaqCategory(faqCategory);
+    return this.faqsService.findAllByFaqCategory(faqCategory);
   }
 
   onClickCategory(category: FaqCategory): void {
     if (!category || this.filterFaqCategory?.id === category.id) {
       this.filterFaqCategory = null;
     } else {
+      this.topOnly = false;
       this.filterFaqCategory = category;
     }
   }
 
-  onClickStarFaq(faq: Faq): void {
-    this.faqsService.starFaq(faq);
-  }
-
-  onClickDeleteFaq(faq: Faq): void {
-    this.messageService
-      .openConfirmDialog(
-        'Delete FAQ',
-        'Are you sure you want to delete this FAQ?'
-      )
-      .afterClosed()
-      .subscribe((confirm) => {
-        if (confirm) {
-          this.faqsService.delete(faq);
-        }
-      });
-  }
-
-  onClickEditFaq(faq: Faq): void {
-    this.openFaqFormDialog(faq);
+  onClickTopCategory(): void {
+    if (this.topOnly) {
+      this.topOnly = false;
+    } else {
+      this.topOnly = true;
+      this.filterFaqCategory = null;
+    }
   }
 
   onClickAddFaq(category: FaqCategory): void {
     this.openFaqFormDialog(null, category);
+  }
+
+  openFaqFormDialog(
+    faq?: Faq,
+    faqCategory?: FaqCategory
+  ): MatDialogRef<FaqFormDialogComponent, Faq> {
+    return this.dialog.open(FaqFormDialogComponent, {
+      disableClose: true,
+      width: '500px',
+      data: {
+        faq,
+        category: faqCategory,
+      },
+    });
   }
 
   onClickAddCategory(): void {
@@ -124,10 +136,6 @@ export class FaqListComponent implements OnInit, OnDestroy {
     this.selectedFaq = faq;
   }
 
-  onOpenFaqCategory(faqCategory: FaqCategory): void {
-    this.selectedFaqCategory = faqCategory;
-  }
-
   openFaqCategoryFormDialog(
     faqCategory?: FaqCategory
   ): MatDialogRef<FaqCategoryFormDialogComponent, FaqCategory> {
@@ -138,17 +146,7 @@ export class FaqListComponent implements OnInit, OnDestroy {
     });
   }
 
-  openFaqFormDialog(
-    faq?: Faq,
-    faqCategory?: FaqCategory
-  ): MatDialogRef<FaqFormDialogComponent, Faq> {
-    return this.dialog.open(FaqFormDialogComponent, {
-      disableClose: true,
-      width: '500px',
-      data: {
-        faq,
-        category: faqCategory,
-      },
-    });
+  getTopFaqs(): Faq[] {
+    return this.faqsService.findAllByStarred(true);
   }
 }

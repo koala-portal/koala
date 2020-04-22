@@ -18,7 +18,7 @@ export class FaqsService {
       title: 'One',
       description:
         'One Questions and other things related to the One. This is just going to be a very long description and you are going to have to deal with that.',
-      icon: 'fa-times',
+      icon: 'fa-address-card',
     },
   ];
 
@@ -71,8 +71,12 @@ export class FaqsService {
     return this.faqs.find((faq) => faq.id === id);
   }
 
-  findAllFaqsByFaqCategory(faqCategory: FaqCategory): Faq[] {
+  findAllByFaqCategory(faqCategory: FaqCategory): Faq[] {
     return this.faqs.filter((faq) => faq.category.id === faqCategory.id);
+  }
+
+  findAllByStarred(starred: boolean): Faq[] {
+    return this.faqs.filter((faq) => faq.starred === starred);
   }
 
   findFaqCategoryById(id: string): FaqCategory {

@@ -1,154 +1,143 @@
 <div class="d-flex row-hl">
   <!-- Category Selector -->
   <div class="p-2 w-20">
-    <div *ngFor="let faqCategory of faqCategories">
-      <button
-        mat-raised-button
-        [color]="filterFaqCategory?.id == faqCategory.id ? 'accent' : ''"
-        class="card mb-3 w-100"
-        (click)="onClickCategory(faqCategory)"
-      >
-        <div
-          class="d-flex align-items-center justify-content-between flex-row p-3"
-        >
-          <i class="fa mr-4" [ngClass]="faqCategory.icon"></i>
-          <div class="d-flex flex-column align-items-center w-100">
-            <mat-card-title>
-              {{ faqCategory.title }}
-            </mat-card-title>
-            <span class="font-weight-normal line-height-normal text-wrap">
-              {{ faqCategory.description }}
-            </span>
-          </div>
-        </div>
-      </button>
-    </div>
-    <button
-      *ngIf="userIsAdmin"
-      mat-raised-button
-      color="primary"
-      class="w-100"
-      (click)="onClickAddCategory()"
+    <mat-card
+      class="mb-3 clickable"
+      matRipple
+      (click)="onClickTopCategory()"
+      [ngClass]="topOnly ? 'background-primary' : ''"
     >
-      Add Category
-    </button>
+      <mat-card-title>
+        <i class="fa fa-star"></i>
+        Top Questions</mat-card-title
+      >
+      <mat-card-subtitle
+        >The top questions we receive across all categories</mat-card-subtitle
+      >
+      <mat-card-content></mat-card-content>
+    </mat-card>
+    <hr />
+    <div *ngFor="let faqCategory of faqCategories">
+      <mat-card
+        class="mb-3 clickable"
+        [ngClass]="
+          filterFaqCategory?.id == faqCategory.id ? 'background-primary' : ''
+        "
+        (click)="onClickCategory(faqCategory)"
+        matRipple
+      >
+        <mat-card-title>
+          {{ faqCategory.title }}
+        </mat-card-title>
+        <mat-card-subtitle>
+          {{ faqCategory.description }}
+        </mat-card-subtitle>
+        <mat-card-content></mat-card-content>
+      </mat-card>
+    </div>
   </div>
 
   <!-- Categories -->
   <div class="p-2 w-60 d-flex flex-column align-items-center">
     <!-- Title -->
-    <h2 class="text-center">
-      Frequently Asked Questions
-    </h2>
+    <div class="d-flex flex-row w-100 justify-content-around position-relative">
+      <h2 class="text-center">
+        Frequently Asked Questions
+      </h2>
+      <button
+        class="absolute-right mr-2"
+        style="position: absolute;"
+        mat-mini-fab
+        (click)="onClickAddCategory()"
+        color="primary"
+        matTooltip="Add Category"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
 
     <!-- Clear Filter Button -->
     <button
-      class="mb-2"
-      mat-button
-      color="warn"
-      (click)="onClickCategory(null)"
-      *ngIf="faqCategories.length - getFilteredCategories().length"
+      class="mb-3"
+      mat-raised-button
+      color="accent"
+      (click)="onClickTopCategory()"
+      *ngIf="!topOnly || filterFaqCategory"
     >
-      {{ faqCategories.length - getFilteredCategories().length }} Category
-      hidden
+      View Top Questions
     </button>
+    <div class="p-2" *ngIf="topOnly && !filterFaqCategory"></div>
 
-    <!-- Categories Accordian -->
-    <mat-accordion class="w-100">
-      <mat-expansion-panel
-        *ngFor="let faqCategory of getFilteredCategories(); let i = index"
-        (opened)="onOpenFaqCategory(faqCategory)"
-        [expanded]="
-          faqCategory.id === filterFaqCategory?.id ||
-          faqCategory.id === selectedFaqCategory?.id
-        "
-      >
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            {{ faqCategory.title }}
-          </mat-panel-title>
-          <mat-panel-description class="w-100">
-            {{ faqCategory.description }}
-          </mat-panel-description>
-        </mat-expansion-panel-header>
+    <!-- Categories List -->
+    <div class="w-100">
+      <!-- Top Categories -->
+      <div *ngIf="topOnly || !filterFaqCategory" class="mb-3">
+        <app-faq-accordion [faqs]="getTopFaqs()"></app-faq-accordion>
+      </div>
 
-        <!-- FAQ Accordian -->
-        <div class="mt-2">
-          <mat-accordion>
-            <mat-expansion-panel
-              *ngFor="let faq of findAllFaqsByFaqCategory(faqCategory)"
-              [expanded]="selectedFaq?.id === faq.id"
-              (opened)="onOpenFaq(faq)"
+      <!-- Filtered Categories -->
+      <div *ngIf="!topOnly">
+        <mat-card
+          class="mb-4"
+          *ngFor="let faqCategory of getFilteredCategories(); let i = index"
+        >
+          <mat-card-title>
+            <div
+              class="d-flex flex-row justify-content-between align-items-center"
             >
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  {{ faq.title }}
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-              <p class="ml-4">{{ faq.description }}</p>
+              <span class="pb-2"> {{ faqCategory.title }}</span>
 
-              <!-- FAQ Admin Toolbar -->
-              <mat-divider *ngIf="userIsAdmin" class="mb-1"></mat-divider>
-              <div
-                class="d-flex flex-row justify-content-end"
-                *ngIf="userIsAdmin"
-              >
+              <!-- Category Admin Toolbar -->
+              <div *ngIf="userIsAdmin" class="d-flex flex-row">
+                <button
+                  *ngIf="userIsAdmin"
+                  mat-icon-button
+                  class="mr-2"
+                  matTooltip="Add FAQ"
+                  (click)="onClickAddFaq(faqCategory)"
+                >
+                  <mat-icon>
+                    add
+                  </mat-icon>
+                </button>
                 <button
                   mat-icon-button
                   color="primary"
-                  (click)="onClickStarFaq(faq)"
+                  class="mr-2"
+                  matTooltip="Edit Category"
+                  (click)="onClickEditCategory(faqCategory)"
                 >
                   <mat-icon>
-                    {{ faq.starred ? "star" : "star_border" }}
+                    edit
                   </mat-icon>
-                </button>
-                <button mat-icon-button (click)="onClickEditFaq(faq)">
-                  <mat-icon>edit</mat-icon>
                 </button>
                 <button
                   mat-icon-button
                   color="warn"
-                  (click)="onClickDeleteFaq(faq)"
+                  matTooltip="Delete Category"
+                  [disabled]="!!findAllFaqsByFaqCategory(faqCategory).length"
+                  (click)="onClickDeleteCategory(faqCategory)"
                 >
-                  <mat-icon>delete</mat-icon>
+                  <mat-icon>
+                    delete
+                  </mat-icon>
                 </button>
               </div>
-            </mat-expansion-panel>
-          </mat-accordion>
-        </div>
+            </div>
+          </mat-card-title>
+          <mat-card-subtitle class="flex-fill">
+            {{ faqCategory.description }}
+          </mat-card-subtitle>
 
-        <!-- Category Admin Toolbar -->
-        <div
-          class="d-flex flex-row justify-content-end mt-3"
-          *ngIf="userIsAdmin"
-        >
-          <button
-            *ngIf="userIsAdmin"
-            mat-raised-button
-            color="primary"
-            class="mr-2 w-100"
-            (click)="onClickAddFaq(faqCategory)"
-          >
-            Add FAQ
-          </button>
-          <button
-            mat-raised-button
-            class="mr-2 w-100"
-            (click)="onClickEditCategory(faqCategory)"
-          >
-            Edit Category
-          </button>
-          <button
-            mat-raised-button
-            color="warn"
-            class="w-100"
-            [disabled]="!!findAllFaqsByFaqCategory(faqCategory).length"
-            (click)="onClickDeleteCategory(faqCategory)"
-          >
-            Delete Category
-          </button>
-        </div>
-      </mat-expansion-panel>
-    </mat-accordion>
+          <!-- FAQ Accordian -->
+          <div class="mt-2">
+            <app-faq-accordion
+              [selectedFaq]="selectedFaq"
+              [faqs]="findAllFaqsByFaqCategory(faqCategory)"
+            ></app-faq-accordion>
+          </div>
+        </mat-card>
+      </div>
+    </div>
   </div>
 </div>

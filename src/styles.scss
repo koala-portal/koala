@@ -97,3 +97,17 @@ body {
 .line-height-normal {
   line-height: normal;
 }
+
+.absolute-right {
+  position: absolute;
+  right: 0;
+}
+
+.background-primary {
+  background-color: mat-color($koala-primary);
+  color: mat-color($koala-primary, default-contrast);
+
+  mat-card-subtitle {
+    color: mat-color($koala-primary, default-contrast);
+  }
+}

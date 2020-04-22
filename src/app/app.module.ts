@@ -33,6 +33,7 @@ import { FaqCategoryFormDialogComponent } from './faqs/faq-category-form-dialog/
 import { FaqCategoryFormComponent } from './faqs/faq-category-form/faq-category-form.component';
 import { FaqFormDialogComponent } from './faqs/faq-form-dialog/faq-form-dialog.component';
 import { FaqFormComponent } from './faqs/faq-form/faq-form.component';
+import { FaqAccordionComponent } from './faqs/faq-accordion/faq-accordion.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { FaqFormComponent } from './faqs/faq-form/faq-form.component';
     FaqCategoryFormDialogComponent,
     FaqFormDialogComponent,
     FaqFormComponent,
+    FaqAccordionComponent,
   ],
   imports: [
     BrowserModule,

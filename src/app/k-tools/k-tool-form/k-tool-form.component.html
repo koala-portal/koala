@@ -3,7 +3,7 @@
   novalidate
   [formGroup]="kToolForm"
   (ngSubmit)="onSubmit(kToolForm)"
-  class="d-flex flex-column"
+  fxLayout="column"
 >
   <mat-form-field>
     <mat-label>Name</mat-label>
@@ -26,7 +26,7 @@
   </mat-form-field>
 
   <!-- Toolbar -->
-  <div class="d-flex flex-row justify-content-between">
+  <div fxLayoutAlign="space-between">
     <button mat-raised-button (click)="onClickCancel()" type="button">
       Cancel
     </button>

@@ -1,6 +1,6 @@
 <mat-card style="width: 320px;">
   <mat-card-title>
-    <div class="d-flex flex-row align-items-center justify-content-between">
+    <div fxLayout="row" fxLayoutAlign="space-between">
       <span>{{ kTool.name }}</span>
       <mat-icon [ngClass]="kTool.starred ? '' : 'invisible'">
         star
@@ -16,60 +16,70 @@
   </mat-card-content>
   <mat-divider></mat-divider>
   <mat-card-content>
-    <div class="d-flex flex-column">
-      <a
-        mat-button
-        class="mt-2 text-reset text-decoration-none p-2"
-        [routerLink]="['/guides', kTool.id]"
-      >
-        <div class="d-flex flex-row align-items-center">
-          <mat-icon class="mr-3 line-height-normal" color="disabled">
-            menu_book
-          </mat-icon>
-          <div class="d-flex flex-column align-items-start line-height-normal">
-            <span>Guide</span>
-            <small class="text-muted">{{ kTool.name }}'s User Guide</small>
-          </div>
+    <a
+      mat-button
+      class="mt-2 text-reset text-decoration-none p-2 w-100"
+      [routerLink]="['/guides', kTool.id]"
+    >
+      <div fxLayout="row">
+        <mat-icon class="mr-3 line-height-normal" color="disabled">
+          menu_book
+        </mat-icon>
+        <div
+          class="line-height-normal"
+          fxLayout="column"
+          fxLayoutAlign="center start"
+        >
+          <span>Guide</span>
+          <small class="text-muted">{{ kTool.name }}'s User Guide</small>
         </div>
-      </a>
-      <a
-        mat-button
-        class="mt-2 text-reset text-decoration-none p-2"
-        [routerLink]="['faqs', kTool.id]"
-      >
-        <div class="d-flex flex-row align-items-center">
-          <mat-icon class="mr-3 line-height-normal" color="disabled">
-            help_outline
-          </mat-icon>
-          <div class="d-flex flex-column align-items-start line-height-normal">
-            <span>FAQ</span>
-            <small class="text-muted"
-              >{{ kTool.name }}'s Frequently Asked Questions</small
-            >
-          </div>
+      </div>
+    </a>
+    <a
+      mat-button
+      class="mt-2 text-reset text-decoration-none p-2 w-100"
+      [routerLink]="['faqs', kTool.id]"
+    >
+      <div fxLayout="row">
+        <mat-icon class="mr-3 line-height-normal" color="disabled">
+          help_outline
+        </mat-icon>
+        <div
+          class="line-height-normal"
+          fxLayout="column"
+          fxLayoutAlign="center start"
+        >
+          <span>FAQ</span>
+          <small class="text-muted"
+            >{{ kTool.name }}'s Frequently Asked Questions</small
+          >
         </div>
-      </a>
-      <a
-        mat-button
-        class="mt-2 text-reset text-decoration-none p-2"
-        target="_blank"
-        [href]="'http://' + kTool.url"
-      >
-        <div class="d-flex flex-row align-items-center">
-          <mat-icon class="mr-3 line-height-normal" color="disabled">
-            language
-          </mat-icon>
-          <div class="d-flex flex-column align-items-start line-height-normal">
-            <span>{{ kTool.url }}</span>
-            <small class="text-muted">{{ kTool.name }}</small>
-          </div>
+      </div>
+    </a>
+    <a
+      mat-button
+      class="mt-2 text-reset text-decoration-none p-2 w-100"
+      target="_blank"
+      [href]="'http://' + kTool.url"
+    >
+      <div fxLayout="row">
+        <mat-icon class="mr-3 line-height-normal" color="disabled">
+          language
+        </mat-icon>
+        <div
+          class="line-height-normal"
+          fxLayout="column"
+          fxLayoutAlign="center start"
+        >
+          <span>{{ kTool.url }}</span>
+          <small class="text-muted">{{ kTool.name }}</small>
         </div>
-      </a>
-    </div>
+      </div>
+    </a>
   </mat-card-content>
   <mat-card-footer *ngIf="userIsAdmin">
     <mat-divider></mat-divider>
-    <div class="d-flex flex-row justify-content-end p-1">
+    <div class="p-1" fxLayoutAlign="end">
       <button
         mat-icon-button
         color="accent"

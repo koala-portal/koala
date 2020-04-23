@@ -35,6 +35,8 @@ import { FaqCategoryFormComponent } from './faqs/faq-category-form/faq-category-
 import { FaqFormDialogComponent } from './faqs/faq-form-dialog/faq-form-dialog.component';
 import { FaqFormComponent } from './faqs/faq-form/faq-form.component';
 import { FaqAccordionComponent } from './faqs/faq-accordion/faq-accordion.component';
+import { KToolCardComponent } from './k-tools/k-tool-card/k-tool-card.component';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -64,6 +66,7 @@ import { FaqAccordionComponent } from './faqs/faq-accordion/faq-accordion.compon
     FaqFormDialogComponent,
     FaqFormComponent,
     FaqAccordionComponent,
+    KToolCardComponent,
   ],
   imports: [
     BrowserModule,
@@ -75,6 +78,7 @@ import { FaqAccordionComponent } from './faqs/faq-accordion/faq-accordion.compon
     BrowserAnimationsModule,
     MaterialModule,
     FlexLayoutModule,
+    SharedModule,
   ],
   providers: [KToolsService],
   bootstrap: [AppComponent],

@@ -8,15 +8,10 @@ import { KTool } from '../../shared/k-tool.model';
   templateUrl: './k-tool-edit.component.html',
   styleUrls: ['./k-tool-edit.component.scss'],
 })
-export class KToolEditComponent implements OnInit {
-  constructor(private ktService: KToolsService) {}
-
-  ngOnInit(): void {}
+export class KToolEditComponent {
+  constructor(private kToolsService: KToolsService) {}
 
   onAddItem(form: NgForm) {
-    const value = form.value;
-    const newTool = new KTool(value.name, value.amount);
-
-    this.ktService.addkTool(newTool);
+    this.kToolsService.addkTool(form.value);
   }
 }

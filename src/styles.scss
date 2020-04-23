@@ -82,6 +82,12 @@ body {
   right: 0;
 }
 
+.absolute-top-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
 .background-primary {
   background-color: mat-color($koala-primary);
   color: mat-color($koala-primary, default-contrast);

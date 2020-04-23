@@ -1,59 +1,30 @@
 <mat-card>
-  <mat-card-title>tesa fdasf {{ data.title }}</mat-card-title>
+  <mat-card-title>{{ data ? "Edit" : "Create" }} Ticket</mat-card-title>
   <mat-divider></mat-divider>
   <mat-card-content>
-    <form>
+    <form [formGroup]="ticketForm" novalidate (ngSubmit)="onSubmit(ticketForm)">
       <div>
         <mat-form-field appearance="outline">
           <mat-label>Title</mat-label>
-          <input
-            matInput
-            name="title"
-            #username="ngModel"
-            type="text"
-            placeholder="Title"
-            [(ngModel)]="data.title"
-          />
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Id</mat-label>
-          <input
-            matInput
-            name="id"
-            #username="ngModel"
-            type="text"
-            placeholder="Id"
-            [(ngModel)]="data.id"
-          />
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Ticket Number</mat-label>
-          <input
-            matInput
-            name="ticketNumber"
-            #username="ngModel"
-            type="text"
-            placeholder="Ticket Number"
-            [(ngModel)]="data.ticketNumber"
-          />
+          <input type="text" matInput required formControlName="title" />
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>Description</mat-label>
-          <input
-            matInput
-            name="description"
-            #username="ngModel"
+          <textarea
             type="text"
-            placeholder="Title"
-            [(ngModel)]="data.description"
-          />
+            matInput
+            required
+            formControlName="description"
+          ></textarea>
         </mat-form-field>
       </div>
     </form>
   </mat-card-content>
+
+  <mat-divider></mat-divider>
   <mat-card-footer>
     <div fxLayout="row" fxLayoutAlign="end center">
-      <button mat-raised-button (click)="closeDialog()">Close</button>
+      <button mat-raised-button (click)="onCancel()">Close</button>
     </div>
   </mat-card-footer>
 </mat-card>

@@ -36,6 +36,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
   imports: [
@@ -111,7 +112,7 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
     MatNativeDateModule,
   ],
   providers: [],
-  declarations: [ConfirmDialogComponent],
+  declarations: [ConfirmDialogComponent, ModalComponent],
 })
 export class MaterialModule {
   constructor(public matIconRegistry: MatIconRegistry) {

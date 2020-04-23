@@ -1,17 +1,19 @@
-import { TicketFormComponent } from '../ticket-form/ticket-form.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Ticket } from '../ticket.model';
-import { TicketService } from '../ticket.service';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import {
   MatDialogConfig,
   MatDialogRef,
   MatDialog,
 } from '@angular/material/dialog';
+
+import { Ticket } from '../ticket.model';
+import { TicketService } from '../ticket.service';
 import { TicketDetailComponent } from '../ticket-detail/ticket-detail.component';
-import { MatSort } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
+import { TicketFormComponent } from '../ticket-form/ticket-form.component';
+//import { ModalComponent } from '../../shared/modal/modal.component';
 
 @Component({
   selector: 'app-ticket-list',
@@ -57,8 +59,8 @@ export class TicketListComponent implements OnInit {
     });
   }
 
-  openForm(data?: Ticket): MatDialogRef<TicketDetailComponent, Ticket> {
-    return this.dialog.open(TicketDetailComponent, {
+  openForm(data?: Ticket): MatDialogRef<TicketFormComponent, Ticket> {
+    return this.dialog.open(TicketFormComponent, {
       disableClose: true,
       width: '800px',
       minHeight: '500px',
@@ -66,6 +68,19 @@ export class TicketListComponent implements OnInit {
       panelClass: 'form-dialog',
     });
   }
+
+  // TODO: Reconfig to use shared modal component
+
+  // openModal(data?: Ticket): void {
+  //   const dialogConfig = new MatDialogConfig();
+  //   dialogConfig.disableClose = true;
+  //   dialogConfig.id = 'modal-component';
+  //   dialogConfig.height = '350px';
+  //   dialogConfig.width = '600px';
+  //   dialogConfig.data = data;
+  //   dialogConfig.panelClass = 'form-dialog';
+  //   const modalDialog = this.dialog.open(ModalComponent, dialogConfig);
+  // }
 
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;

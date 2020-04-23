@@ -1,5 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { KTool } from 'src/app/shared/k-tool.model';
+import { MessageService } from 'src/app/shared/message.service';
+import { KToolsService } from '../k-tools.service';
+import { MatDialogRef, MatDialog } from '@angular/material/dialog';
+import { KToolFormDialogComponent } from '../k-tool-form-dialog/k-tool-form-dialog.component';
 
 @Component({
   selector: 'app-k-tool-card',
@@ -9,19 +13,40 @@ import { KTool } from 'src/app/shared/k-tool.model';
 export class KToolCardComponent implements OnInit {
   @Input() kTool: KTool;
 
-  constructor() {}
+  userIsAdmin = true; // TODO: Placeholder
+
+  constructor(
+    private messageService: MessageService,
+    private kToolsService: KToolsService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {}
 
-  onClickStarTool(): void {
-    alert('TODO: onClickStarTool');
+  onClickStarTool(kTool: KTool): void {
+    this.kToolsService.star(kTool);
   }
 
-  onClickEditTool(): void {
-    alert('TODO: onClickEditTool');
+  onClickEditTool(kTool: KTool): void {
+    this.openKToolFormDialog(kTool);
   }
 
-  onClickDeleteTool(): void {
-    alert('TODO: onClickDeleteTool');
+  onClickDeleteTool(kTool: KTool): void {
+    this.messageService
+      .openConfirmDialog(
+        'Delete Tool',
+        `Are you sure you want to delete ${kTool.name}?`
+      )
+      .subscribe((confirm) => confirm && this.kToolsService.delete(kTool));
+  }
+
+  openKToolFormDialog(
+    kTool?: KTool
+  ): MatDialogRef<KToolFormDialogComponent, KTool> {
+    return this.dialog.open(KToolFormDialogComponent, {
+      disableClose: true,
+      width: '500px',
+      data: kTool,
+    });
   }
 }

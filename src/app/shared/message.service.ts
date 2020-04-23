@@ -1,24 +1,23 @@
 import { Injectable } from '@angular/core';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import ConfirmDialogData from './confirm-dialog/confirm-dialog-data.model';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class MessageService {
   constructor(private dialog: MatDialog, private snackBar: MatSnackBar) {}
 
-  openConfirmDialog(
-    title: string,
-    message: string
-  ): MatDialogRef<ConfirmDialogComponent, ConfirmDialogData> {
-    return this.dialog.open(ConfirmDialogComponent, {
-      width: '300px',
-      data: {
-        title,
-        message,
-      },
-    });
+  openConfirmDialog(title: string, message: string): Observable<boolean> {
+    return this.dialog
+      .open(ConfirmDialogComponent, {
+        width: '300px',
+        data: {
+          title,
+          message,
+        },
+      })
+      .afterClosed();
   }
 
   showError(message) {

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { KToolsService } from './k-tools.service';
 import { KTool } from '../shared/k-tool.model';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { KToolFormDialogComponent } from './k-tool-form-dialog/k-tool-form-dialog.component';
 @Component({
   selector: 'app-k-tools',
   templateUrl: './k-tools.component.html',
@@ -9,6 +11,8 @@ import { KTool } from '../shared/k-tool.model';
 })
 export class KToolsComponent implements OnInit {
   kTools: KTool[];
+
+  userIsAdmin = true; // TODO: Placeholder
 
   // Pagination
   pageSizeOptions = [12, 24, 48, 96];
@@ -22,11 +26,14 @@ export class KToolsComponent implements OnInit {
 
   private kToolsSub: Subscription;
 
-  constructor(private kToolsService: KToolsService) {}
+  constructor(
+    private kToolsService: KToolsService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
-    this.kTools = this.kToolsService.getkTools();
-    this.kToolsSub = this.kToolsService.kToolsChanged.subscribe((kTools) => {
+    this.kTools = this.kToolsService.getKTools();
+    this.kToolsSub = this.kToolsService.kTool$.subscribe((kTools) => {
       this.kTools = kTools;
     });
   }
@@ -57,6 +64,16 @@ export class KToolsComponent implements OnInit {
   }
 
   onClickAddTool(): void {
-    alert('TODO: onClickAddTools');
+    this.openKToolFormDialog();
+  }
+
+  openKToolFormDialog(
+    kTool?: KTool
+  ): MatDialogRef<KToolFormDialogComponent, KTool> {
+    return this.dialog.open(KToolFormDialogComponent, {
+      disableClose: true,
+      width: '500px',
+      data: kTool,
+    });
   }
 }

@@ -124,7 +124,6 @@ export class FaqListComponent implements OnInit, OnDestroy {
         'Delete Category',
         'Are you sure you want to delete this Category?'
       )
-      .afterClosed()
       .subscribe((confirm) => {
         if (confirm) {
           this.faqsService.deleteFaqCategory(category);

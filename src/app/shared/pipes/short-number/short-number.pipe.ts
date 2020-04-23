@@ -2,7 +2,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 /**
  * Taken from a medium article at the following url:
- *
  * https://medium.com/@thunderroid/angular-short-number-suffix-pipe-1k-2m-3b-dded4af82fb4
  */
 @Pipe({
@@ -12,7 +11,7 @@ export class ShortNumberPipe implements PipeTransform {
   transform(number: number, args?: any): any {
     if (isNaN(number)) return null; // will only work value is a number
     if (number === null) return null;
-    if (number === 0) return null;
+    if (number === 0) return '0';
     let abs = Math.abs(number);
     const rounder = Math.pow(10, 1);
     const isNegative = number < 0; // will also work for Negetive numbers

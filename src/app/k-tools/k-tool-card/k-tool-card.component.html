@@ -22,14 +22,14 @@
       >
     </div>
   </mat-card-content>
-  <mat-card-footer>
+  <mat-card-footer *ngIf="userIsAdmin">
     <mat-divider></mat-divider>
     <div class="d-flex flex-row justify-content-end p-1">
       <button
         mat-icon-button
         color="accent"
         matTooltip="Star Tool"
-        (click)="onClickStarTool()"
+        (click)="onClickStarTool(kTool)"
       >
         <mat-icon>
           {{ kTool.starred ? "star" : "star_border" }}
@@ -39,7 +39,7 @@
         mat-icon-button
         color="primary"
         matTooltip="Edit Tool"
-        (click)="onClickEditTool()"
+        (click)="onClickEditTool(kTool)"
       >
         <mat-icon>
           edit
@@ -49,7 +49,7 @@
         mat-icon-button
         color="warn"
         matTooltip="Delete Tool"
-        (click)="onClickDeleteTool()"
+        (click)="onClickDeleteTool(kTool)"
       >
         <mat-icon>
           delete

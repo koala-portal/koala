@@ -1,32 +1,68 @@
-<mat-card class="k-bt-mint m-2">
-  <mat-card-title
-    >Ticket: {{ ticket.title }}
-    <div ngbDropdown class="d-inline-block">
-      <button
-        mat-raised-button
-        color="primary"
-        class="btn btn-outline-primary"
-        id="dropdownBasic1"
-        ngbDropdownToggle
-      >
-        manage
-      </button>
-      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-        <button ngbDropdownItem (click)="onAddToKTools()">
-          Add to ticket list!
-        </button>
-        <button ngbDropdownItem (click)="onEditTicket()">Edit</button>
-        <button ngbDropdownItem>Delete</button>
-      </div>
-    </div></mat-card-title
-  >
+<mat-card>
+  <mat-card-title>{{ data.title }}</mat-card-title>
   <mat-divider></mat-divider>
   <mat-card-content>
-    <div>
-      {{ ticket.description }}
-    </div>
+    <form>
+      <div>
+        <mat-form-field appearance="outline">
+          <mat-label>Title</mat-label>
+          <input
+            matInput
+            name="title"
+            #username="ngModel"
+            type="text"
+            placeholder="Title"
+            [disabled]="true"
+            [(ngModel)]="data.title"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Id</mat-label>
+          <input
+            matInput
+            name="id"
+            #username="ngModel"
+            type="text"
+            placeholder="Id"
+            [disabled]="true"
+            [(ngModel)]="data.id"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Ticket Number</mat-label>
+          <input
+            matInput
+            name="ticketNumber"
+            #username="ngModel"
+            type="text"
+            placeholder="Ticket Number"
+            [disabled]="true"
+            [(ngModel)]="data.ticketNumber"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Description</mat-label>
+          <input
+            matInput
+            name="description"
+            #username="ngModel"
+            type="text"
+            placeholder="Title"
+            [disabled]="true"
+            [(ngModel)]="data.description"
+          />
+        </mat-form-field>
+      </div>
+    </form>
   </mat-card-content>
 
   <mat-divider></mat-divider>
-  <mat-card-footer> </mat-card-footer>
+  <mat-card-footer>
+    <div fxLayout="row" fxLayoutAlign="end center">
+      <button mat-raised-button (click)="closeDialog()">Close</button>
+      <button mat-raised-button color="primary" (click)="editTicket()">
+        Edit
+      </button>
+    </div>
+  </mat-card-footer>
 </mat-card>

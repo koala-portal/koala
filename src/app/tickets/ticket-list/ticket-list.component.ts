@@ -47,19 +47,20 @@ export class TicketListComponent implements OnInit {
     this.router.navigate([element.ticketNumber], { relativeTo: this.route });
   }
 
-  openDetailDialog(): void {
-    const dialogConfig = new MatDialogConfig();
-    this.dialog.open(TicketDetailComponent, dialogConfig);
-
-    // dialogRef.afterClosed().subscribe((result) => {
-    //   this.ticket = result;
-    // });
-  }
-
-  openDialog(data): MatDialogRef<TicketDetailComponent, Ticket> {
+  openDetails(data?: Ticket): MatDialogRef<TicketDetailComponent, Ticket> {
     return this.dialog.open(TicketDetailComponent, {
       disableClose: true,
-      width: '500px',
+      width: '800px',
+      minHeight: '500px',
+      data: data,
+    });
+  }
+
+  openForm(data?: Ticket): MatDialogRef<TicketDetailComponent, Ticket> {
+    return this.dialog.open(TicketDetailComponent, {
+      disableClose: true,
+      width: '800px',
+      minHeight: '500px',
       data: data,
     });
   }

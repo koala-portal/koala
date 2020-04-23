@@ -28,7 +28,7 @@ $primary: $mint;
 $secondary: $livid;
 
 $k-colors: ("mint", $mint), ("carminePink", $carminePink), ("amber", $amber),
-  ("charcoal", $charcoal), ("livid", $livid);
+  ("charcoal", $charcoal), ("livid", $livid), ("greyBlue", $greyBlue);
 
 // Make lighter or darker version of the core colors
 @mixin color-weight($class, $base-color, $weight) {
@@ -56,4 +56,5 @@ $k-colors: ("mint", $mint), ("carminePink", $carminePink), ("amber", $amber),
 @include color-weight(bg-mint, $mint, 4);
 @include color-weight(bg-charcoal, $charcoal, 4);
 @include color-weight(bg-livid, $livid, 4);
-@include color-weight(bg-livid, $livid, 4);
+@include color-weight(bg-carminePink, $carminePink, 4);
+@include color-weight(bg-greyBlue, $greyBlue, 4);

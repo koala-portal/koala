@@ -1,37 +1,51 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Component, Inject, EventEmitter, Output } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+  MatDialog,
+} from '@angular/material/dialog';
 import { Ticket } from '../ticket.model';
 import { TicketService } from '../ticket.service';
+import { MessageService } from 'src/app/shared/message.service';
+import { TicketEditComponent } from '../ticket-edit/ticket-edit.component';
 
 @Component({
   selector: 'app-ticket-detail',
   templateUrl: './ticket-detail.component.html',
   styleUrls: ['./ticket-detail.component.scss'],
 })
-export class TicketDetailComponent implements OnInit {
+export class TicketDetailComponent {
   ticket: Ticket;
   id: number;
   ticketNumber: string;
+  @Output() cancel: EventEmitter<void> = new EventEmitter();
 
   constructor(
     private ticketService: TicketService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private messageService: MessageService,
+    public dialog: MatDialog,
+    public dialogRef: MatDialogRef<TicketDetailComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: Ticket
   ) {}
 
-  ngOnInit(): void {
-    this.route.params.subscribe((params: Params) => {
-      this.ticketNumber = params['ticketNumber'];
-      this.ticket = this.ticketService.getTicket(this.ticketNumber);
+  editTicket(): void {
+    this.dialogRef.close(true);
+    this.openDialog();
+  }
+
+  openDialog(data?: Ticket): MatDialogRef<TicketEditComponent, Ticket> {
+    return this.dialog.open(TicketEditComponent, {
+      disableClose: true,
+      width: '800px',
+      minHeight: '500px',
+      data: data,
     });
   }
 
-  onAddToKTools(): void {
-    // this.ticketService.addToKTools(this.ticket.ktools);
-  }
-
-  onEditTicket(): void {
-    this.router.navigate(['edit'], { relativeTo: this.route });
-    // this.router.navigate(['../', this.id, 'edit'], { relativeTo: this.route });
+  closeDialog(): void {
+    this.dialogRef.close(true);
   }
 }

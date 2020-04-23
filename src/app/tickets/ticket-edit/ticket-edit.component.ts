@@ -1,5 +1,5 @@
 import { MatDialogModule } from '@angular/material/dialog';
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Ticket } from '../ticket.model';
@@ -9,20 +9,17 @@ import { Ticket } from '../ticket.model';
   templateUrl: './ticket-edit.component.html',
   styleUrls: ['./ticket-edit.component.scss'],
 })
-export class TicketEditComponent implements OnInit {
+export class TicketEditComponent {
   id: number;
   editMode = false; // assume its a new ticket
   constructor(
     private route: ActivatedRoute,
     public dialogRef: MatDialogRef<TicketEditComponent>,
-    @Inject(MAT_DIALOG_DATA) data
+    @Inject(MAT_DIALOG_DATA) public data: Ticket
   ) {}
 
-  ngOnInit(): void {
-    this.route.params.subscribe((params: Params) => {
-      this.id = +params['id'];
-      this.editMode = params['id'] != null;
-    });
+  closeDialog(): void {
+    this.dialogRef.close(true);
   }
 
   // onSubmit(ticket: Ticket): void {

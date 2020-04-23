@@ -1,3 +1,4 @@
+import { TicketListComponent } from './tickets/ticket-list/ticket-list.component';
 import { AbodeComponent } from './abode/abode.component';
 import { TicketEditComponent } from './tickets/ticket-edit/ticket-edit.component';
 import { NgModule } from '@angular/core';
@@ -18,7 +19,7 @@ const appRoutes: Routes = [
     path: 'tickets',
     component: TicketsComponent,
     children: [
-      { path: '', component: TicketStartComponent },
+      { path: '', component: TicketListComponent },
       { path: 'new', component: TicketEditComponent },
       { path: ':id', component: TicketDetailComponent },
       { path: ':id/edit', component: TicketEditComponent },

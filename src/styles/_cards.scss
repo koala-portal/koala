@@ -20,11 +20,15 @@
     flex-direction: column;
   }
 
-  .fa {
+  .mat-card-content .fa {
     font-size: 1.5em;
   }
 }
 
 .card-form {
   opacity: 0.8;
+}
+
+mat-card-content {
+  padding-top: 10px;
 }

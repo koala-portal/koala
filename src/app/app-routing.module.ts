@@ -1,6 +1,6 @@
 import { TicketListComponent } from './tickets/ticket-list/ticket-list.component';
 import { AbodeComponent } from './abode/abode.component';
-import { TicketEditComponent } from './tickets/ticket-edit/ticket-edit.component';
+import { TicketFormComponent } from './tickets/ticket-form/ticket-form.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -19,9 +19,9 @@ const appRoutes: Routes = [
     component: TicketsComponent,
     children: [
       { path: '', component: TicketListComponent },
-      { path: 'new', component: TicketEditComponent },
+      { path: 'new', component: TicketFormComponent },
       { path: ':id', component: TicketDetailComponent },
-      { path: ':id/edit', component: TicketEditComponent },
+      { path: ':id/edit', component: TicketFormComponent },
     ],
   },
   { path: 'k-tools', component: KToolsComponent },

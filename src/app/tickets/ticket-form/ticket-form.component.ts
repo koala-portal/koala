@@ -5,16 +5,16 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Ticket } from '../ticket.model';
 
 @Component({
-  selector: 'app-ticket-edit',
-  templateUrl: './ticket-edit.component.html',
-  styleUrls: ['./ticket-edit.component.scss'],
+  selector: 'app-ticket-form',
+  templateUrl: './ticket-form.component.html',
+  styleUrls: ['./ticket-form.component.scss'],
 })
-export class TicketEditComponent {
+export class TicketFormComponent {
   id: number;
   editMode = false; // assume its a new ticket
   constructor(
     private route: ActivatedRoute,
-    public dialogRef: MatDialogRef<TicketEditComponent>,
+    public dialogRef: MatDialogRef<TicketFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Ticket
   ) {}
 

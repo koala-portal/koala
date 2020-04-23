@@ -8,7 +8,7 @@ import {
 import { Ticket } from '../ticket.model';
 import { TicketService } from '../ticket.service';
 import { MessageService } from 'src/app/shared/message.service';
-import { TicketEditComponent } from '../ticket-edit/ticket-edit.component';
+import { TicketFormComponent } from '../ticket-form/ticket-form.component';
 
 @Component({
   selector: 'app-ticket-detail',
@@ -36,12 +36,13 @@ export class TicketDetailComponent {
     this.openDialog();
   }
 
-  openDialog(data?: Ticket): MatDialogRef<TicketEditComponent, Ticket> {
-    return this.dialog.open(TicketEditComponent, {
+  openDialog(data?: Ticket): MatDialogRef<TicketFormComponent, Ticket> {
+    return this.dialog.open(TicketFormComponent, {
       disableClose: true,
       width: '800px',
       minHeight: '500px',
       data: data,
+      panelClass: 'form-dialog',
     });
   }
 

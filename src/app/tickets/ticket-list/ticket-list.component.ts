@@ -1,4 +1,4 @@
-import { TicketEditComponent } from './../ticket-edit/ticket-edit.component';
+import { TicketFormComponent } from '../ticket-form/ticket-form.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Ticket } from '../ticket.model';
@@ -53,6 +53,7 @@ export class TicketListComponent implements OnInit {
       width: '800px',
       minHeight: '500px',
       data: data,
+      panelClass: 'form-dialog',
     });
   }
 
@@ -62,6 +63,7 @@ export class TicketListComponent implements OnInit {
       width: '800px',
       minHeight: '500px',
       data: data,
+      panelClass: 'form-dialog',
     });
   }
 

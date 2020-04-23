@@ -25,8 +25,7 @@ import { ServiceDeskComponent } from './service-desk/service-desk.component';
 import { UserGuideComponent } from './user-guide/user-guide.component';
 import { KoalaSearchComponent } from './koala-search/koala-search.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TicketStartComponent } from './tickets/ticket-start/ticket-start.component';
-import { TicketEditComponent } from './tickets/ticket-edit/ticket-edit.component';
+import { TicketFormComponent } from './tickets/ticket-form/ticket-form.component';
 import { AbodeComponent } from './abode/abode.component';
 import { ServiceDeskListComponent } from './service-desk/service-desk-list/service-desk-list.component';
 import { ServiceDeskEditComponent } from './service-desk/service-desk-edit/service-desk-edit.component';
@@ -54,8 +53,7 @@ import { FaqAccordionComponent } from './faqs/faq-accordion/faq-accordion.compon
     ServiceDeskComponent,
     UserGuideComponent,
     KoalaSearchComponent,
-    TicketStartComponent,
-    TicketEditComponent,
+    TicketFormComponent,
     AbodeComponent,
     ServiceDeskListComponent,
     ServiceDeskEditComponent,

@@ -13,7 +13,7 @@ export class HeaderComponent {
   tickets: Ticket[];
   constructor(private ticketService: TicketService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.tickets = this.ticketService.getTickets();
   }
 }

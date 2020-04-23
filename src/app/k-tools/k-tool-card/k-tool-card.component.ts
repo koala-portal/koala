@@ -10,7 +10,7 @@ import { KToolFormDialogComponent } from '../k-tool-form-dialog/k-tool-form-dial
   templateUrl: './k-tool-card.component.html',
   styleUrls: ['./k-tool-card.component.scss'],
 })
-export class KToolCardComponent implements OnInit {
+export class KToolCardComponent {
   @Input() kTool: KTool;
 
   userIsAdmin = true; // TODO: Placeholder
@@ -21,10 +21,10 @@ export class KToolCardComponent implements OnInit {
     private dialog: MatDialog
   ) {}
 
-  ngOnInit(): void {}
-
   onClickStarTool(kTool: KTool): void {
-    this.kToolsService.star(kTool);
+    this.kToolsService.star(kTool).subscribe(() => {
+      this.messageService.showMessage('Tool starred');
+    });
   }
 
   onClickEditTool(kTool: KTool): void {

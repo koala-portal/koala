@@ -7,7 +7,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { TicketsComponent } from './tickets/tickets.component';
 
 import { TicketDetailComponent } from './tickets/ticket-detail/ticket-detail.component';
-import { TicketStartComponent } from './tickets/ticket-start/ticket-start.component';
 import { FaqsComponent } from './faqs/faqs.component';
 import { KToolsComponent } from './k-tools/k-tools.component';
 import { FaqListComponent } from './faqs/faq-list/faq-list.component';

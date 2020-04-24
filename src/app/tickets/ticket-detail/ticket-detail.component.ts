@@ -5,6 +5,7 @@ import {
   MatDialogRef,
   MatDialog,
 } from '@angular/material/dialog';
+
 import { Ticket } from '../ticket.model';
 import { TicketService } from '../ticket.service';
 import { MessageService } from 'src/app/shared/message.service';
@@ -19,6 +20,7 @@ export class TicketDetailComponent {
   ticket: Ticket;
   id: number;
   ticketNumber: string;
+
   @Output() cancel: EventEmitter<void> = new EventEmitter();
 
   constructor(

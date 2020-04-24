@@ -1,6 +1,5 @@
 import { Component, Inject, EventEmitter, Output, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import {
   MAT_DIALOG_DATA,
   MatDialogRef,
@@ -17,12 +16,6 @@ import { MessageService } from 'src/app/shared/message.service';
   styleUrls: ['./ticket-form.component.scss'],
 })
 export class TicketFormComponent implements OnInit {
-  // ticket: Ticket;
-  // id: number;
-  // ticketNumber: string;
-
-  // @Input() data: Ticket;
-
   @Output() cancel: EventEmitter<void> = new EventEmitter();
   @Output() submit: EventEmitter<Ticket> = new EventEmitter();
 
@@ -36,8 +29,6 @@ export class TicketFormComponent implements OnInit {
 
   constructor(
     private ticketService: TicketService,
-    private route: ActivatedRoute,
-    private router: Router,
     private messageService: MessageService,
     private ticketBuilder: FormBuilder,
     public dialog: MatDialog,

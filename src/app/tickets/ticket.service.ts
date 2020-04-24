@@ -50,6 +50,8 @@ export class TicketService {
   constructor(private ktService: KToolsService) {}
 
   getTickets(): Ticket[] {
+    console.log('return tickets');
+    console.log(this.tickets.slice());
     return this.tickets.slice();
   }
 
@@ -68,6 +70,7 @@ export class TicketService {
       1,
       ticket
     );
+    this.ticket$.next(this.getTickets());
     return of(ticket);
   }
 

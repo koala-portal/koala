@@ -1,8 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { MatDialogRef, MatDialog } from '@angular/material/dialog';
+
 import { KTool } from 'src/app/shared/k-tool.model';
 import { MessageService } from 'src/app/shared/message.service';
 import { KToolsService } from '../k-tools.service';
-import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { KToolFormDialogComponent } from '../k-tool-form-dialog/k-tool-form-dialog.component';
 
 @Component({

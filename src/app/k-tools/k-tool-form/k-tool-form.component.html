@@ -1,33 +1,30 @@
 <mat-card>
-  <h2>{{ kTool ? "Edit" : "New" }} Tool</h2>
-  <form
-    novalidate
-    [formGroup]="kToolForm"
-    (ngSubmit)="onSubmit(kToolForm)"
-    fxLayout="column"
-  >
-    <mat-form-field>
-      <mat-label>Name</mat-label>
-      <input type="text" matInput required formControlName="name" />
-    </mat-form-field>
+  <mat-card-title> {{ kTool ? "Edit" : "New" }} Tool </mat-card-title>
+  <form novalidate [formGroup]="kToolForm" (ngSubmit)="onSubmit(kToolForm)">
+    <mat-card-content fxLayout="column">
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input type="text" matInput required formControlName="name" />
+      </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>URL</mat-label>
-      <input type="text" matInput required formControlName="url" />
-    </mat-form-field>
+      <mat-form-field>
+        <mat-label>URL</mat-label>
+        <input type="text" matInput required formControlName="url" />
+      </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Description</mat-label>
-      <textarea matInput required formControlName="description"></textarea>
-    </mat-form-field>
+      <mat-form-field>
+        <mat-label>Description</mat-label>
+        <textarea matInput required formControlName="description"></textarea>
+      </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Number of Users</mat-label>
-      <input type="number" matInput required formControlName="numUsers" />
-    </mat-form-field>
+      <mat-form-field>
+        <mat-label>Number of Users</mat-label>
+        <input type="number" matInput required formControlName="numUsers" />
+      </mat-form-field>
+    </mat-card-content>
 
     <!-- Toolbar -->
-    <div fxLayoutAlign="space-between">
+    <mat-card-footer fxLayoutAlign="space-between">
       <button mat-raised-button (click)="onClickCancel()" type="button">
         Cancel
       </button>
@@ -39,6 +36,6 @@
       >
         Save
       </button>
-    </div>
+    </mat-card-footer>
   </form>
 </mat-card>

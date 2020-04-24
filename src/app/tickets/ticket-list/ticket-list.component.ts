@@ -52,21 +52,25 @@ export class TicketListComponent implements OnInit {
   openDetails(data?: Ticket): MatDialogRef<TicketDetailComponent, Ticket> {
     return this.dialog.open(TicketDetailComponent, {
       disableClose: true,
-      width: '800px',
-      minHeight: '500px',
       data: data,
       panelClass: 'form-dialog',
+      position: { top: '30' },
     });
   }
 
   openForm(data?: Ticket): MatDialogRef<TicketFormComponent, Ticket> {
     return this.dialog.open(TicketFormComponent, {
       disableClose: true,
-      width: '800px',
-      minHeight: '500px',
       data: data,
       panelClass: 'form-dialog',
+      position: { top: '30' },
     });
+  }
+
+  //Fix mat filter for applying this.
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.ticketService.filterTickets(filterValue);
   }
 
   // TODO: Reconfig to use shared modal component
@@ -81,9 +85,4 @@ export class TicketListComponent implements OnInit {
   //   dialogConfig.panelClass = 'form-dialog';
   //   const modalDialog = this.dialog.open(ModalComponent, dialogConfig);
   // }
-
-  applyFilter(event: Event): void {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.ticketService.filterTickets(filterValue);
-  }
 }

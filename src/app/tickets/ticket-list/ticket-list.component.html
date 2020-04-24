@@ -8,7 +8,12 @@
     <div fxFlex="5"></div>
     <div fxFlex class="mat-display-1 pl-3">Tickets</div>
     <div fxFlex>
-      <button mat-fab color="primary" (click)="openForm()">
+      <button
+        mat-fab
+        color="primary"
+        matTooltip="Submit ticket"
+        (click)="openForm()"
+      >
         <mat-icon>add</mat-icon>
       </button>
     </div>
@@ -53,6 +58,7 @@
             class="float-right"
             mat-icon-button
             aria-label="Edit Ticket"
+            matTooltip="Edit Ticket"
             (click)="openForm(element)"
           >
             <mat-icon>edit</mat-icon>

@@ -31,11 +31,6 @@ export class TicketDetailComponent {
     @Inject(MAT_DIALOG_DATA) public data: Ticket
   ) {}
 
-  editTicket(): void {
-    this.dialogRef.close(true);
-    this.openDialog();
-  }
-
   openDialog(data?: Ticket): MatDialogRef<TicketFormComponent, Ticket> {
     return this.dialog.open(TicketFormComponent, {
       disableClose: true,
@@ -44,6 +39,11 @@ export class TicketDetailComponent {
       data: data,
       panelClass: 'form-dialog',
     });
+  }
+
+  editTicket(): void {
+    this.dialogRef.close(true);
+    this.openDialog();
   }
 
   closeDialog(): void {

@@ -58,14 +58,6 @@ export class TicketService {
     return ticket[0];
   }
 
-  getDimensionsByFind(ticketNo: any) {
-    return this.tickets.find((x) => x.ticketNumber === ticketNo);
-  }
-
-  addToKTools(ingredients: KTool[]): void {
-    this.ktService.addkTools(ingredients);
-  }
-
   filterTickets(filteredValue): void {
     this.tickets.filter = filteredValue.trim().toLowerCase();
   }

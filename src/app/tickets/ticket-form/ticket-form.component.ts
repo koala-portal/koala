@@ -1,11 +1,4 @@
-import {
-  Component,
-  Input,
-  Inject,
-  EventEmitter,
-  Output,
-  OnInit,
-} from '@angular/core';
+import { Component, Inject, EventEmitter, Output, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -33,11 +26,12 @@ export class TicketFormComponent implements OnInit {
   @Output() cancel: EventEmitter<void> = new EventEmitter();
   @Output() submit: EventEmitter<Ticket> = new EventEmitter();
 
-  editMode = false; // assume its a new ticket
+  formMode: string;
   ticketForm = this.ticketBuilder.group({
     id: [''],
     title: ['', Validators.required],
     description: ['', Validators.required],
+    ticketNumber: [''],
   });
 
   constructor(
@@ -48,21 +42,18 @@ export class TicketFormComponent implements OnInit {
     private ticketBuilder: FormBuilder,
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<TicketFormComponent>,
-
-    @Inject(MAT_DIALOG_DATA) public data: { ticket: Ticket }
+    @Inject(MAT_DIALOG_DATA) public data: Ticket
   ) {}
 
   ngOnInit(): void {
     // TODO: add ktool values
-    // pass var for new/edit?
-    if (this.data) {
-      this.ticketForm.patchValue(this.data);
-    }
-  }
 
-  onSubmit(form: FormGroup): void {
-    this.submit.emit(form.value);
-    this.messageService.showMessage('Ticket saved');
+    if (this.data) {
+      this.formMode = 'Ticket ' + this.data.ticketNumber;
+      this.ticketForm.patchValue(this.data);
+    } else {
+      this.formMode = 'Create new Ticket';
+    }
   }
 
   onCancel(): void {
@@ -70,28 +61,30 @@ export class TicketFormComponent implements OnInit {
     this.messageService.showMessage('Changes aborted');
   }
 
-  // onSubmit(ticket: Ticket): void {
-  //   if (ticket.id) {
-  //     this.faqsService.put(ticket).subscribe(
-  //       () => {
-  //         this.dialogRef.close(true);
-  //         this.messageService.showMessage('FAQ Updated');
-  //       },
-  //       () => {
-  //         this.messageService.showError('Updating FAQ Failed');
-  //       }
-  //     );
-  //   } else {
-  //     faq.id = (Math.random() * 1000).toString();
-  //     this.faqsService.post(faq).subscribe(
-  //       () => {
-  //         this.dialogRef.close(true);
-  //         this.messageService.showMessage('FAQ Saved');
-  //       },
-  //       () => {
-  //         this.messageService.showError('Creating FAQ Failed');
-  //       }
-  //     );
-  //   }
-  // }
+  onSubmit(data: FormGroup): void {
+    const ticket = data.value;
+
+    if (ticket.id) {
+      this.ticketService.put(ticket).subscribe(
+        () => {
+          this.dialogRef.close(true);
+          this.messageService.showMessage('Success: Ticket Updated');
+        },
+        () => {
+          this.messageService.showError('Error: Failed to update');
+        }
+      );
+    } else {
+      ticket.id = (Math.random() * 1000).toString();
+      this.ticketService.post(ticket).subscribe(
+        () => {
+          this.dialogRef.close(true);
+          this.messageService.showMessage('Sucess: Ticket Created');
+        },
+        () => {
+          this.messageService.showError('Error: Failed to create ticket');
+        }
+      );
+    }
+  }
 }

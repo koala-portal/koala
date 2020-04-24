@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+
 import { Subscription } from 'rxjs';
+
 import { KToolsService } from './k-tools.service';
 import { KTool } from '../shared/k-tool.model';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { KToolFormDialogComponent } from './k-tool-form-dialog/k-tool-form-dialog.component';
+
 @Component({
   selector: 'app-k-tools',
   templateUrl: './k-tools.component.html',

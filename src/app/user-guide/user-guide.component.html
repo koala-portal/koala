@@ -1,3 +1,61 @@
-<p>user-guide works!</p>
-<!-- TO DO user guides for each of the tools-->
-<!-- Topic on left, content on right, using display-n as titles...-->
+<div class="bg-light rounded m-3 p-3" fxLayout="row" fxLayoutGap="16px">
+  <div fxLayout="column" fxLayoutGap="16px">
+    <app-k-tool-card [kTool]="kTool"></app-k-tool-card>
+    <div *ngFor="let section of kTool.guide.sections">
+      <a
+        [routerLink]="['./']"
+        [fragment]="section.title"
+        mat-raised-button
+        class="text-reset text-decoration-none"
+        fxFill
+        [ngClass]="section === selectedSection ? 'background-primary' : ''"
+        (click)="onClickSectionLink(section)"
+      >
+        {{ section.title }}
+      </a>
+    </div>
+  </div>
+  <div fxLayout="column" fxLayoutGap="16px">
+    <mat-card
+      *ngFor="let section of kTool.guide.sections"
+      id="{{ section.title }}"
+      (mouseenter)="onMouseoverSection(section)"
+    >
+      <mat-card-title>
+        {{ section.title }}
+      </mat-card-title>
+      <mat-card-content style="white-space: pre-line;">
+        <div *ngIf="!editMode">
+          {{ section.content }}
+        </div>
+        <mat-form-field *ngIf="editMode" fxLayout="column">
+          <mat-label>Content</mat-label>
+          <textarea
+            class="line-height-normal"
+            matInput
+            [(ngModel)]="section.content"
+            mat-autosize
+          ></textarea>
+        </mat-form-field>
+      </mat-card-content>
+      <mat-divider></mat-divider>
+      <mat-card-footer fxLayoutAlign="end" class="p-1">
+        <button
+          mat-icon-button
+          color="primary"
+          matTooltip="Edit Section"
+          (click)="onClickEditSection()"
+        >
+          <mat-icon>
+            edit
+          </mat-icon>
+        </button>
+        <button mat-icon-button color="warn" matTooltip="Delete Section">
+          <mat-icon>
+            delete
+          </mat-icon>
+        </button>
+      </mat-card-footer>
+    </mat-card>
+  </div>
+</div>

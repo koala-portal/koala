@@ -1,3 +1,5 @@
+import { Guide } from '../user-guide/guide.model';
+
 export interface KTool {
   id: string;
   name: string;
@@ -5,4 +7,5 @@ export interface KTool {
   url: string;
   numUsers: number;
   starred: boolean;
+  guide: Guide;
 }

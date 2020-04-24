@@ -1,45 +1,13 @@
 import { Subject, Observable, of } from 'rxjs';
 import { KTool } from '../shared/k-tool.model';
 import { Injectable } from '@angular/core';
+import { KToolsDummyData } from './k-tools.data';
 
 @Injectable({ providedIn: 'root' })
 export class KToolsService {
   kTool$ = new Subject<KTool[]>();
 
-  private kTools: KTool[] = [
-    {
-      id: 'a',
-      name: 'Google',
-      description: 'Massively popular search engine',
-      numUsers: 58105679288,
-      starred: true,
-      url: 'www.google.com',
-    },
-    {
-      id: 'b',
-      name: 'Bing',
-      description: 'Massively unpopular search engine',
-      numUsers: 8,
-      starred: false,
-      url: 'www.bing.com',
-    },
-    {
-      id: 'c',
-      name: 'WinRAR',
-      description: 'Ubiquitous archiving tool',
-      numUsers: 5896568,
-      starred: true,
-      url: 'www.rarlab.com',
-    },
-    {
-      id: 'd',
-      name: 'Twitter',
-      description: 'A place where people post',
-      numUsers: 12353567,
-      starred: false,
-      url: 'www.twitter.com',
-    },
-  ];
+  private kTools: KTool[] = KToolsDummyData;
 
   getKTools(): KTool[] {
     return this.kTools.slice();

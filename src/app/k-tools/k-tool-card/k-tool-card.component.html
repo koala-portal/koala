@@ -7,7 +7,6 @@
       </mat-icon>
     </div>
   </mat-card-title>
-  <!-- <mat-card-subtitle>{{ kTool.description }}</mat-card-subtitle> -->
   <mat-card-content>
     <strong>{{ kTool.numUsers | shortNumber }}</strong> users
     <mat-card-subtitle class="mt-1">
@@ -20,6 +19,7 @@
       mat-button
       class="mt-2 text-reset text-decoration-none p-2 w-100"
       [routerLink]="['/guides', kTool.id]"
+      routerLinkActive="d-none"
     >
       <div fxLayout="row">
         <mat-icon class="mr-3 line-height-normal" color="disabled">

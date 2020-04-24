@@ -43,13 +43,20 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
   padding-bottom: 150px !important;
 }
 
-html,
-body {
-  height: 100%;
+html {
+  display: flex;
 }
+
 body {
+  // display: flex;
+  flex-direction: column;
+  width: 100%;
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+app-root {
+  flex: 1;
 }
 
 .k-body {
@@ -89,4 +96,10 @@ body {
   mat-card-subtitle {
     color: mat-color($koala-primary, default-contrast);
   }
+}
+
+.cdk-global-scrollblock {
+  // position: static;
+  // width: initial !important;
+  // overflow-y: inherit !important;
 }

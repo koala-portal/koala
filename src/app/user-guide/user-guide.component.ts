@@ -17,7 +17,7 @@ export class UserGuideComponent implements OnInit, OnDestroy {
 
   selectedSection: Section = null;
 
-  private routeSub: Subscription;
+  private routeParamsSub: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -25,24 +25,24 @@ export class UserGuideComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
+    this.routeParamsSub = this.route.params.subscribe((params) => {
       this.kTool = this.kToolsService.findById(params.id);
     });
   }
 
   ngOnDestroy(): void {
-    this.routeSub.unsubscribe();
+    this.routeParamsSub.unsubscribe();
   }
 
-  onMouseoverSection(section: Section) {
+  onMouseoverSection(section: Section): void {
     this.selectedSection = section;
   }
 
-  onClickSectionLink(section: Section) {
+  onClickSectionLink(section: Section): void {
     this.selectedSection = section;
   }
 
-  onClickEditSection() {
+  onClickEditSection(): void {
     this.editMode = !this.editMode;
   }
 }

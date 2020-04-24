@@ -21,14 +21,11 @@ import { KToolEditComponent } from './k-tools/k-tool-edit/k-tool-edit.component'
 import { DropdownDirective } from './shared/dropdown.directive';
 import { FaqsComponent } from './faqs/faqs.component';
 import { FaqStarredComponent } from './faqs/faq-starred/faq-starred.component';
-import { ServiceDeskComponent } from './service-desk/service-desk.component';
 import { UserGuideComponent } from './user-guide/user-guide.component';
 import { KoalaSearchComponent } from './koala-search/koala-search.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TicketFormComponent } from './tickets/ticket-form/ticket-form.component';
 import { AbodeComponent } from './abode/abode.component';
-import { ServiceDeskListComponent } from './service-desk/service-desk-list/service-desk-list.component';
-import { ServiceDeskEditComponent } from './service-desk/service-desk-edit/service-desk-edit.component';
 import { FaqListComponent } from './faqs/faq-list/faq-list.component';
 import { FaqCategoryFormDialogComponent } from './faqs/faq-category-form-dialog/faq-category-form-dialog.component';
 import { FaqCategoryFormComponent } from './faqs/faq-category-form/faq-category-form.component';
@@ -50,13 +47,10 @@ import { FaqAccordionComponent } from './faqs/faq-accordion/faq-accordion.compon
     DropdownDirective,
     FaqsComponent,
     FaqStarredComponent,
-    ServiceDeskComponent,
     UserGuideComponent,
     KoalaSearchComponent,
     TicketFormComponent,
     AbodeComponent,
-    ServiceDeskListComponent,
-    ServiceDeskEditComponent,
     FaqListComponent,
     FaqCategoryFormComponent,
     FaqCategoryFormDialogComponent,

@@ -18,8 +18,8 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLinkActive="active" routerLink="/tickets"
-            >Ticket
-            <span class="fa-stack">
+            >My Tickets
+            <span class="fa-stack" *ngIf="tickets?.length > 0">
               <span class="fa fa-circle-thin fa-stack-2x text-primary"></span>
               <strong class="fa-stack-1x">
                 {{ tickets.length }}
@@ -32,24 +32,7 @@
             >Tools</a
           >
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Contact</a>
-        </li>
       </ul>
-      <div ngbDropdown class="d-inline-block">
-        <button
-          mat-raised-button
-          color="primary"
-          id="dropdownBasic1"
-          ngbDropdownToggle
-        >
-          Service Desk
-        </button>
-        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-          <button ngbDropdownItem>View Tickets</button>
-          <button ngbDropdownItem>Update Access</button>
-        </div>
-      </div>
     </div>
   </div>
 </nav>

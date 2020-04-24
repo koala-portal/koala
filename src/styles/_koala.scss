@@ -1,0 +1,17 @@
+.k-header {
+  position: relative;
+  background: $primary;
+  height: 75px;
+  margin-bottom: 25px;
+
+  button {
+    position: absolute;
+    left: 10px;
+    bottom: -26px;
+    z-index: 101;
+  }
+
+  .mat-display-1 {
+    margin: auto;
+  }
+}

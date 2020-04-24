@@ -8,8 +8,8 @@ import { TicketService } from '../tickets/ticket.service';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  // TO DO: set up hide/show for "Manage Service Desk"
-  // to only be certain user group
+  // TODO: set up hide/show additional views for tickets
+
   tickets: Ticket[];
   constructor(private ticketService: TicketService) {}
 

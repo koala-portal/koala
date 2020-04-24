@@ -7,11 +7,11 @@ import { KToolsService } from '../k-tools.service';
 import { KToolFormDialogComponent } from '../k-tool-form-dialog/k-tool-form-dialog.component';
 
 @Component({
-  selector: 'app-k-tool-card',
-  templateUrl: './k-tool-card.component.html',
-  styleUrls: ['./k-tool-card.component.scss'],
+  selector: 'app-k-tool-item',
+  templateUrl: './k-tool-item.component.html',
+  styleUrls: ['./k-tool-item.component.scss'],
 })
-export class KToolCardComponent {
+export class KToolItemComponent {
   @Input() kTool: KTool;
 
   userIsAdmin = true; // TODO: Placeholder

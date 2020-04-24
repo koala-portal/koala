@@ -20,12 +20,8 @@ export class TicketFormComponent implements OnInit {
   @Output() submit: EventEmitter<Ticket> = new EventEmitter();
 
   formMode: string;
-  ticketForm = this.ticketBuilder.group({
-    id: [''],
-    title: ['', Validators.required],
-    description: ['', Validators.required],
-    ticketNumber: [''],
-  });
+  ticketForm: FormGroup;
+  serviceDeskTypes = [];
 
   constructor(
     private ticketService: TicketService,
@@ -34,7 +30,17 @@ export class TicketFormComponent implements OnInit {
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<TicketFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Ticket
-  ) {}
+  ) {
+    this.ticketForm = this.ticketBuilder.group({
+      id: [''],
+      title: ['', Validators.required],
+      description: ['', Validators.required],
+      ticketNumber: [''],
+      serviceDeskTypes: [''],
+    });
+
+    this.serviceDeskTypes = this.getServiceDeskType();
+  }
 
   ngOnInit(): void {
     // TODO: add ktool values
@@ -77,5 +83,14 @@ export class TicketFormComponent implements OnInit {
         }
       );
     }
+  }
+
+  getServiceDeskType() {
+    return [
+      { id: '1', name: 'Report a bug' },
+      { id: '2', name: 'Trouble Ticket' },
+      { id: '3', name: 'Submit a Question' },
+      { id: '4', name: 'Sugest an Improvement' },
+    ];
   }
 }

@@ -1,7 +1,7 @@
 import { KToolsService } from '../k-tools/k-tools.service';
 import { Injectable } from '@angular/core';
 import { Ticket } from './ticket.model';
-import { KTool } from '../shared/k-tool.model';
+// import { KTool } from '../shared/k-tool.model';
 import { Observable, of, Subject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -14,44 +14,55 @@ export class TicketService {
       description: 'test one',
       title: 'test one',
       ticketNumber: 'C-1',
+      serviceDeskTypes: 'Report a bug',
+      kTool: 'Nationals',
     },
     {
       id: 'CBS-0002',
       description: 'test one',
       title: 'test one',
       ticketNumber: 'C-1',
+      serviceDeskTypes: 'Report a bug',
+      kTool: 'Astros',
     },
     {
       id: 'CBS-0003',
       description: 'test one',
       title: 'test one',
       ticketNumber: 'C-1',
+      serviceDeskTypes: 'Report a bug',
+      kTool: 'Astros',
     },
     {
       id: 'CBS-0005',
       description: 'test one',
       title: 'test one',
       ticketNumber: 'C-1',
+      serviceDeskTypes: 'Report a bug',
+      kTool: 'Astros',
     },
     {
       id: 'CBS-0004',
       description: 'test one',
       title: 'test ondasdfe',
       ticketNumber: 'C-1',
+      serviceDeskTypes: 'Report a bug',
+      kTool: 'Dodgers',
     },
     {
       id: 'CBS-0006',
       description: 'test one',
       title: 'test ondasdfe',
       ticketNumber: 'C-1',
+      serviceDeskTypes: 'Report a bug',
+      kTool: 'Nationals',
     },
   ];
 
   constructor(private ktService: KToolsService) {}
 
   getTickets(): Ticket[] {
-    console.log('return tickets');
-    console.log(this.tickets.slice());
+    console.log(this.tickets);
     return this.tickets.slice();
   }
 
@@ -78,13 +89,5 @@ export class TicketService {
     this.tickets.push(ticket);
     this.ticket$.next(this.getTickets());
     return of(ticket);
-  }
-
-  delete(ticketDeleted: Ticket): Observable<void> {
-    this.tickets = this.tickets.filter(
-      (ticket) => ticketDeleted.id !== ticket.id
-    );
-    this.ticket$.next(this.getTickets());
-    return of();
   }
 }

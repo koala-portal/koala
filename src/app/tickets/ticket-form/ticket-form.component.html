@@ -9,8 +9,21 @@
           <mat-list-item>General Information</mat-list-item>
           <mat-divider></mat-divider>
           <div fxLayout="row wrap">
-            <mat-form-field fxFlex="50" appearance="outline">
-              <mat-label>Title</mat-label>
+            <mat-form-field fxFlex="33" appearance="outline">
+              <mat-select
+                placeholder="Service Desk Type"
+                formControlName="serviceDeskTypes"
+              >
+                <mat-option
+                  *ngFor="let serviceDeskType of serviceDeskTypes"
+                  [value]="serviceDeskType.name"
+                >
+                  {{ serviceDeskType.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field fxFlx="50" appearance="outline">
+              <mat-label>Ticket Title</mat-label>
               <input type="text" matInput required formControlName="title" />
             </mat-form-field>
             <mat-form-field fxFlex="100" appearance="outline">
@@ -73,7 +86,8 @@
     <mat-divider></mat-divider>
     <mat-card-footer>
       <div fxLayout="row" fxLayoutAlign="end center">
-        <button mat-raised-button (click)="onCancel()">Close</button>
+        <button mat-raised-button (click)="onCancel()">Cancel</button>
+        <button mat-raised-button>Save as Draft</button>
         <button mat-raised-button color="primary" type="submit">
           Update
         </button>

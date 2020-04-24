@@ -19,7 +19,14 @@ import { TicketFormComponent } from '../ticket-form/ticket-form.component';
 export class TicketListComponent implements OnInit {
   tickets: Ticket[];
   ticketsTable = new MatTableDataSource(this.tickets);
-  displayedColumns: string[] = ['ticketNo', 'name', 'description', 'icons'];
+  displayedColumns: string[] = [
+    'ticketNo',
+    'sdType',
+    'kTool',
+    'name',
+    'description',
+    'icons',
+  ];
 
   private ticketChangeSub: Subscription;
 
@@ -28,8 +35,6 @@ export class TicketListComponent implements OnInit {
 
   constructor(
     private ticketService: TicketService,
-    private router: Router,
-    private route: ActivatedRoute,
     private dialog: MatDialog
   ) {}
 

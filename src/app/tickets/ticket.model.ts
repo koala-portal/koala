@@ -5,5 +5,6 @@ export interface Ticket {
   title: string;
   description: string;
   ticketNumber: string;
-  // ktool: KTool;
+  serviceDeskTypes: string;
+  kTool: string;
 }

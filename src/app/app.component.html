@@ -1,11 +1,11 @@
-<div fxFlex>
-  <app-header></app-header>
-
-  <div fxLayout="row" fxLayoutAlign="center center">
+<header><app-header></app-header></header>
+<main>
+  <div fxLayout="row" fxLayoutAlign="center center" id="mainzo">
     <div fxFlex id="main-body" class="dark-overlay">
       <router-outlet></router-outlet>
     </div>
   </div>
-
+</main>
+<footer>
   <app-footer></app-footer>
-</div>
+</footer>

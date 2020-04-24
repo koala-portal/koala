@@ -19,7 +19,7 @@
     </div>
   </div>
 
-  <div class="mat-elevation-z8" class="pt-4">
+  <div class="mat-elevation-z8" class="p-4">
     <div fxLayout="row">
       <mat-form-field fxFlex>
         <mat-label>Filter</mat-label>
@@ -37,6 +37,18 @@
         <th mat-header-cell *matHeaderCellDef class="wp-100">Ticket #</th>
         <td mat-cell class="font-weight-bold" *matCellDef="let element">
           {{ element.id }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="sdType">
+        <th mat-header-cell *matHeaderCellDef class="wp-100">Category</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.serviceDeskTypes }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="kTool">
+        <th mat-header-cell *matHeaderCellDef class="wp-100">Tool</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.kTool }}
         </td>
       </ng-container>
       <ng-container matColumnDef="name">

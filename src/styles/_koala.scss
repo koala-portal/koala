@@ -1,3 +1,37 @@
+.k-container {
+  @extend .bg-charcoal-5;
+}
+
+.pb-10 {
+  padding-bottom: 150px !important;
+}
+.w-20 {
+  width: 20%;
+}
+
+.w-60 {
+  width: 60%;
+}
+
+.line-height-normal {
+  line-height: normal;
+}
+
+.absolute-right {
+  position: absolute;
+  right: 0;
+}
+
+.background-primary {
+  background-color: mat-color($koala-primary);
+  color: mat-color($koala-primary, default-contrast);
+
+  mat-card-subtitle {
+    color: mat-color($koala-primary, default-contrast);
+  }
+}
+
+// Page Title/headers
 .k-header {
   position: relative;
   background: $primary;

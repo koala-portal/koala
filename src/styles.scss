@@ -38,37 +38,6 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
 
 @import "../node_modules/bootstrap/scss/bootstrap";
 
-.k-container {
-  @extend .bg-charcoal-5;
-}
-
-.pb-10 {
-  padding-bottom: 150px !important;
-}
-
-#service-desk-containter {
-  position: relative;
-
-  .d-flex {
-    padding: 0 40px;
-    position: absolute;
-    top: -85px;
-  }
-}
-
-// html,
-// body {
-//   height: 100%;
-// }
-// body {
-//   margin: 0;
-//   font-family: Roboto, "Helvetica Neue", sans-serif;
-// }
-
-// .k-body {
-//   color: $black;
-// }
-
 html,
 body {
   height: 100%;
@@ -94,28 +63,3 @@ footer {
 }
 
 // Additional Bootstrap-like utility classes
-.w-20 {
-  width: 20%;
-}
-
-.w-60 {
-  width: 60%;
-}
-
-.line-height-normal {
-  line-height: normal;
-}
-
-.absolute-right {
-  position: absolute;
-  right: 0;
-}
-
-.background-primary {
-  background-color: mat-color($koala-primary);
-  color: mat-color($koala-primary, default-contrast);
-
-  mat-card-subtitle {
-    color: mat-color($koala-primary, default-contrast);
-  }
-}

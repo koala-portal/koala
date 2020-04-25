@@ -9,71 +9,64 @@
     >
       <!-- Tool Card -->
       <app-k-tool-item [kTool]="kTool"></app-k-tool-item>
-      <mat-divider></mat-divider>
 
       <!-- Section Links -->
-      <div *ngFor="let section of kTool.guide.sections">
-        <a
-          [routerLink]="['./']"
-          [fragment]="section.title"
-          mat-raised-button
-          class="text-decoration-none"
-          fxFill
-          [ngClass]="
-            section === selectedSection
-              ? 'background-primary text-white'
-              : 'text-reset'
-          "
-          (click)="onClickSectionLink(section)"
-        >
-          {{ section.title }}
-        </a>
-      </div>
+      <mat-card>
+        <mat-card-title> <h2>Contents</h2> </mat-card-title>
+        <mat-card-content fxLayout="column" fxLayoutGap="8px">
+          <a
+            *ngFor="let section of kTool.guide.sections"
+            [routerLink]="['./guide']"
+            [fragment]="section.title"
+            mat-button
+            class="text-decoration-none"
+            fxFill
+            [ngClass]="
+              section === selectedSection
+                ? 'background-primary text-white'
+                : 'text-reset'
+            "
+            (click)="onClickSectionLink(section)"
+          >
+            <div fxLayoutAlign="start center">
+              <mat-icon class="mr-3">{{
+                section === selectedSection
+                  ? "radio_button_checked"
+                  : "radio_button_unchecked"
+              }}</mat-icon>
+              <span> {{ section.title }}</span>
+            </div>
+          </a>
+        </mat-card-content>
+      </mat-card>
     </div>
   </div>
 
   <!-- Main Sections/Content -->
-  <div fxLayout="column" fxLayoutGap="16px">
-    <mat-card
-      *ngFor="let section of kTool.guide.sections"
-      id="{{ section.title }}"
-      (mouseenter)="onMouseoverSection(section)"
-    >
-      <mat-card-title>
-        {{ section.title }}
-      </mat-card-title>
-      <mat-card-content style="white-space: pre-line;">
-        <div *ngIf="!editMode">
-          {{ section.content }}
-        </div>
-        <mat-form-field *ngIf="editMode" fxLayout="column">
-          <mat-label>Content</mat-label>
-          <textarea
-            class="line-height-normal"
-            matInput
-            [(ngModel)]="section.content"
-            mat-autosize
-          ></textarea>
-        </mat-form-field>
-      </mat-card-content>
-      <mat-divider></mat-divider>
-      <mat-card-footer fxLayoutAlign="end" class="p-1">
-        <button
-          mat-icon-button
-          color="primary"
-          matTooltip="Edit Section"
-          (click)="onClickEditSection()"
-        >
-          <mat-icon>
-            edit
-          </mat-icon>
-        </button>
-        <button mat-icon-button color="warn" matTooltip="Delete Section">
-          <mat-icon>
-            delete
-          </mat-icon>
-        </button>
-      </mat-card-footer>
-    </mat-card>
+  <div fxLayout="column">
+    <nav mat-tab-nav-bar>
+      <a
+        class="text-reset text-decoration-none"
+        mat-tab-link
+        routerLink="content"
+        routerLinkActive
+        #guideLink="routerLinkActive"
+        [active]="guideLink.isActive"
+      >
+        Guide
+      </a>
+      <a
+        class="text-reset text-decoration-none"
+        mat-tab-link
+        routerLink="release-notes"
+        routerLinkActive
+        #notesLink="routerLinkActive"
+        [active]="notesLink.isActive"
+      >
+        Release Notes
+      </a>
+    </nav>
+
+    <router-outlet class="mt-3"></router-outlet>
   </div>
 </div>

@@ -97,3 +97,21 @@ app-root {
     color: mat-color($koala-primary, default-contrast);
   }
 }
+
+.color-primary {
+  color: mat-color($koala-primary);
+}
+
+.mat-tab-border-fix {
+  padding-left: 2px;
+  padding-right: 2px;
+  padding-bottom: 2px;
+}
+
+//
+a.hidden-anchor {
+  display: block;
+  position: relative;
+  top: -90px;
+  visibility: hidden;
+}

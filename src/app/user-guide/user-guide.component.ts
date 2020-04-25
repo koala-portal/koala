@@ -13,8 +13,6 @@ import { Section } from './section.model';
 export class UserGuideComponent implements OnInit, OnDestroy {
   kTool: KTool;
 
-  editMode = false;
-
   selectedSection: Section = null;
 
   private routeParamsSub: Subscription;
@@ -34,15 +32,7 @@ export class UserGuideComponent implements OnInit, OnDestroy {
     this.routeParamsSub.unsubscribe();
   }
 
-  onMouseoverSection(section: Section): void {
-    this.selectedSection = section;
-  }
-
   onClickSectionLink(section: Section): void {
     this.selectedSection = section;
-  }
-
-  onClickEditSection(): void {
-    this.editMode = !this.editMode;
   }
 }

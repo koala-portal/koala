@@ -14,7 +14,7 @@
     </mat-card-subtitle>
   </mat-card-content>
   <mat-divider></mat-divider>
-  <mat-card-content>
+  <mat-card-content class="mb-2">
     <a
       mat-button
       class="mt-2 text-reset text-decoration-none p-2 w-100"
@@ -77,8 +77,12 @@
       </div>
     </a>
   </mat-card-content>
+  <mat-divider></mat-divider>
+  <mat-card-actions [ngClass]="userIsAdmin ? 'mb-0' : ''">
+    <button mat-button class="color-primary">RAISE TICKET</button>
+  </mat-card-actions>
+  <mat-divider *ngIf="userIsAdmin"></mat-divider>
   <mat-card-footer *ngIf="userIsAdmin">
-    <mat-divider></mat-divider>
     <div class="p-1" fxLayoutAlign="end">
       <button
         mat-icon-button

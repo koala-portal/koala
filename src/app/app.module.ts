@@ -15,8 +15,7 @@ import { FooterComponent } from './footer/footer.component';
 import { KToolsComponent } from './k-tools/k-tools.component';
 import { TicketsComponent } from './tickets/tickets.component';
 import { TicketListComponent } from './tickets/ticket-list/ticket-list.component';
-import { TicketDetailComponent } from './tickets/ticket-detail/ticket-detail.component';
-import { TicketItemComponent } from './tickets/ticket-list/ticket-item/ticket-item.component';
+import { TicketItemComponent } from './tickets/ticket-item/ticket-item.component';
 import { KToolEditComponent } from './k-tools/k-tool-edit/k-tool-edit.component';
 import { DropdownDirective } from './shared/dropdown.directive';
 import { FaqsComponent } from './faqs/faqs.component';
@@ -41,9 +40,8 @@ import { FaqAccordionComponent } from './faqs/faq-accordion/faq-accordion.compon
     KToolsComponent,
     TicketsComponent,
     TicketListComponent,
-    TicketDetailComponent,
-    KToolEditComponent,
     TicketItemComponent,
+    KToolEditComponent,
     DropdownDirective,
     FaqsComponent,
     FaqStarredComponent,

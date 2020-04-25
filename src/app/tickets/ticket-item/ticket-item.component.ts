@@ -12,11 +12,11 @@ import { MessageService } from 'src/app/shared/message.service';
 import { TicketFormComponent } from '../ticket-form/ticket-form.component';
 
 @Component({
-  selector: 'app-ticket-detail',
-  templateUrl: './ticket-detail.component.html',
-  styleUrls: ['./ticket-detail.component.scss'],
+  selector: 'app-ticket-item',
+  templateUrl: './ticket-item.component.html',
+  styleUrls: ['./ticket-item.component.scss'],
 })
-export class TicketDetailComponent {
+export class TicketItemComponent {
   ticket: Ticket;
   id: number;
   ticketNumber: string;
@@ -29,7 +29,7 @@ export class TicketDetailComponent {
     private router: Router,
     private messageService: MessageService,
     public dialog: MatDialog,
-    public dialogRef: MatDialogRef<TicketDetailComponent>,
+    public dialogRef: MatDialogRef<TicketItemComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Ticket
   ) {}
 

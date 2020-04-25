@@ -1,16 +1,13 @@
 <div fxLayout="row" fxLayoutAlign="center center" class="k-header">
-  <div fxFlex="5"></div>
-  <div fxFlex class="mat-display-1 pl-3">FAQs</div>
-  <div fxFlex>
-    <button
-      mat-fab
-      color="primary"
-      matTooltip="Add Category"
-      (click)="onClickAddCategory()"
-    >
-      <mat-icon>add</mat-icon>
-    </button>
-  </div>
+  <button
+    mat-fab
+    color="primary"
+    matTooltip="Add Category"
+    (click)="onClickAddCategory()"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+  <div fxFlex class="k-header-title">FAQs</div>
 </div>
 
 <div class="mat-elevation-z8" class="p-4">
@@ -77,8 +74,7 @@
         <!-- Filtered Categories -->
         <div *ngIf="!topOnly">
           <mat-card
-            class="mb-4"
-            id="faq-container"
+            class="mb-4 faq-first-card"
             *ngFor="let faqCategory of getFilteredCategories(); let i = index"
           >
             <mat-card-title>

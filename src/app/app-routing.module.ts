@@ -6,7 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { TicketsComponent } from './tickets/tickets.component';
 
-import { TicketDetailComponent } from './tickets/ticket-detail/ticket-detail.component';
+import { TicketItemComponent } from './tickets/ticket-item/ticket-item.component';
 import { FaqsComponent } from './faqs/faqs.component';
 import { KToolsComponent } from './k-tools/k-tools.component';
 import { FaqListComponent } from './faqs/faq-list/faq-list.component';
@@ -20,7 +20,7 @@ const appRoutes: Routes = [
     children: [
       { path: '', component: TicketListComponent },
       { path: 'new', component: TicketFormComponent },
-      { path: ':id', component: TicketDetailComponent },
+      { path: ':id', component: TicketItemComponent },
       { path: ':id/edit', component: TicketFormComponent },
     ],
   },

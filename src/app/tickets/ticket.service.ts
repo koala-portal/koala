@@ -62,7 +62,6 @@ export class TicketService {
   constructor(private ktService: KToolsService) {}
 
   getTickets(): Ticket[] {
-    console.log(this.tickets);
     return this.tickets.slice();
   }
 

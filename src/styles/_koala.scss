@@ -4,14 +4,24 @@
   height: 75px;
   margin-bottom: 25px;
 
-  button {
+  .mat-display-1 {
+    margin: auto;
+  }
+
+  // if there is a button inside koala's branded header div
+  .mat-fab {
     position: absolute;
     left: 10px;
     bottom: -26px;
     z-index: 101;
+
+    & ~ .k-header-title {
+      margin-left: 55px;
+    }
   }
 
-  .mat-display-1 {
-    margin: auto;
+  .k-header-title {
+    @extend .mat-display-1;
+    @extend .pl-3;
   }
 }

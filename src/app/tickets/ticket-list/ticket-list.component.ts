@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
 
 import { Ticket } from '../ticket.model';
 import { TicketService } from '../ticket.service';
-import { TicketDetailComponent } from '../ticket-detail/ticket-detail.component';
+import { TicketItemComponent } from '../ticket-item/ticket-item.component';
 import { TicketFormComponent } from '../ticket-form/ticket-form.component';
 
 @Component({
@@ -50,8 +50,8 @@ export class TicketListComponent implements OnInit {
     );
   }
 
-  openDetails(data?: Ticket): MatDialogRef<TicketDetailComponent, Ticket> {
-    return this.dialog.open(TicketDetailComponent, {
+  openDetails(data?: Ticket): MatDialogRef<TicketItemComponent, Ticket> {
+    return this.dialog.open(TicketItemComponent, {
       disableClose: true,
       data: data,
       panelClass: 'form-dialog',

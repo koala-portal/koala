@@ -34,7 +34,6 @@ export class FaqAccordionComponent {
         'Delete FAQ',
         'Are you sure you want to delete this FAQ?'
       )
-      .afterClosed()
       .subscribe((confirm) => {
         if (confirm) {
           this.faqsService.delete(faq);

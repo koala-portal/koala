@@ -1,3 +1,8 @@
-export class KTool {
-  constructor(public name: string, public amount: number) {}
+export interface KTool {
+  id: string;
+  name: string;
+  description: string;
+  url: string;
+  numUsers: number;
+  starred: boolean;
 }

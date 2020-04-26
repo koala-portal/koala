@@ -1,5 +1,4 @@
 <mat-card>
-  <!-- TODO update title to const in .ts file-->
   <mat-card-title>{{ formMode }}</mat-card-title>
   <mat-divider></mat-divider>
   <form [formGroup]="ticketForm" novalidate (ngSubmit)="onSubmit(ticketForm)">

@@ -1,6 +1,19 @@
-<div class="page-header">
-  <h1>External Koala Tools</h1>
-  <p>
+<div fxLayout="row" fxLayoutAlign="center center" class="k-header">
+  <button
+    flFlex
+    mat-fab
+    color="primary"
+    matTooltip="Create a new tool"
+    *ngIf="userIsAdmin"
+    (click)="onClickAddTool()"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+  <div fxFlex class="k-header-title">External Koala Tools</div>
+</div>
+
+<div class="bd-highlight mb-3">
+  <div class="mat-h4 p-3">
     Nulla labore exercitation id irure incididunt id cupidatat labore sit
     aliquip sit fugiat. Nisi nulla qui aliqua ullamco officia commodo nostrud ad
     Lorem excepteur commodo amet adipisicing cillum. Veniam deserunt dolor velit
@@ -8,9 +21,8 @@
     velit. Minim magna exercitation eu ullamco Lorem pariatur magna voluptate
     enim dolor. Non sunt cillum Lorem eu proident. Ex dolore excepteur commodo
     irure dolor fugiat duis adipisicing elit commodo commodo id nostrud id.
-  </p>
-</div>
-<div class="bd-highlight mb-3">
+  </div>
+
   <div class="k-body shadow m-3 p-3 mb-5 bg-light rounded">
     <!-- Filter/Sort Toolbar -->
     <div class="mb-3">
@@ -47,18 +59,6 @@
     <!-- Card Area -->
     <div fxLayout="row wrap">
       <!-- Add Tool Component -->
-      <div
-        *ngIf="userIsAdmin"
-        style="width: 320px;"
-        class="mr-3"
-        fxLayoutAlign="space-around center"
-      >
-        <button matTooltip="Add a New Tool" mat-fab (click)="onClickAddTool()">
-          <mat-icon>
-            add
-          </mat-icon>
-        </button>
-      </div>
 
       <!-- Tool Cards -->
       <app-k-tool-item

@@ -103,6 +103,7 @@ export class FaqListComponent implements OnInit, OnDestroy {
     return this.dialog.open(FaqFormDialogComponent, {
       disableClose: true,
       width: '500px',
+      panelClass: 'form-dialog',
       data: {
         faq,
         category: faqCategory,
@@ -140,6 +141,7 @@ export class FaqListComponent implements OnInit, OnDestroy {
   ): MatDialogRef<FaqCategoryFormDialogComponent, FaqCategory> {
     return this.dialog.open(FaqCategoryFormDialogComponent, {
       disableClose: true,
+      panelClass: 'form-dialog',
       width: '500px',
       data: faqCategory,
     });

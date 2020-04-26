@@ -1,48 +1,54 @@
-<h2>{{ faq ? "Edit" : "New" }} FAQ</h2>
-<form
-  class="d-flex flex-column"
-  [formGroup]="faqForm"
-  novalidate
-  (ngSubmit)="onSubmit(faqForm)"
->
-  <mat-form-field>
-    <mat-label>Category</mat-label>
-    <mat-select formControlName="category" [compareWith]="compareFaqCategories">
-      <mat-option
-        *ngFor="let faqCategory of faqCategories"
-        [value]="faqCategory"
+<mat-card>
+  <mat-card-title>{{ faq ? "Edit" : "New" }} FAQ</mat-card-title>
+  <mat-divider></mat-divider>
+  <form
+    class="d-flex flex-column"
+    [formGroup]="faqForm"
+    novalidate
+    (ngSubmit)="onSubmit(faqForm)"
+  >
+    <mat-form-field appearance="outline">
+      <mat-label>Category</mat-label>
+      <mat-select
+        formControlName="category"
+        [compareWith]="compareFaqCategories"
       >
-        {{ faqCategory.title }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+        <mat-option
+          *ngFor="let faqCategory of faqCategories"
+          [value]="faqCategory"
+        >
+          {{ faqCategory.title }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Title</mat-label>
-    <input type="text" matInput required formControlName="title" />
-  </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Title</mat-label>
+      <input type="text" matInput required formControlName="title" />
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Description</mat-label>
-    <textarea
-      type="text"
-      matInput
-      required
-      formControlName="description"
-    ></textarea>
-  </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea
+        type="text"
+        matInput
+        required
+        formControlName="description"
+      ></textarea>
+    </mat-form-field>
 
-  <div class="d-flex flex-row justify-content-between">
-    <button mat-raised-button type="button" (click)="onClickCancel()">
-      Cancel
-    </button>
-    <button
-      mat-raised-button
-      color="primary"
-      type="submit"
-      [disabled]="!faqForm.valid"
-    >
-      Save
-    </button>
-  </div>
-</form>
+    <div class="d-flex flex-row justify-content-between">
+      <button mat-raised-button type="button" (click)="onClickCancel()">
+        Cancel
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="!faqForm.valid"
+      >
+        Save
+      </button>
+    </div>
+  </form>
+</mat-card>

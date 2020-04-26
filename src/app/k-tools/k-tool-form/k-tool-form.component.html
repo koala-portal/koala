@@ -2,22 +2,22 @@
   <mat-card-title> {{ kTool ? "Edit" : "New" }} Tool </mat-card-title>
   <form novalidate [formGroup]="kToolForm" (ngSubmit)="onSubmit(kToolForm)">
     <mat-card-content fxLayout="column">
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Name</mat-label>
         <input type="text" matInput required formControlName="name" />
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>URL</mat-label>
         <input type="text" matInput required formControlName="url" />
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Description</mat-label>
         <textarea matInput required formControlName="description"></textarea>
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Number of Users</mat-label>
         <input type="number" matInput required formControlName="numUsers" />
       </mat-form-field>

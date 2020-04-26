@@ -46,6 +46,7 @@ export class KToolItemComponent {
   ): MatDialogRef<KToolFormDialogComponent, KTool> {
     return this.dialog.open(KToolFormDialogComponent, {
       disableClose: true,
+      panelClass: 'form-dialog',
       width: '500px',
       data: kTool,
     });

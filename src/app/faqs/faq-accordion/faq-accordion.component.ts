@@ -51,6 +51,7 @@ export class FaqAccordionComponent {
   ): MatDialogRef<FaqFormDialogComponent, Faq> {
     return this.dialog.open(FaqFormDialogComponent, {
       disableClose: true,
+      panelClass: 'form-dialog',
       width: '500px',
       data: {
         faq,

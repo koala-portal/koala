@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { KToolEditComponent } from './k-tool-edit.component';
+import { KToolFormComponent } from './k-tool-form.component';
 
-describe('KToolEditComponent', () => {
-  let component: KToolEditComponent;
-  let fixture: ComponentFixture<KToolEditComponent>;
+describe('KToolFormComponent', () => {
+  let component: KToolFormComponent;
+  let fixture: ComponentFixture<KToolFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ KToolEditComponent ]
+      declarations: [ KToolFormComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(KToolEditComponent);
+    fixture = TestBed.createComponent(KToolFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

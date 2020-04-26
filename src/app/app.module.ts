@@ -1,6 +1,5 @@
 import { TicketService } from './tickets/ticket.service';
 import { AppRoutingModule } from './app-routing.module';
-import { KToolsService } from './k-tools/k-tools.service';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -31,6 +30,10 @@ import { FaqCategoryFormComponent } from './faqs/faq-category-form/faq-category-
 import { FaqFormDialogComponent } from './faqs/faq-form-dialog/faq-form-dialog.component';
 import { FaqFormComponent } from './faqs/faq-form/faq-form.component';
 import { FaqAccordionComponent } from './faqs/faq-accordion/faq-accordion.component';
+import { KToolItemComponent } from './k-tools/k-tool-item/k-tool-item.component';
+import { SharedModule } from './shared/shared.module';
+import { KToolFormComponent } from './k-tools/k-tool-form/k-tool-form.component';
+import { KToolFormDialogComponent } from './k-tools/k-tool-form-dialog/k-tool-form-dialog.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +58,9 @@ import { FaqAccordionComponent } from './faqs/faq-accordion/faq-accordion.compon
     FaqFormDialogComponent,
     FaqFormComponent,
     FaqAccordionComponent,
+    KToolItemComponent,
+    KToolFormComponent,
+    KToolFormDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -66,8 +72,8 @@ import { FaqAccordionComponent } from './faqs/faq-accordion/faq-accordion.compon
     BrowserAnimationsModule,
     MaterialModule,
     FlexLayoutModule,
+    SharedModule,
   ],
-  providers: [KToolsService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

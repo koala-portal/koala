@@ -10,6 +10,7 @@ import { TicketItemComponent } from './tickets/ticket-item/ticket-item.component
 import { FaqsComponent } from './faqs/faqs.component';
 import { KToolsComponent } from './k-tools/k-tools.component';
 import { FaqListComponent } from './faqs/faq-list/faq-list.component';
+import { UserGuideComponent } from './user-guide/user-guide.component';
 
 const appRoutes: Routes = [
   // { path: '', redirectTo: '', pathMatch: 'full' },
@@ -39,6 +40,10 @@ const appRoutes: Routes = [
         component: FaqListComponent,
       },
     ],
+  },
+  {
+    path: 'guides/:id',
+    component: UserGuideComponent,
   },
 ];
 @NgModule({

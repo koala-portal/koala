@@ -18,7 +18,7 @@
         class="mb-3 clickable"
         matRipple
         (click)="onClickTopCategory()"
-        [ngClass]="topOnly ? 'background-primary' : ''"
+        [ngClass]="topOnly ? 'bg-livid-1' : ''"
       >
         <mat-card-title>
           <i class="fa fa-star"></i>
@@ -34,7 +34,7 @@
         <mat-card
           class="mb-3 clickable"
           [ngClass]="
-            filterFaqCategory?.id == faqCategory.id ? 'background-primary' : ''
+            filterFaqCategory?.id == faqCategory.id ? 'bg-livid-1' : ''
           "
           (click)="onClickCategory(faqCategory)"
           matRipple
@@ -51,12 +51,12 @@
     </div>
 
     <!-- Categories -->
-    <div fxFlex="80" class="pl-3">
+    <div fxFlex="80" class="pl-3" id="faq-section">
       <!-- Clear Filter Button -->
       <button
+        id="view-questions"
         class="mb-3"
         mat-raised-button
-        color="accent"
         (click)="onClickTopCategory()"
         *ngIf="!topOnly || filterFaqCategory"
       >

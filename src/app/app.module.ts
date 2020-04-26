@@ -67,7 +67,7 @@ import { FaqAccordionComponent } from './faqs/faq-accordion/faq-accordion.compon
     MaterialModule,
     FlexLayoutModule,
   ],
-  providers: [KToolsService, TicketService],
+  providers: [KToolsService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

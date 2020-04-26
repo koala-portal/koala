@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -18,7 +17,7 @@ import { TicketFormComponent } from '../ticket-form/ticket-form.component';
 })
 export class TicketListComponent implements OnInit {
   tickets: Ticket[];
-  ticketsTable = new MatTableDataSource(this.tickets);
+  // ticketsTable = new MatTableDataSource(this.tickets);
   displayedColumns: string[] = [
     'ticketNo',
     'sdType',
@@ -40,7 +39,7 @@ export class TicketListComponent implements OnInit {
 
   ngOnInit(): void {
     this.tickets = this.ticketService.getTickets();
-    this.ticketsTable = new MatTableDataSource<Ticket>(this.tickets);
+    // this.ticketsTable = new MatTableDataSource<Ticket>(this.tickets);
     // this.tickets.paginator = this.paginator;
 
     this.ticketChangeSub = this.ticketService.ticket$.subscribe(

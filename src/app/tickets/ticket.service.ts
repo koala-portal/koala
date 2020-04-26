@@ -1,8 +1,9 @@
-import { KToolsService } from '../k-tools/k-tools.service';
 import { Injectable } from '@angular/core';
-import { Ticket } from './ticket.model';
-// import { KTool } from '../shared/k-tool.model';
 import { Observable, of, Subject } from 'rxjs';
+
+import { Ticket } from './ticket.model';
+import { KToolsService } from '../k-tools/k-tools.service';
+// import { KTool } from '../shared/k-tool.model';
 
 @Injectable({ providedIn: 'root' })
 export class TicketService {
@@ -65,11 +66,11 @@ export class TicketService {
     return this.tickets.slice();
   }
 
-  getTicket(ticketNo): Ticket {
-    const ticket = this.tickets.filter((x) => x.ticketNumber === ticketNo);
-    return ticket[0];
+  getTicket(ticketNo: string): Ticket {
+    return this.tickets.find((x) => x.ticketNumber === ticketNo);
   }
 
+  //TODO fix this.. jmd
   filterTickets(filteredValue): void {
     this.tickets.filter = filteredValue.trim().toLowerCase();
   }

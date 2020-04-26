@@ -18,8 +18,6 @@ import { TicketFormComponent } from '../ticket-form/ticket-form.component';
 })
 export class TicketItemComponent {
   ticket: Ticket;
-  id: number;
-  ticketNumber: string;
 
   @Output() cancel: EventEmitter<void> = new EventEmitter();
 

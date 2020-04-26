@@ -22,15 +22,6 @@
   right: 0;
 }
 
-.background-primary {
-  background-color: mat-color($koala-primary);
-  color: mat-color($koala-primary, default-contrast);
-
-  mat-card-subtitle {
-    color: mat-color($koala-primary, default-contrast);
-  }
-}
-
 // Page Title/headers
 .k-header {
   position: relative;

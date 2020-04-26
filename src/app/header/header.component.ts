@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Ticket } from '../tickets/ticket.model';
+import { TicketService } from '../tickets/ticket.service';
 
 @Component({
   selector: 'app-header',
@@ -6,5 +8,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  // TO DO: set up hide/show for "Manage Service Desk" to only be certain user group
+  // TODO: set up hide/show additional views for tickets
+
+  tickets: Ticket[];
+  constructor(private ticketService: TicketService) {}
+
+  ngOnInit(): void {
+    this.tickets = this.ticketService.getTickets();
+  }
 }

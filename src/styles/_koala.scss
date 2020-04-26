@@ -1,0 +1,52 @@
+.k-container {
+  @extend .bg-charcoal-5;
+}
+
+.pb-10 {
+  padding-bottom: 150px !important;
+}
+.w-20 {
+  width: 20%;
+}
+
+.w-60 {
+  width: 60%;
+}
+
+.line-height-normal {
+  line-height: normal;
+}
+
+.absolute-right {
+  position: absolute;
+  right: 0;
+}
+
+// Page Title/headers
+.k-header {
+  position: relative;
+  background: $primary;
+  height: 75px;
+  margin-bottom: 25px;
+
+  .mat-display-1 {
+    margin: auto;
+  }
+
+  // if there is a button inside koala's branded header div
+  .mat-fab {
+    position: absolute;
+    left: 10px;
+    bottom: -26px;
+    z-index: 101;
+
+    & ~ .k-header-title {
+      margin-left: 55px;
+    }
+  }
+
+  .k-header-title {
+    @extend .mat-display-1;
+    @extend .pl-3;
+  }
+}

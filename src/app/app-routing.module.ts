@@ -1,12 +1,12 @@
+import { TicketListComponent } from './tickets/ticket-list/ticket-list.component';
 import { AbodeComponent } from './abode/abode.component';
-import { TicketEditComponent } from './tickets/ticket-edit/ticket-edit.component';
+import { TicketFormComponent } from './tickets/ticket-form/ticket-form.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { TicketsComponent } from './tickets/tickets.component';
 
-import { TicketDetailComponent } from './tickets/ticket-detail/ticket-detail.component';
-import { TicketStartComponent } from './tickets/ticket-start/ticket-start.component';
+import { TicketItemComponent } from './tickets/ticket-item/ticket-item.component';
 import { FaqsComponent } from './faqs/faqs.component';
 import { KToolsComponent } from './k-tools/k-tools.component';
 import { FaqListComponent } from './faqs/faq-list/faq-list.component';
@@ -19,10 +19,10 @@ const appRoutes: Routes = [
     path: 'tickets',
     component: TicketsComponent,
     children: [
-      { path: '', component: TicketStartComponent },
-      { path: 'new', component: TicketEditComponent },
-      { path: ':id', component: TicketDetailComponent },
-      { path: ':id/edit', component: TicketEditComponent },
+      { path: '', component: TicketListComponent },
+      { path: 'new', component: TicketFormComponent },
+      { path: ':id', component: TicketItemComponent },
+      { path: ':id/edit', component: TicketFormComponent },
     ],
   },
   { path: 'k-tools', component: KToolsComponent },

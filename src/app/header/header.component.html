@@ -2,7 +2,7 @@
   class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top"
   id="main-nav"
 >
-  <div class="container">
+  <div fxLayout="row">
     <a href="" class="navbar-brand">Koala</a>
     <button
       class="navbar-toggler"
@@ -18,7 +18,13 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLinkActive="active" routerLink="/tickets"
-            >Ticket <span class="badge">3</span></a
+            >My Tickets
+            <span class="fa-stack" *ngIf="tickets?.length > 0">
+              <span class="fa fa-circle-thin fa-stack-2x text-primary"></span>
+              <strong class="fa-stack-1x">
+                {{ tickets.length }}
+              </strong>
+            </span></a
           >
         </li>
         <li class="nav-item">
@@ -26,24 +32,7 @@
             >Tools</a
           >
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Contact</a>
-        </li>
       </ul>
-      <div ngbDropdown class="d-inline-block">
-        <button
-          mat-raised-button
-          color="primary"
-          id="dropdownBasic1"
-          ngbDropdownToggle
-        >
-          Service Desk
-        </button>
-        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-          <button ngbDropdownItem>View Tickets</button>
-          <button ngbDropdownItem>Update Access</button>
-        </div>
-      </div>
     </div>
   </div>
 </nav>

@@ -1,0 +1,13 @@
+@import "../../../styles/variables";
+
+#ticket-list {
+  .wp-100 {
+    width: 100px;
+  }
+}
+
+.mat-row:hover {
+  @extend .bg-greyBlue-1;
+
+  cursor: pointer;
+}

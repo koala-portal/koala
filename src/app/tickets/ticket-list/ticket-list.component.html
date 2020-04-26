@@ -1,20 +1,80 @@
-<h2 class="d-flex justify-content-center display-4">
-  Tickets Queued
-</h2>
-
-<div class="d-flex">
-  <button mat-raised-button color="primary" (click)="onNewTicket()">
-    Create Ticket
+<div fxLayout="row" fxLayoutAlign="center center" class="k-header">
+  <button
+    flFlex
+    mat-fab
+    color="primary"
+    matTooltip="Submit ticket"
+    (click)="openForm()"
+  >
+    <mat-icon>add</mat-icon>
   </button>
+  <div fxFlex class="k-header-title">Tickets</div>
 </div>
-<p>
-  TO DO - insert table with sort/filter of tickets instead of just listing
-  them...
-</p>
-<div class="p-2">
-  <app-ticket-item
-    *ngFor="let ticketEl of tickets; let i = index"
-    [ticket]="ticketEl"
-    [index]="i"
-  ></app-ticket-item>
+
+<div class="mat-elevation-z8" class="p-4">
+  <div fxLayout="row">
+    <mat-form-field fxFlex>
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" />
+    </mat-form-field>
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+      fxFlex
+    ></mat-paginator>
+  </div>
+
+  <table mat-table [dataSource]="tickets" class="w-100">
+    <ng-container matColumnDef="ticketNo">
+      <th mat-header-cell *matHeaderCellDef class="wp-100">Ticket #</th>
+      <td mat-cell class="font-weight-bold" *matCellDef="let element">
+        {{ element.id }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="sdType">
+      <th mat-header-cell *matHeaderCellDef class="wp-100">Category</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.serviceDeskTypes }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="kTool">
+      <th mat-header-cell *matHeaderCellDef class="wp-100">Tool</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.kTool }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Title</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.title }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef>Description</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.description }}
+      </td>
+    </ng-container>
+    <ng-containter matColumnDef="icons">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
+        <button
+          class="float-right"
+          mat-icon-button
+          aria-label="Edit Ticket"
+          matTooltip="Edit Ticket"
+          (click)="openForm(element)"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+      </td>
+    </ng-containter>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: displayedColumns"
+      (click)="openDetails(row)"
+    ></tr>
+  </table>
 </div>

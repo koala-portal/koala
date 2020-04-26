@@ -1,0 +1,25 @@
+// Dialog for form use:
+.form-dialog {
+  .mat-dialog-container {
+    padding: 0px !important;
+    min-height: 200px !important;
+    margin-top: 70px;
+  }
+
+  .mat-dialog-container {
+    // Cards in modals
+    .mat-card {
+      @extend .k-bt-carminePink;
+
+      .mat-dialog-container .mat-card {
+        font-size: 20px;
+      }
+
+      .mat-card-footer {
+        .mat-raised-button {
+          margin: 5px;
+        }
+      }
+    }
+  }
+}

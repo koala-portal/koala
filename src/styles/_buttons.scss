@@ -9,6 +9,10 @@
   }
 }
 
-.button:focus {
-  outline: 0px transparent;
+.mat-button,
+button:focus,
+button:active:focus,
+button.active:focus {
+  outline: none !important;
+  outline-style: none !important;
 }

@@ -67,3 +67,12 @@ Modify Prettier rules in .eslintrc.json under "rules" -> "prettier/prettier"
     },
 }
 ```
+### Getting Into The EC2 Instance
+ - First you must have the pem file in order to SSH in securely.
+ - If you're running on a Windows box you'll need to download a utility like Putty, otherwise move onto the next step (read here https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/putty.html).
+ - Make sure you set the correct permissions on the key ("chmod 400 <pem file>")
+ - Once you have that run the following command:
+     "ssh -i <pem file> ec2-user@<ip-address>"
+ - So for example, go to the directory with the pem file and run: "ssh -i k_portal.pem ec2-user@54.90.122.118"
+ - You'll find the portal app running under /apps
+ - You can run "ps -ef | grep portal" to see if it's running and under what pid

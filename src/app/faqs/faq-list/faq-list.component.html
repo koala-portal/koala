@@ -18,7 +18,7 @@
         class="mb-3 clickable"
         matRipple
         (click)="onClickTopCategory()"
-        [ngClass]="topOnly ? 'bg-livid-1' : ''"
+        [ngClass]="topOnly ? 'koala-livid-bg-1' : ''"
       >
         <mat-card-title>
           <i class="fa fa-star"></i>
@@ -34,7 +34,7 @@
         <mat-card
           class="mb-3 clickable"
           [ngClass]="
-            filterFaqCategory?.id == faqCategory.id ? 'bg-livid-1' : ''
+            filterFaqCategory?.id == faqCategory.id ? 'koala-livid-bg-1' : ''
           "
           (click)="onClickCategory(faqCategory)"
           matRipple

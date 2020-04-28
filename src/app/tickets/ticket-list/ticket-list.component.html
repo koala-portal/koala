@@ -11,70 +11,139 @@
   <div fxFlex class="k-header-title">Tickets</div>
 </div>
 
-<div class="mat-elevation-z8" class="p-4">
-  <div fxLayout="row">
-    <mat-form-field fxFlex>
-      <mat-label>Filter</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" />
-    </mat-form-field>
-    <mat-paginator
-      [pageSizeOptions]="[5, 10, 20]"
-      showFirstLastButtons
-      fxFlex
-    ></mat-paginator>
-  </div>
-
-  <table mat-table [dataSource]="tickets" class="w-100">
-    <ng-container matColumnDef="ticketNo">
-      <th mat-header-cell *matHeaderCellDef class="wp-100">Ticket #</th>
-      <td mat-cell class="font-weight-bold" *matCellDef="let element">
-        {{ element.id }}
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="sdType">
-      <th mat-header-cell *matHeaderCellDef class="wp-100">Category</th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.serviceDeskTypes }}
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="kTool">
-      <th mat-header-cell *matHeaderCellDef class="wp-100">Tool</th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.kTool }}
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Title</th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.title }}
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="description">
-      <th mat-header-cell *matHeaderCellDef>Description</th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.description }}
-      </td>
-    </ng-container>
-    <ng-containter matColumnDef="icons">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
+<div class="mat-elevation-z8">
+  <mat-sidenav-container>
+    <mat-sidenav-content>
+      <div fxLayout="row">
+        <mat-paginator
+          [pageSizeOptions]="[5, 10, 20]"
+          showFirstLastButtons
+          fxFlex
+        ></mat-paginator>
         <button
-          class="float-right"
-          mat-icon-button
-          aria-label="Edit Ticket"
-          matTooltip="Edit Ticket"
-          (click)="openForm(element)"
+          mat-button
+          (click)="sidenav.toggle()"
+          title="Additional filters"
         >
-          <mat-icon>edit</mat-icon>
+          Filter <mat-icon>filter_list</mat-icon>
         </button>
-      </td>
-    </ng-containter>
+      </div>
+      <table mat-table [dataSource]="tickets" class="w-100 p-3">
+        <ng-container matColumnDef="stat">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td *matCellDef="let element">
+            <div fxLayout="row" fxLayoutAlign="space-between none">
+              <div
+                class="tic-banner"
+                [ngClass]="statColor(element.status)"
+              ></div>
+              <div fxFlex (click)="$event.stopPropagation()">
+                <div class="k-cell ticket-title" (click)="openForm(element)">
+                  <div>
+                    <mat-icon>edit</mat-icon> {{ element.id }}:
+                    {{ element.title }}
+                  </div>
+                </div>
+                <div
+                  class="k-cell sec"
+                  fxFlayout="row"
+                  fxLayoutAlign="start start"
+                >
+                  <mat-icon>
+                    person
+                  </mat-icon>
+                  <div>{{ element.assigned }}</div>
+                </div>
+              </div>
+              <div fxFlex>
+                <div class="k-cell">
+                  <div>Organization:</div>
+                  <div>{{ element.organization }}</div>
+                </div>
+                <div class="k-cell sec">
+                  <div>Created & Updated:</div>
+                  <div>{{ element.created }}</div>
+                  <div>{{ element.updated }}</div>
+                </div>
+              </div>
+              <div fxFlex>
+                <div class="k-cell">
+                  <div>Category:</div>
+                  <div>{{ element.serviceDeskTypes }}</div>
+                </div>
+                <div class="k-cell sec">
+                  <div>Tool</div>
+                  <div>{{ element.kTool }}</div>
+                </div>
+              </div>
+              <div fxFlex>
+                <div class="k-cell">
+                  <div>Priority</div>
+                  <div>{{ element.priority }}</div>
+                </div>
+                <div class="k-cell sec">
+                  <div>Status</div>
+                  <div>
+                    <span
+                      class="stat-brd"
+                      [ngClass]="statColor(element.status)"
+                      >{{ element.status }}</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumns"
+          (click)="openDetails(row)"
+        ></tr>
+      </table>
+    </mat-sidenav-content>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-    <tr
-      mat-row
-      *matRowDef="let row; columns: displayedColumns"
-      (click)="openDetails(row)"
-    ></tr>
-  </table>
+    <mat-sidenav #sidenav [mode]="mode.value" [opened]="true" position="end">
+      <div
+        fxLayout="row"
+        fxLayoutAlign="space-between center"
+        id="tic-filter-header"
+      >
+        <div class="mat-h2">Select Filters</div>
+        <button
+          mat-icon-button
+          (click)="sidenav.toggle()"
+          aria-label="Close Filter Options"
+        >
+          <mat-icon fxFlex>close</mat-icon>
+        </button>
+      </div>
+
+      <mat-list>
+        <div mat-subheader>Statuses</div>
+        <mat-selection-list #status *ngFor="let stat of statusValues">
+          <mat-list-option>
+            {{ stat.status }}
+          </mat-list-option>
+        </mat-selection-list>
+        <mat-divider></mat-divider>
+        <div mat-subheader>Tools</div>
+        <div id="mat-chip-list-ktools">
+          <mat-chip-list #toolList aria-label="Tool selection">
+            <mat-chip
+              *ngFor="let kTool of kTools"
+              [selectable]="kTool.isActive"
+              [removable]="removable"
+              (removed)="removeMat(kTool)"
+              (click)="kTool.isActive = !kTool.isActive"
+              [ngClass]="kTool.isActive === true ? 'active' : ''"
+            >
+              {{ kTool.name }}
+              <mat-icon matChipRemove *ngIf="kTool.isActive">cancel</mat-icon>
+            </mat-chip>
+          </mat-chip-list>
+        </div>
+      </mat-list>
+    </mat-sidenav>
+  </mat-sidenav-container>
 </div>

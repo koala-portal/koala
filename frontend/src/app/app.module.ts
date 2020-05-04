@@ -33,6 +33,8 @@ import { KToolItemComponent } from './k-tools/k-tool-item/k-tool-item.component'
 import { SharedModule } from './shared/shared.module';
 import { KToolFormComponent } from './k-tools/k-tool-form/k-tool-form.component';
 import { KToolFormDialogComponent } from './k-tools/k-tool-form-dialog/k-tool-form-dialog.component';
+import { ReleaseNotesComponent } from './user-guide/release-notes/release-notes.component';
+import { SectionsListComponent } from './user-guide/sections-list/sections-list.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +61,8 @@ import { KToolFormDialogComponent } from './k-tools/k-tool-form-dialog/k-tool-fo
     KToolItemComponent,
     KToolFormComponent,
     KToolFormDialogComponent,
+    ReleaseNotesComponent,
+    SectionsListComponent,
   ],
   imports: [
     BrowserModule,

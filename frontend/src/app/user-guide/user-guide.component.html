@@ -1,3 +1,72 @@
-<p>user-guide works!</p>
-<!-- TO DO user guides for each of the tools-->
-<!-- Topic on left, content on right, using display-n as titles...-->
+<div class="bg-light rounded m-3 p-3" fxLayout="row" fxLayoutGap="16px">
+  <!-- Left Sidebar -->
+  <div class="position-relative">
+    <div
+      class="sticky-top"
+      style="top: 74px; z-index: 10;"
+      fxLayout="column"
+      fxLayoutGap="16px"
+    >
+      <!-- Tool Card -->
+      <app-k-tool-item [kTool]="kTool"></app-k-tool-item>
+
+      <!-- Section Links -->
+      <mat-card>
+        <mat-card-title> <h2>Contents</h2> </mat-card-title>
+        <mat-card-content fxLayout="column" fxLayoutGap="8px">
+          <a
+            *ngFor="let section of kTool.guide.sections"
+            [routerLink]="['./guide']"
+            [fragment]="section.title"
+            mat-button
+            class="text-decoration-none"
+            fxFill
+            [ngClass]="
+              section === selectedSection
+                ? 'background-primary text-white'
+                : 'text-reset'
+            "
+            (click)="onClickSectionLink(section)"
+          >
+            <div fxLayoutAlign="start center">
+              <mat-icon class="mr-3">{{
+                section === selectedSection
+                  ? "radio_button_checked"
+                  : "radio_button_unchecked"
+              }}</mat-icon>
+              <span> {{ section.title }}</span>
+            </div>
+          </a>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Main Sections/Content -->
+  <div fxLayout="column">
+    <nav mat-tab-nav-bar>
+      <a
+        class="text-reset text-decoration-none"
+        mat-tab-link
+        routerLink="content"
+        routerLinkActive
+        #guideLink="routerLinkActive"
+        [active]="guideLink.isActive"
+      >
+        Guide
+      </a>
+      <a
+        class="text-reset text-decoration-none"
+        mat-tab-link
+        routerLink="release-notes"
+        routerLinkActive
+        #notesLink="routerLinkActive"
+        [active]="notesLink.isActive"
+      >
+        Release Notes
+      </a>
+    </nav>
+
+    <router-outlet class="mt-3"></router-outlet>
+  </div>
+</div>

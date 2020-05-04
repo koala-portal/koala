@@ -1,0 +1,25 @@
+.card {
+  flex-direction: row;
+
+  &.active {
+    box-shadow: 0 0rem 0.5rem #ff7600 !important;
+  }
+
+  .w-faq {
+    width: 18rem;
+  }
+
+  .card-title {
+    &.display-3 {
+      font-size: 1.25rem;
+    }
+  }
+
+  .card-body {
+    flex-direction: column;
+  }
+
+  .fa {
+    font-size: 1.5em;
+  }
+}

@@ -1,0 +1,34 @@
+#abode {
+  color: white;
+
+  .home-inner {
+    padding: 75px 0px;
+  }
+
+  #abode-welcome {
+    height: 425px;
+    background-image: url("../../assets/images/koala_forest.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position-y: -60px;
+  }
+
+  #service-desk-containter {
+    position: relative;
+
+    .d-flex {
+      padding: 0 40px;
+      position: absolute;
+      top: -85px;
+    }
+  }
+
+  .dark-overlay {
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 425px;
+    background: rgba(0, 0, 0, 0.7);
+  }
+}

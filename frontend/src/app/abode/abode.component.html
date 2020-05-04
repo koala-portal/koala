@@ -1,0 +1,48 @@
+<div fxFlex id="abode">
+  <div fxLayout="row" fxLayoutAlign="center center" id="abode-welcome">
+    <div class="dark-overlay">
+      <div class="p-4 display-4 w-80 pb-10">
+        <div class="d-flex flex-column row-hl">
+          <div class="p-4 item-hl">
+            Welcome to <strong>Koala</strong>, K's Service Desk
+          </div>
+          <div class="item-hl">
+            <input
+              type="text"
+              class="form-control form-control-lg"
+              placeholder="Find help and services"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Service Desk-->
+  <div fxLayout="row" id="service-desk-containter">
+    <div fxFlex class="justify-content-center row-hl w-100">
+      <app-service-desk class="d-flex"></app-service-desk>
+    </div>
+  </div>
+
+  <!--Top FAQ links-->
+  <section id="explore-head-section" class="bg-dark">
+    <div class="text-center py-5">
+      <h1 class="display-5 pt-3">Top Questions Answered</h1>
+      <p class="lead">
+        Before you submit a ticket, view the top answers our teams get.
+      </p>
+      <div
+        class="d-flex w-7 flex-wrap row-hl"
+        style="width: 50%; margin: auto;"
+      >
+        <app-faq-starred class="w-100"></app-faq-starred>
+      </div>
+      <div class="p-4">
+        <button routerLink="/faqs" mat-raised-button color="accent">
+          View Top Questions
+        </button>
+      </div>
+    </div>
+  </section>
+</div>

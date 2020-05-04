@@ -1,0 +1,20 @@
+<h2 class="d-flex justify-content-center display-4">
+  Tickets Queued
+</h2>
+
+<div class="d-flex">
+  <button mat-raised-button color="primary" (click)="onNewTicket()">
+    Create Ticket
+  </button>
+</div>
+<p>
+  TO DO - insert table with sort/filter of tickets instead of just listing
+  them...
+</p>
+<div class="p-2">
+  <app-ticket-item
+    *ngFor="let ticketEl of tickets; let i = index"
+    [ticket]="ticketEl"
+    [index]="i"
+  ></app-ticket-item>
+</div>

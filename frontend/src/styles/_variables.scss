@@ -1,0 +1,54 @@
+// Color system
+
+// Greens
+
+$liteGreen: #85b268;
+$green: #56a423;
+$lime: #42a700;
+$liteBlue: #7d84a5;
+$blue: #536786;
+$yellow: #caab76;
+$ad: #b3c6a6;
+$pink: #b96c7f;
+$greyBlue: #7f8895;
+$teal: #009c8f;
+
+$white: #fff;
+$black: #000;
+
+// koala's custom colors:
+$mint: #00c6a9;
+$carminePink: #f15e6e;
+$amber: #ffc100;
+$charcoal: #3d4c5f;
+$livid: #5e96cd;
+$k-colors: ("mint", $mint), ("carminePink", $carminePink), ("amber", $amber),
+  ("charcoal", $charcoal), ("livid", $livid);
+
+// Bootstrap Color System
+$primary: $mint;
+$secondary: $livid;
+
+@mixin color-weight($class, $base-color, $weight) {
+  $bg-color: null;
+
+  @for $i from 1 through 8 {
+    @if $i < 4 {
+      $weight: $weight - 1;
+      $bg-color: lighten($base-color, $weight * 10%);
+    } @else if $i == 4 {
+      $weight: 0;
+      $bg-color: $base-color;
+    } @else {
+      $weight: $weight + 1;
+      $bg-color: darken($base-color, $weight * 10%);
+    }
+
+    .#{$class}-#{$i} {
+      background-color: $bg-color;
+    }
+  }
+}
+
+@include color-weight(bg-mint, $mint, 4);
+@include color-weight(bg-charcoal, $charcoal, 4);

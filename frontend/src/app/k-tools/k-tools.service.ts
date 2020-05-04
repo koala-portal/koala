@@ -1,6 +1,6 @@
 import { Subject, Observable, of, throwError } from 'rxjs';
 import { KTool } from '../shared/k-tool.model';
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, retry, map } from 'rxjs/operators'
 import { User } from './user.model';
@@ -10,6 +10,8 @@ import { ToastrService } from 'ngx-toastr';
 @Injectable({ providedIn: 'root' })
 export class KToolsService {
   kTool$ = new Subject<KTool[]>();
+
+  @Output() whoamiEmitter: EventEmitter<User> = new EventEmitter<User>();
 
   private kTools: KTool[] = [
     {
@@ -79,6 +81,7 @@ export class KToolsService {
     this.http.get(url).
       pipe(
         map((data: User) => {
+          this.whoamiEmitter.emit(data);
           return data;
         }), catchError( error => {
           this.toastr.error(  error.error.resolution,

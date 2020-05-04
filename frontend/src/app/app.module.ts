@@ -80,7 +80,7 @@ import { ToastrModule } from 'ngx-toastr';
                     enableHtml: true,
                     titleClass: 'toast-title',
                     tapToDismiss: true
-    })  //This allows us to create a common/global config that all pop-ups will follow throughout the app.
+    })  //This allows us to create a common/global config that all pop-ups will follow throughout the app.  Current options a developer can use are: success/error/warning/info/show.
   ],
   bootstrap: [AppComponent],
 })

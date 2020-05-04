@@ -37,7 +37,7 @@ public class WhoAmIController extends BaseController {
 		UserDetails user = new UserDetails(authentication.getName(), principal.getName(), null);
 		for (GrantedAuthority r : authentication.getAuthorities())
 			user.setRole(PortalRoles.valueOf(r.getAuthority()));
-			
+
 		return user;
 	}
 	

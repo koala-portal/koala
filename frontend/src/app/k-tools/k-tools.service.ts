@@ -5,6 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, retry, map } from 'rxjs/operators'
 import { User } from './user.model';
 
+import { ToastrService } from 'ngx-toastr';
+
 @Injectable({ providedIn: 'root' })
 export class KToolsService {
   kTool$ = new Subject<KTool[]>();
@@ -44,7 +46,7 @@ export class KToolsService {
     },
   ];
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private toastr: ToastrService) { }
 
   getKTools(): KTool[] {
     return this.kTools.slice();
@@ -69,20 +71,25 @@ export class KToolsService {
     return this.put(kTool);
   }
 
-  whoAmI(): Observable<User> {
+  whoAmI(): void {
       // Http Headers
 
     var url = 'https://localhost:8443/api/whoami';
 
-
-    return this.http.get(url).
-        pipe(
-           map((data: User) => {
-             return data;
-           }), catchError( error => {
-             return throwError( 'Something went wrong!' );
-           })
-        );
+    this.http.get(url).
+      pipe(
+        map((data: User) => {
+          return data;
+        }), catchError( error => {
+          this.toastr.error(  error.error.resolution,
+                              error.error.error);
+          return throwError( error.error );
+        })
+      )
+      .subscribe(
+        res => console.log('HTTP response', res),
+        err => console.log('HTTP Error', err.error)
+      );
 
     // this.http.get(url).subscribe((res)=>{
     //   return res;

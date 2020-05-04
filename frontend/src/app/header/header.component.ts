@@ -17,9 +17,6 @@ export class HeaderComponent {
 
   ngOnInit(): void {
     this.tickets = this.ticketService.getTickets();
-    this.ktService.whoAmI().subscribe((u:User) => {
-      console.log(u);
-      alert(u.userName + " is logged in as a(n) " + u.role);
-    });
+    this.ktService.whoAmI();
   }
 }

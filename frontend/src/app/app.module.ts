@@ -34,6 +34,8 @@ import { SharedModule } from './shared/shared.module';
 import { KToolFormComponent } from './k-tools/k-tool-form/k-tool-form.component';
 import { KToolFormDialogComponent } from './k-tools/k-tool-form-dialog/k-tool-form-dialog.component';
 
+import { ToastrModule } from 'ngx-toastr';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -71,6 +73,14 @@ import { KToolFormDialogComponent } from './k-tools/k-tool-form-dialog/k-tool-fo
     MaterialModule,
     FlexLayoutModule,
     SharedModule,
+    ToastrModule.forRoot({
+                    timeOut: 5000,
+                    positionClass: 'toast-bottom-right',
+                    preventDuplicates: true,
+                    enableHtml: true,
+                    titleClass: 'toast-title',
+                    tapToDismiss: true
+    })  //This allows us to create a common/global config that all pop-ups will follow throughout the app.
   ],
   bootstrap: [AppComponent],
 })

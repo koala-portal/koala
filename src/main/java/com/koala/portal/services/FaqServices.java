@@ -5,6 +5,7 @@ import java.util.List;
 import com.koala.portal.exceptions.EntityNotFoundException;
 import com.koala.portal.exceptions.InvalidFormException;
 import com.koala.portal.models.Faq;
+import com.koala.portal.models.FaqCategory;
 
 public interface FaqServices {
 
@@ -19,4 +20,7 @@ public interface FaqServices {
 	public void remove(long id) throws EntityNotFoundException;
 
 	public void viewed(long id) throws EntityNotFoundException;
+
+	public List<FaqCategory> getAllCategories();
+	
 }

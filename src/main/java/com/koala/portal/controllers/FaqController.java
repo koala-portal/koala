@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.koala.portal.exceptions.EntityNotFoundException;
 import com.koala.portal.exceptions.InvalidFormException;
 import com.koala.portal.models.Faq;
+import com.koala.portal.models.FaqCategory;
 import com.koala.portal.services.FaqServices;
 
 import io.swagger.annotations.Api;
@@ -37,9 +39,22 @@ public class FaqController extends BaseController {
 	        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
 	        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden")
 	})
-	//@PreAuthorize("isFullyAuthenticated()")
+	@PreAuthorize("isFullyAuthenticated()")
 	public List<Faq> getAll(){
 		return faqServices.getAll();
+	}
+	
+	@RequestMapping(value = "/faqCategory", method = RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
+	@ResponseStatus(HttpStatus.OK)
+	@ApiOperation(value = "View a list of all existing FAQ categories.", response = List.class)
+	@ApiResponses(value = {
+	        @ApiResponse(code = 200, message = "Successfully retrieved the list of FAQ categories"),
+	        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+	        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden")
+	})
+	@PreAuthorize("isFullyAuthenticated()")
+	public List<FaqCategory> getAllCategories(){
+		return faqServices.getAllCategories();
 	}
 	
 	@RequestMapping(value = "/faq/{faqId}", method = RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
@@ -51,6 +66,7 @@ public class FaqController extends BaseController {
 	        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
 	        @ApiResponse(code = 404, message = "The FAQ you were trying to reach is not found or does not exist.  Please check the response body for details.")
 	})
+	@PreAuthorize("isFullyAuthenticated()")
 	public Faq get(@PathVariable(value="faqId") long id) throws EntityNotFoundException{
 		return faqServices.get(id);
 	}
@@ -103,6 +119,7 @@ public class FaqController extends BaseController {
 	        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
 	        @ApiResponse(code = 404, message = "The FAQ you were trying to update is not found or does not exist.  Please check the response body for details.")
 	})
+	@PreAuthorize("isFullyAuthenticated()")
 	public void update(@PathVariable(value="faqId") long id) throws EntityNotFoundException, InvalidFormException{
 		faqServices.viewed(id);
 	}

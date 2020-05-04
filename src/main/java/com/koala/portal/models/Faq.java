@@ -8,7 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -34,16 +36,20 @@ public class Faq implements Serializable {
 	
 	@ApiModelProperty(notes = "How many times has a user/client looked at this specific FAQ.", allowEmptyValue=true, dataType="Long")
 	private int timesViewed;
+
+	@ApiModelProperty(notes = "The category the FAQ falls under.", allowEmptyValue=false)
+    private FaqCategory category;
 	
 	public Faq() {/* Base Constructor */}
 	
-	public Faq(long id, String title, String desc, String info, Date updated, int timesViewed) {
+	public Faq(long id, String title, String desc, String info, Date updated, int timesViewed, FaqCategory faqCategory) {
 		setId(id);
 		setTitle(title);
 		setDesc(desc);
 		setUpdated(updated);
 		setInfo(info);
 		setTimesViewed(timesViewed);
+		setCategory(faqCategory);
 	}
 	
 	@Id
@@ -98,6 +104,16 @@ public class Faq implements Serializable {
 
 	public void setTimesViewed(int timesViewed) {
 		this.timesViewed = timesViewed;
+	}
+	
+	@ManyToOne
+    @JoinColumn(name="category_id", nullable=false)
+    public FaqCategory getCategory() {
+		return category;
+	}
+
+	public void setCategory(FaqCategory category) {
+		this.category = category;
 	}
 	
 	@Transient

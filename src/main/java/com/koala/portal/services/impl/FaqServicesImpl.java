@@ -12,6 +12,8 @@ import com.google.common.collect.Lists;
 import com.koala.portal.exceptions.EntityNotFoundException;
 import com.koala.portal.exceptions.InvalidFormException;
 import com.koala.portal.models.Faq;
+import com.koala.portal.models.FaqCategory;
+import com.koala.portal.repos.FaqCategoryRepo;
 import com.koala.portal.repos.FaqRepo;
 import com.koala.portal.services.FaqServices;
 
@@ -20,6 +22,9 @@ public class FaqServicesImpl implements FaqServices {
 
 	@Autowired
 	private FaqRepo faqRepo;
+	
+	@Autowired
+	private FaqCategoryRepo faqCategoryServices;
 	
 	@Override
 	public List<Faq> getAll() {		
@@ -86,5 +91,10 @@ public class FaqServicesImpl implements FaqServices {
 			throw new EntityNotFoundException("FAQ", Long.toString(id));
 		
 		return faq.get();
+	}
+
+	@Override
+	public List<FaqCategory> getAllCategories() {
+		return Lists.newArrayList(faqCategoryServices.findAll());
 	}
 }

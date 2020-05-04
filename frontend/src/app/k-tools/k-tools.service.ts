@@ -1,6 +1,9 @@
-import { Subject, Observable, of } from 'rxjs';
+import { Subject, Observable, of, throwError } from 'rxjs';
 import { KTool } from '../shared/k-tool.model';
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { catchError, retry, map } from 'rxjs/operators'
+import { User } from './user.model';
 
 @Injectable({ providedIn: 'root' })
 export class KToolsService {
@@ -41,6 +44,8 @@ export class KToolsService {
     },
   ];
 
+  constructor(private http: HttpClient) { }
+
   getKTools(): KTool[] {
     return this.kTools.slice();
   }
@@ -62,6 +67,34 @@ export class KToolsService {
   star(kTool: KTool): Observable<KTool> {
     kTool.starred = !kTool.starred;
     return this.put(kTool);
+  }
+
+  whoAmI(): Observable<User> {
+      // Http Headers
+
+    var url = 'https://localhost:8443/api/whoami';
+
+
+    return this.http.get(url).
+        pipe(
+           map((data: User) => {
+             return data;
+           }), catchError( error => {
+             return throwError( 'Something went wrong!' );
+           })
+        );
+
+    // this.http.get(url).subscribe((res)=>{
+    //   return res;
+    // });
+    
+    //return this.http.get<User>(url);
+
+    // return this.http.get<User>(url).pipe(
+    //   tap(_ => this.log(`Who is this???`)),
+    // catchError(this.handleError<User>(`Not sure who this is`))
+  //);
+
   }
 
   put(kTool: KTool): Observable<KTool> {

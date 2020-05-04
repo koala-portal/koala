@@ -1,0 +1,82 @@
+plugins {
+	id 'org.springframework.boot' version '2.2.6.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'java'
+	id 'org.hidetake.ssh' version '2.10.1'
+	id 'eclipse'
+}
+
+group = 'com.koala'
+sourceCompatibility = '1.8'
+
+configurations {
+	developmentOnly
+	runtimeClasspath {
+		extendsFrom developmentOnly
+	}
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	//implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+	implementation 'org.springframework.boot:spring-boot-starter-freemarker'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	runtimeOnly 'com.h2database:h2'
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	//testImplementation 'org.springframework.security:spring-security-test'
+
+	//Standard
+	implementation 'org.apache.commons:commons-lang3:3.0'
+
+	//Database
+	implementation 'com.h2database:h2:1.3.148'
+
+	//API Documentation
+	implementation 'io.springfox:springfox-swagger2:2.9.2'
+	implementation 'io.springfox:springfox-swagger-ui:2.9.2'
+	implementation 'org.springframework.plugin:spring-plugin-core:1.2.0.RELEASE'
+}
+
+test {
+	useJUnitPlatform()
+}
+
+bootRun {
+    String activeProfile =  System.properties['spring.profiles.active']
+    systemProperty "spring.profiles.active", activeProfile
+}
+
+remotes {
+  webServer {
+    host = ec2Host
+    user = ec2User
+    identity = file(pemFilePath)
+  }
+}
+
+task deploy {
+	dependsOn build
+	doLast {
+		ssh.run {
+			session(remotes.webServer) {
+				execute 'sudo systemctl stop ' + rootProject.name
+				put from: rootProject.projectDir.absolutePath + '/build/libs/' + rootProject.name + '.jar', into: appLocation
+				execute 'sudo systemctl start ' + rootProject.name
+			}
+		}
+	}
+}

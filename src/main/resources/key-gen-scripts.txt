@@ -1,0 +1,47 @@
+-- Local Certs (localhost, 127.0.0.1) -----
+KOALA-SERVER:
+keytool -genkeypair -alias server -keyalg RSA -keysize 2048 -storetype JKS -keystore server.jks -validity 3650 -ext SAN=dns:localhost,ip:127.0.0.1
+KOALA-ADMIN:
+keytool -genkeypair -alias admin -keyalg RSA -keysize 2048 -storetype JKS -keystore admin.jks -validity 3650 -ext SAN=dns:localhost,ip:127.0.0.1
+
+keytool -export -alias server -file server.crt -keystore server.jks
+keytool -export -alias admin -file admin.crt -keystore admin.jks
+
+keytool -import -alias server -file server.crt -keystore admin.jks
+keytool -import -alias admin -file admin.crt -keystore server.jks
+
+keytool -importkeystore -srckeystore admin.jks -destkeystore admin.p12 -srcstoretype JKS -deststoretype PKCS12 -srcstorepass portal -deststorepass portal -srcalias admin -destalias admin -srckeypass portal -destkeypass portal -noprompt
+
+
+KOALA-VIEWER:
+keytool -genkeypair -alias viewer -keyalg RSA -keysize 2048 -storetype JKS -keystore viewer.jks -validity 3650 -ext SAN=dns:localhost,ip:127.0.0.1
+keytool -export -alias viewer -file viewer.crt -keystore viewer.jks
+keytool -import -alias server -file server.crt -keystore viewer.jks
+keytool -import -alias viewer -file viewer.crt -keystore server.jks
+keytool -importkeystore -srckeystore viewer.jks -destkeystore viewer.p12 -srcstoretype JKS -deststoretype PKCS12 -srcstorepass portal -deststorepass portal -srcalias viewer -destalias viewer -srckeypass portal -destkeypass portal -noprompt
+
+
+
+
+-- AWS Certs (ec2-54-90-122-118.compute-1.amazonaws.com, 54.90.122.118) -----
+AWS-KOALA-SERVER:
+keytool -genkeypair -alias aws-server -keyalg RSA -keysize 2048 -storetype JKS -keystore aws-server.jks -validity 3650 -ext SAN=dns:ec2-54-90-122-118.compute-1.amazonaws.com,ip:54.90.122.118
+AWS-KOALA-ADMIN:
+keytool -genkeypair -alias aws-admin -keyalg RSA -keysize 2048 -storetype JKS -keystore aws-admin.jks -validity 3650 -ext SAN=dns:ec2-54-90-122-118.compute-1.amazonaws.com,ip:54.90.122.118
+
+keytool -export -alias aws-server -file aws-server.crt -keystore aws-server.jks
+keytool -export -alias aws-admin -file aws-admin.crt -keystore aws-admin.jks
+
+keytool -import -alias aws-server -file aws-server.crt -keystore aws-admin.jks
+keytool -import -alias aws-admin -file aws-admin.crt -keystore aws-server.jks
+
+keytool -importkeystore -srckeystore aws-admin.jks -destkeystore aws-admin.p12 -srcstoretype JKS -deststoretype PKCS12 -srcstorepass portal -deststorepass portal -srcalias aws-admin -destalias aws-admin -srckeypass portal -destkeypass portal -noprompt
+
+
+AWS-KOALA-VIEWER:
+keytool -genkeypair -alias aws-viewer -keyalg RSA -keysize 2048 -storetype JKS -keystore aws-viewer.jks -validity 3650 -ext SAN=dns:ec2-54-90-122-118.compute-1.amazonaws.com,ip:54.90.122.118
+keytool -export -alias aws-viewer -file aws-viewer.crt -keystore aws-viewer.jks
+keytool -import -alias aws-server -file aws-server.crt -keystore aws-viewer.jks
+keytool -import -alias aws-viewer -file aws-viewer.crt -keystore aws-server.jks
+keytool -importkeystore -srckeystore aws-viewer.jks -destkeystore aws-viewer.p12 -srcstoretype JKS -deststoretype PKCS12 -srcstorepass portal -deststorepass portal -srcalias aws-viewer -destalias aws-viewer -srckeypass portal -destkeypass portal -noprompt
+

@@ -6,9 +6,12 @@
 /out-tsc
 # Only exists if Bazel was run
 /bazel-out
+/build
+/bin
+/gradle
 
 # dependencies
-/node_modules
+frontend/node_modules
 
 # profiling files
 chrome-profiler-events*.json
@@ -24,12 +27,12 @@ speed-measure-plugin*.json
 *.sublime-workspace
 
 # IDE - VSCode
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-.history/*
+frontend/.vscode/*
+!frontend/.vscode/settings.json
+!frontend/.vscode/tasks.json
+!frontend/.vscode/launch.json
+!frontend/.vscode/extensions.json
+frontend/.history/*
 
 # misc
 /.sass-cache
@@ -44,3 +47,4 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+/.gradle/

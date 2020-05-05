@@ -29,6 +29,7 @@ export class UserGuideComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.routeParamsSub = this.route.params.subscribe((params) => {
       this.kTool = this.kToolsService.findById(params.id);
+      this.userGuideService.setUserGuide(this.kTool.userGuide);
     });
 
     this.sectionSub = this.userGuideService.currentSection$.subscribe(

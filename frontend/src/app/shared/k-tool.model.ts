@@ -1,4 +1,4 @@
-import { Guide } from '../user-guide/guide.model';
+import { UserGuide } from '../user-guide/guide.model';
 
 export interface KTool {
   id: string;
@@ -7,5 +7,5 @@ export interface KTool {
   url: string;
   numUsers: number;
   starred: boolean;
-  guide: Guide;
+  userGuide: UserGuide;
 }

@@ -1,8 +1,11 @@
 <div fxLayout="row" fxLayoutAlign="center center" class="k-header">
+  <button flFlex mat-fab color="primary" matTooltip="Add a new section">
+    <mat-icon>add</mat-icon>
+  </button>
   <div fxFlex class="k-header-title">{{ kTool.name }}'s User Guide</div>
 </div>
 
-<div class="bg-light rounded m-3 p-3" fxLayout="row" fxLayoutGap="16px">
+<div class="p-3" fxLayout="row" fxLayoutGap="16px">
   <!-- Left Sidebar -->
   <div class="position-relative">
     <div
@@ -19,7 +22,7 @@
         <mat-card-title> <h2>Contents</h2> </mat-card-title>
         <mat-card-content fxLayout="column" fxLayoutGap="8px">
           <a
-            *ngFor="let section of kTool.guide.sections"
+            *ngFor="let section of kTool.userGuide.sections"
             [routerLink]="['content']"
             [fragment]="section.title"
             mat-button
@@ -47,7 +50,7 @@
   </div>
 
   <!-- Main Sections/Content -->
-  <div fxLayout="column">
+  <div fxLayout="column" fxFlex>
     <nav mat-tab-nav-bar>
       <a
         class="text-reset text-decoration-none"

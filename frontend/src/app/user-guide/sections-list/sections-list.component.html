@@ -4,28 +4,19 @@
     (mouseenter)="onMouseoverSection(section)"
   >
     <a class="hidden-anchor" id="{{ section.title }}"></a>
-    <mat-card-title *ngIf="editSection !== section">
-      <span *ngIf="editSection !== section">
+
+    <!-- Normal Card Content -->
+    <ng-container *ngIf="editSection !== section">
+      <mat-card-title>
         {{ section.title }}
-      </span>
-    </mat-card-title>
-    <mat-card-content
-      *ngIf="editSection !== section"
-      style="white-space: pre-line;"
-    >
-      {{ section.content }}
-    </mat-card-content>
-    <app-section-form
-      #sectionForm
-      *ngIf="editSection === section"
-      [section]="section"
-      (submit)="onSubmit($event, section)"
-    >
-      <button mat-flat-button color="primary">Save</button>
-    </app-section-form>
-    <mat-divider></mat-divider>
-    <mat-card-footer fxLayoutAlign="end" class="p-1">
-      <ng-container *ngIf="editSection !== section">
+      </mat-card-title>
+      <mat-card-content style="white-space: pre-line;">
+        {{ section.content }}
+      </mat-card-content>
+      <mat-divider></mat-divider>
+
+      <!-- Toolbar -->
+      <mat-card-footer fxLayoutAlign="end" class="p-1">
         <button
           mat-icon-button
           color="primary"
@@ -46,8 +37,20 @@
             delete
           </mat-icon>
         </button>
-      </ng-container>
-      <ng-container *ngIf="editSection === section">
+      </mat-card-footer>
+    </ng-container>
+
+    <!-- Form Version of Card Content -->
+    <app-section-form
+      #sectionForm
+      *ngIf="editSection === section"
+      [section]="section"
+      (submit)="onSubmit($event, section)"
+    >
+      <mat-divider></mat-divider>
+
+      <!-- Toolbar -->
+      <mat-card-footer fxLayoutAlign="end" class="p-1">
         <button
           mat-icon-button
           color="primary"
@@ -68,7 +71,10 @@
             cancel
           </mat-icon>
         </button>
-      </ng-container>
-    </mat-card-footer>
+      </mat-card-footer>
+    </app-section-form>
   </mat-card>
+  <div class="w-100 text-center" *ngIf="!sections?.length">
+    <strong>There's nothing here yet!</strong>
+  </div>
 </div>

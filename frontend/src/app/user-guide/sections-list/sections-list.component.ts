@@ -1,10 +1,7 @@
-import { SectionService } from './section.service';
 import { MessageService } from './../../shared/message.service';
 import { UserGuideService } from './../user-guide.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Section } from '../section.model';
-import { KToolsService } from 'src/app/k-tools/k-tools.service';
-import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -18,24 +15,23 @@ export class SectionsListComponent implements OnInit, OnDestroy {
   selectedSection: Section = null;
   editSection: Section = null;
 
-  private routeParamsSub: Subscription;
+  private userGuideSub: Subscription;
 
   constructor(
-    private route: ActivatedRoute,
-    private kToolsService: KToolsService,
     private userGuideService: UserGuideService,
-    private sectionService: SectionService,
     private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
-    this.routeParamsSub = this.route.parent.params.subscribe((params) => {
-      this.sections = this.kToolsService.findById(params.id).guide.sections;
-    });
+    this.userGuideSub = this.userGuideService.userGuide$.subscribe(
+      (userGuide) => {
+        this.sections = userGuide.sections;
+      }
+    );
   }
 
   ngOnDestroy(): void {
-    this.routeParamsSub.unsubscribe();
+    this.userGuideSub.unsubscribe();
   }
 
   onMouseoverSection(section: Section): void {
@@ -54,7 +50,7 @@ export class SectionsListComponent implements OnInit, OnDestroy {
   onSubmit(formValue: Section, section: Section): void {
     section.content = formValue.content;
     section.title = formValue.title;
-    this.sectionService.put(section).subscribe(
+    this.userGuideService.putSection(section).subscribe(
       () => {
         this.messageService.showMessage('Section Saved');
       },
@@ -66,9 +62,19 @@ export class SectionsListComponent implements OnInit, OnDestroy {
   }
 
   onClickDeleteSection(section: Section): void {
-    this.messageService.openConfirmDialog(
-      'Delete Section',
-      `Are you sure you want to delete section "${section.title}"?`
-    );
+    this.messageService
+      .openConfirmDialog(
+        'Delete Section',
+        `Are you sure you want to delete section "${section.title}"?`
+      )
+      .subscribe((confirmed) => {
+        if (confirmed) {
+          this.userGuideService
+            .deleteSection(section)
+            .subscribe((userGuide) => {
+              this.userGuideService.setUserGuide(userGuide);
+            });
+        }
+      });
   }
 }

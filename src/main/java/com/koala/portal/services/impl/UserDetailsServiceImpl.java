@@ -15,8 +15,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
 		for (PortalRoles r : PortalRoles.values())
-			if (username.toUpperCase().contains(r.name().toUpperCase()))
-				return createDummyUser(r);
+			if (username.toUpperCase().contains(r.name().toUpperCase())) {
+				User u = createDummyUser(r);
+				System.out.println(u.getUsername() + " granted the role of + " + r.name());				
+				return u;
+			}
 		
 		throw new UsernameNotFoundException("No user with the name " + username + " could be found.");
 	}

@@ -30,6 +30,8 @@ import { SharedModule } from './shared/shared.module';
 import { UserGuideModule } from './user-guide/user-guide.module';
 import { KToolsModule } from './k-tools/k-tools.module';
 
+import { ToastrModule } from 'ngx-toastr';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -64,6 +66,14 @@ import { KToolsModule } from './k-tools/k-tools.module';
     SharedModule,
     UserGuideModule,
     KToolsModule,
+    ToastrModule.forRoot({
+      timeOut: 5000,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+      enableHtml: true,
+      titleClass: 'toast-title',
+      tapToDismiss: true,
+    }), //This allows us to create a common/global config that all pop-ups will follow throughout the app.  Current options a developer can use are: success/error/warning/info/show.
   ],
   bootstrap: [AppComponent],
 })

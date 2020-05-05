@@ -3,6 +3,7 @@ package com.koala.portal.controllers;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -58,7 +59,22 @@ public class BaseController {
 		ex.printStackTrace();
 		return new ErrorInfo(	HttpStatus.UNAUTHORIZED.value(),
 								ex.getMessage(),
-								"The credentials provided could not be found in LDAP.  Please ensure they are valid and reach out to you administrator.  Do not contact KOALA in this case.");
+								"The credentials provided could not be found in LDAP.  Please ensure they are valid and reach out to you administrator.  Do not contact the KOALA team in this case.");
 
 	}
+	
+	@ResponseStatus(HttpStatus.FORBIDDEN)				// Defines the HTTP status code to return, 403 in this case.
+	@ExceptionHandler(AccessDeniedException.class)		// Tells it what Exception class to listen for, in this case we
+														// need to create InvalidFormException for any time a user gives us bad data.
+	@ResponseBody 										// Tells the method it's going to be writing to the response body (using Jackson,
+														// a standard Java utility for handling JSON) to serialize the ErrorInfo 
+														// object into JSON .
+	public ErrorInfo handleBadRequest(HttpServletRequest req, AccessDeniedException ex) {
+		ex.printStackTrace();
+		return new ErrorInfo(	HttpStatus.FORBIDDEN.value(),
+								ex.getMessage(),
+								"The credentials provided could be found in LDAP, however the LDAP entry maps to a role in the system that does not have permission to perform this action.  If you believe you should have access to this feature please contact the KOALA team.");
+
+	}
+	
 }

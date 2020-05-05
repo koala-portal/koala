@@ -11,6 +11,8 @@ public interface FaqServices {
 
 	public List<Faq> getAll();
 	
+	public List<Faq> getAll(Integer categoryId) throws EntityNotFoundException;
+	
 	public Faq get(long id) throws EntityNotFoundException;
 
 	public Faq create(Faq faq) throws InvalidFormException;
@@ -28,4 +30,6 @@ public interface FaqServices {
 	public FaqCategory create(FaqCategory newFaqCategory) throws InvalidFormException;
 	
 	public void update(FaqCategory newFaqCategory) throws InvalidFormException, EntityNotFoundException;
+
+	
 }

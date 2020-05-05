@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,17 +31,21 @@ public class FaqController extends BaseController {
 	@Autowired
 	private FaqServices faqServices;
 	
-	@RequestMapping(value = "/faqs", method = RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = {"/faqs", "/faqs/{categoryId}"}, method = RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseStatus(HttpStatus.OK)
-	@ApiOperation(value = "View a list of all existing FAQs.", response = List.class)
+	@ApiOperation(value = "View a list of all existing FAQs.  An optional FAQ category ID can be passed in so that only FAQs from that category are returned.", response = List.class)
 	@ApiResponses(value = {
 	        @ApiResponse(code = 200, message = "Successfully retrieved the list of FAQs"),
 	        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
 	        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden")
 	})
 	@PreAuthorize("isFullyAuthenticated()")
-	public List<Faq> getAll(){
-		return faqServices.getAll();
+	public List<Faq> getAll(@PathVariable(name = "categoryId", required=false) Integer categoryId) throws EntityNotFoundException{
+		if (null == categoryId) {
+			return faqServices.getAll();
+		} else {
+			return faqServices.getAll(categoryId);
+		}
 	}
 	
 	@RequestMapping(value = "/faqCategory", method = RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})

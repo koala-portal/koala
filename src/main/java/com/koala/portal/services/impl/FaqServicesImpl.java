@@ -30,6 +30,11 @@ public class FaqServicesImpl implements FaqServices {
 	public List<Faq> getAll() {		
 		return Lists.newArrayList(faqRepo.findAll());
 	}
+	
+	@Override
+	public List<Faq> getAll(Integer categoryId) throws EntityNotFoundException {
+		return faqRepo.findByCategoryOrderByTitle(getFaqCategory(categoryId));	//If the category ID is invalid an EntityNotFoundException will be thrown from getFaqCategory().
+	}
 
 	@Override
 	public Faq get(long id) throws EntityNotFoundException {

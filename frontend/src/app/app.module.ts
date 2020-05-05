@@ -1,4 +1,3 @@
-import { TicketService } from './tickets/ticket.service';
 import { AppRoutingModule } from './app-routing.module';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -11,14 +10,12 @@ import { AppComponent } from './app.component';
 import { MaterialModule } from './shared/material.module';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { KToolsComponent } from './k-tools/k-tools.component';
 import { TicketsComponent } from './tickets/tickets.component';
 import { TicketListComponent } from './tickets/ticket-list/ticket-list.component';
 import { TicketItemComponent } from './tickets/ticket-item/ticket-item.component';
 import { DropdownDirective } from './shared/dropdown.directive';
 import { FaqsComponent } from './faqs/faqs.component';
 import { FaqStarredComponent } from './faqs/faq-starred/faq-starred.component';
-import { UserGuideComponent } from './user-guide/user-guide.component';
 import { KoalaSearchComponent } from './koala-search/koala-search.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TicketFormComponent } from './tickets/ticket-form/ticket-form.component';
@@ -29,28 +26,21 @@ import { FaqCategoryFormComponent } from './faqs/faq-category-form/faq-category-
 import { FaqFormDialogComponent } from './faqs/faq-form-dialog/faq-form-dialog.component';
 import { FaqFormComponent } from './faqs/faq-form/faq-form.component';
 import { FaqAccordionComponent } from './faqs/faq-accordion/faq-accordion.component';
-import { KToolItemComponent } from './k-tools/k-tool-item/k-tool-item.component';
 import { SharedModule } from './shared/shared.module';
-import { KToolFormComponent } from './k-tools/k-tool-form/k-tool-form.component';
-import { KToolFormDialogComponent } from './k-tools/k-tool-form-dialog/k-tool-form-dialog.component';
-import { ReleaseNotesComponent } from './user-guide/release-notes/release-notes.component';
-import { SectionsListComponent } from './user-guide/sections-list/sections-list.component';
-import { SectionFormComponent } from './user-guide/section-form/section-form.component';
-import { SectionFormDialogComponent } from './user-guide/section-form-dialog/section-form-dialog.component';
+import { UserGuideModule } from './user-guide/user-guide.module';
+import { KToolsModule } from './k-tools/k-tools.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    KToolsComponent,
     TicketsComponent,
     TicketListComponent,
     TicketItemComponent,
     DropdownDirective,
     FaqsComponent,
     FaqStarredComponent,
-    UserGuideComponent,
     KoalaSearchComponent,
     TicketFormComponent,
     AbodeComponent,
@@ -60,13 +50,6 @@ import { SectionFormDialogComponent } from './user-guide/section-form-dialog/sec
     FaqFormDialogComponent,
     FaqFormComponent,
     FaqAccordionComponent,
-    KToolItemComponent,
-    KToolFormComponent,
-    KToolFormDialogComponent,
-    ReleaseNotesComponent,
-    SectionsListComponent,
-    SectionFormComponent,
-    SectionFormDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -79,6 +62,8 @@ import { SectionFormDialogComponent } from './user-guide/section-form-dialog/sec
     MaterialModule,
     FlexLayoutModule,
     SharedModule,
+    UserGuideModule,
+    KToolsModule,
   ],
   bootstrap: [AppComponent],
 })

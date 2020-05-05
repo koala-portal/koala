@@ -22,5 +22,10 @@ public interface FaqServices {
 	public void viewed(long id) throws EntityNotFoundException;
 
 	public List<FaqCategory> getAllCategories();
+
+	public FaqCategory getCategory(long id) throws EntityNotFoundException;
 	
+	public FaqCategory create(FaqCategory newFaqCategory) throws InvalidFormException;
+	
+	public void update(FaqCategory newFaqCategory) throws InvalidFormException, EntityNotFoundException;
 }

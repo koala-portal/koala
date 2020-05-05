@@ -25,18 +25,22 @@ public class FaqCategory implements Serializable {
 	
 	@ApiModelProperty(notes = "If this is the category that should be loaded by default.  In theory only one row should have this value set to true.", allowEmptyValue=false, dataType="boolean")
 	private boolean isDefaultLoadCategory;
+	
+	@ApiModelProperty(notes = "The order the categories should be returned in.  New FAQ categories will have this value created automattically and will be placed at the end.", allowEmptyValue=true, dataType="Integer")
+	private int sortOrder;
 
 	public FaqCategory() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public FaqCategory(long id, String title, String desc, boolean isDefaultLoadCategory) {
+	public FaqCategory(long id, String title, String desc, boolean isDefaultLoadCategory, int sortOrder) {
 		setId(id);
 		setTitle(title);
 		setDesc(desc);
 		setDefaultLoadCategory(isDefaultLoadCategory);
+		setSortOrder(sortOrder);
 	}
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public long getId() {
@@ -69,5 +73,14 @@ public class FaqCategory implements Serializable {
 
 	public void setDefaultLoadCategory(boolean isDefaultLoadCategory) {
 		this.isDefaultLoadCategory = isDefaultLoadCategory;
+	}
+	
+	@Column
+	public int getSortOrder() {
+		return sortOrder;
+	}
+
+	public void setSortOrder(int sortOrder) {
+		this.sortOrder = sortOrder;
 	}
 }

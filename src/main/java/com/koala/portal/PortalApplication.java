@@ -33,10 +33,11 @@ public class PortalApplication {
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		//Load some dummy data
 		try {
-			FaqCategory faqCategoryGeneral = new FaqCategory(0, "General", "General question about what K## is.", true);
+			int sortVal = 1;
+			FaqCategory faqCategoryGeneral = new FaqCategory(0, "General", "General question about what K## is.", true, sortVal++);
 			faqCategoryServices.save(faqCategoryGeneral);
 			
-			FaqCategory faqCategorySal = new FaqCategory(0, "SAL", "General question about what SAL is.", false);
+			FaqCategory faqCategorySal = new FaqCategory(0, "SAL", "General question about what SAL is.", false, sortVal++);
 			faqCategoryServices.save(faqCategorySal);
 			
 			Faq f = new Faq(	0, 

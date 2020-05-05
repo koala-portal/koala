@@ -28,6 +28,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		u.setAccountNonLocked(true);
 		u.addRole(role);
 		
+		System.out.println("Creating User with ROLE=" + role);
+		
 		return u;
 	}
 }

@@ -95,6 +95,50 @@ public class FaqServicesImpl implements FaqServices {
 
 	@Override
 	public List<FaqCategory> getAllCategories() {
-		return Lists.newArrayList(faqCategoryServices.findAll());
+		return faqCategoryServices.findAllByOrderBySortOrderAsc();
+	}
+	
+	@Override
+	public FaqCategory getCategory(long id) throws EntityNotFoundException {
+		return getFaqCategory(id);
+	}
+	
+	@Override
+	public FaqCategory create(FaqCategory newFaqCategory) throws InvalidFormException {
+		if (newFaqCategory.getId() != 0)
+			throw new InvalidFormException("You provided a FAQ category with an ID field set to " + newFaqCategory.getId() + ".  When creating a new FAQ category the system is responsible for assigning all IDs.", "Re-submit your form without the ID field set or set it to zero.");
+		
+		sharedSaveUpdateValidation(newFaqCategory);
+		
+		newFaqCategory.setSortOrder(faqCategoryServices.getNextSortOrderValue());
+		
+		return faqCategoryServices.save(newFaqCategory);
+	}
+	
+	@Override
+	public void update(FaqCategory newFaqCategory) throws InvalidFormException, EntityNotFoundException {
+		if (newFaqCategory.getId() <= 0)
+			throw new InvalidFormException("You provided a FAQ category with an ID field set to " + newFaqCategory.getId() + ".  When updating a FAQ category its existing ID must be used.", "Re-submit your form with the ID field of the FAQ category set to the proper value.");
+		
+		sharedSaveUpdateValidation(newFaqCategory);
+		getFaqCategory(newFaqCategory.getId());
+		
+		faqCategoryServices.save(newFaqCategory);
+	}
+	
+	private void sharedSaveUpdateValidation(FaqCategory faq) throws InvalidFormException {
+		if (StringUtils.isBlank(faq.getTitle()))
+			throw new InvalidFormException("The 'Title' field is blank or null and is a required field.", "Provide a valid value in the 'Title' field and try again.");
+		if (StringUtils.isBlank(faq.getDesc()))
+			throw new InvalidFormException("The 'Desc' field is blank or null and is a required field.", "Provide a valid value in the 'Desc' field and try again.");
+	}
+	
+	private FaqCategory getFaqCategory(long id) throws EntityNotFoundException {
+		Optional<FaqCategory> faqCategory = faqCategoryServices.findById(id);
+		
+		if (!faqCategory.isPresent())
+			throw new EntityNotFoundException("FAQ Category", Long.toString(id));
+		
+		return faqCategory.get();
 	}
 }

@@ -4,23 +4,27 @@ import com.koala.portal.constants.ResponseMessages;
 import com.koala.portal.exceptions.EntityNotFoundException;
 import com.koala.portal.exceptions.InvalidFormException;
 import com.koala.portal.models.Tool;
+import com.koala.portal.services.ToolServices;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
 
 @RestController
-@Api(value="Tool Controller")
+@Api(value = "Tool Controller")
 @RequestMapping(value = "/tools", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
 @ResponseStatus(HttpStatus.OK)
 public class ToolController extends BaseController {
+
+    @Autowired
+    ToolServices toolServices;
 
     @GetMapping()
     @ApiOperation(value = "View a list of all existing Tools.", response = List.class)
@@ -31,10 +35,10 @@ public class ToolController extends BaseController {
     })
     @PreAuthorize("isFullyAuthenticated()")
     public List<Tool> getAll() {
-        return Collections.emptyList();
+        return this.toolServices.findAll();
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/{toolId}")
     @ApiOperation(value = "View a specific Tool with the given ID", response = Tool.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = ResponseMessages.OK_GET_PREFIX + "Tool"),
@@ -43,8 +47,8 @@ public class ToolController extends BaseController {
             @ApiResponse(code = 404, message = "The Tool you were trying to reach is not found or does not exist.  Please check the response body for details.")
     })
     @PreAuthorize("isFullyAuthenticated()")
-    public Tool get(@PathVariable(value = "id") long id) throws EntityNotFoundException {
-        return null;
+    public Tool get(@PathVariable(value = "toolId") long id) throws EntityNotFoundException {
+        return this.toolServices.findById(id);
     }
 
     @PostMapping()
@@ -58,10 +62,10 @@ public class ToolController extends BaseController {
     })
     @PreAuthorize("hasAuthority('ADMIN')")
     public Tool create(@RequestBody Tool newTool) throws InvalidFormException {
-        return null;
+        return toolServices.save(newTool);
     }
 
-    @PutMapping()
+    @PutMapping(value = "/{toolId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiOperation(value = "Update an existing Tool that maps to the provided ID value.")
     @ApiResponses(value = {
@@ -72,7 +76,9 @@ public class ToolController extends BaseController {
             @ApiResponse(code = 404, message = "The Tool you submitted could not be found in the system.  Please check the response body for details.")
     })
     @PreAuthorize("hasAuthority('ADMIN')")
-    public void update(@RequestBody Tool newTool) throws EntityNotFoundException, InvalidFormException{
+    public void update(@PathVariable("toolId") Long id, @RequestBody Tool newTool) throws EntityNotFoundException, InvalidFormException {
+        newTool.setId(id);
+        toolServices.save(newTool);
     }
 }
 

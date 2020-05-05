@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Tool {
 
     @ApiModelProperty(notes = "The auto-generated ID of the Tool.  This will be set by the system and not the client.", allowEmptyValue = true, dataType = "Long")
-    private long id;
+    private Long id;
 
     @ApiModelProperty(notes = "The name given to the Tool", allowEmptyValue = false, dataType = "String")
     private String name;
@@ -26,7 +26,7 @@ public class Tool {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

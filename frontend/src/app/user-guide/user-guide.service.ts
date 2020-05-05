@@ -63,4 +63,9 @@ export class UserGuideService {
     this.userGuide.sections.splice(this.findSectionIndexById(section.id), 1);
     return this.put(this.userGuide);
   }
+
+  postSection(section: Section): Observable<UserGuide> {
+    this.userGuide.sections.push(section);
+    return this.put(this.userGuide);
+  }
 }

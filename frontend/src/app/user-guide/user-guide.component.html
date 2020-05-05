@@ -1,5 +1,11 @@
 <div fxLayout="row" fxLayoutAlign="center center" class="k-header">
-  <button flFlex mat-fab color="primary" matTooltip="Add a new section">
+  <button
+    flFlex
+    mat-fab
+    color="primary"
+    matTooltip="Add a new section"
+    (click)="onClickAddSection()"
+  >
     <mat-icon>add</mat-icon>
   </button>
   <div fxFlex class="k-header-title">{{ kTool.name }}'s User Guide</div>

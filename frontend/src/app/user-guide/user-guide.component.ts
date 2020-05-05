@@ -5,6 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { KToolsService } from '../k-tools/k-tools.service';
 import { Section } from './section.model';
+import { MatDialogRef, MatDialog } from '@angular/material/dialog';
+import { SectionFormDialogComponent } from './section-form-dialog/section-form-dialog.component';
 
 @Component({
   selector: 'app-user-guide',
@@ -23,7 +25,8 @@ export class UserGuideComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private kToolsService: KToolsService,
     private userGuideService: UserGuideService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -46,11 +49,38 @@ export class UserGuideComponent implements OnInit, OnDestroy {
 
   onClickSectionLink(section: Section): void {
     this.userGuideService.setCurrentSection(section);
+    this.scrollToSection(section);
+  }
+
+  onClickAddSection(): void {
+    this.openSectionFormDialog()
+      .afterClosed()
+      .subscribe((section: Section) => {
+        if (section) {
+          this.userGuideService.setCurrentSection(section);
+          this.scrollToSection(section);
+        }
+      });
+  }
+
+  private scrollToSection(section: Section): void {
     setTimeout(() => {
       this.router.navigate(['./'], {
         fragment: section.title,
         relativeTo: this.route,
       });
     }, 0);
+  }
+
+  private openSectionFormDialog(
+    section?: Section
+  ): MatDialogRef<SectionFormDialogComponent, Section> {
+    return this.dialog.open(SectionFormDialogComponent, {
+      disableClose: true,
+      panelClass: 'form-dialog',
+      width: '1080px',
+      height: 'auto',
+      data: section,
+    });
   }
 }

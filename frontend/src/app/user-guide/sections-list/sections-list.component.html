@@ -5,74 +5,37 @@
   >
     <a class="hidden-anchor" id="{{ section.title }}"></a>
 
-    <!-- Normal Card Content -->
-    <ng-container *ngIf="editSection !== section">
-      <mat-card-title>
-        {{ section.title }}
-      </mat-card-title>
-      <mat-card-content style="white-space: pre-line;">
-        {{ section.content }}
-      </mat-card-content>
-      <mat-divider></mat-divider>
+    <mat-card-title>
+      {{ section.title }}
+    </mat-card-title>
+    <mat-card-content style="white-space: pre-line;">
+      {{ section.content }}
+    </mat-card-content>
+    <mat-divider></mat-divider>
 
-      <!-- Toolbar -->
-      <mat-card-footer fxLayoutAlign="end" class="p-1">
-        <button
-          mat-icon-button
-          color="primary"
-          matTooltip="Edit Section"
-          (click)="onClickEditSection(section)"
-        >
-          <mat-icon>
-            edit
-          </mat-icon>
-        </button>
-        <button
-          mat-icon-button
-          color="warn"
-          matTooltip="Delete Section"
-          (click)="onClickDeleteSection(section)"
-        >
-          <mat-icon>
-            delete
-          </mat-icon>
-        </button>
-      </mat-card-footer>
-    </ng-container>
-
-    <!-- Form Version of Card Content -->
-    <app-section-form
-      #sectionForm
-      *ngIf="editSection === section"
-      [section]="section"
-      (submit)="onSubmit($event, section)"
-    >
-      <mat-divider></mat-divider>
-
-      <!-- Toolbar -->
-      <mat-card-footer fxLayoutAlign="end" class="p-1">
-        <button
-          mat-icon-button
-          color="primary"
-          matTooltip="Save Section"
-          type="submit"
-        >
-          <mat-icon>
-            save
-          </mat-icon>
-        </button>
-        <button
-          mat-icon-button
-          matTooltip="Stop Editing"
-          type="button"
-          (click)="onClickEditSection(section)"
-        >
-          <mat-icon>
-            cancel
-          </mat-icon>
-        </button>
-      </mat-card-footer>
-    </app-section-form>
+    <!-- Toolbar -->
+    <mat-card-footer fxLayoutAlign="end" class="p-1">
+      <button
+        mat-icon-button
+        color="primary"
+        matTooltip="Edit Section"
+        (click)="onClickEditSection(section)"
+      >
+        <mat-icon>
+          edit
+        </mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        color="warn"
+        matTooltip="Delete Section"
+        (click)="onClickDeleteSection(section)"
+      >
+        <mat-icon>
+          delete
+        </mat-icon>
+      </button>
+    </mat-card-footer>
   </mat-card>
   <div class="w-100 text-center" *ngIf="!sections?.length">
     <strong>There's nothing here yet!</strong>

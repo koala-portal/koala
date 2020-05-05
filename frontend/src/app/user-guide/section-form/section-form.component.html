@@ -1,16 +1,36 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit(form)">
-  <mat-form-field class="border-top-0">
-    <mat-label>Title</mat-label>
-    <input type="text" matInput formControlName="title" />
-  </mat-form-field>
-  <mat-form-field fxLayout="column">
-    <mat-label>Content</mat-label>
-    <textarea
-      formControlName="content"
-      class="line-height-standard"
-      matInput
-      mat-autosize
-    ></textarea>
-  </mat-form-field>
-  <ng-content></ng-content>
-</form>
+<mat-card>
+  <mat-card-title>{{ section ? "Edit" : "New" }} Section</mat-card-title>
+  <form [formGroup]="form" (ngSubmit)="onSubmit(form)">
+    <mat-card-content>
+      <mat-form-field class="border-top-0" appearance="outline">
+        <mat-label>Title</mat-label>
+        <input type="text" matInput formControlName="title" required />
+      </mat-form-field>
+      <mat-form-field fxLayout="column" appearance="outline">
+        <mat-label>Content</mat-label>
+        <textarea
+          formControlName="content"
+          class="line-height-standard"
+          matInput
+          mat-autosize
+          matAutosizeMinRows="10"
+          matAutosizeMaxRows="25"
+          required
+        ></textarea>
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-footer fxLayoutAlign="space-between">
+      <button mat-raised-button (click)="onClickCancel()" type="button">
+        Cancel
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="form.invalid"
+      >
+        Save
+      </button>
+    </mat-card-footer>
+  </form>
+</mat-card>

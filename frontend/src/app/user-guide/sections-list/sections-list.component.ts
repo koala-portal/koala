@@ -3,6 +3,8 @@ import { UserGuideService } from './../user-guide.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Section } from '../section.model';
 import { Subscription } from 'rxjs';
+import { SectionFormDialogComponent } from '../section-form-dialog/section-form-dialog.component';
+import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-sections-list',
@@ -13,13 +15,13 @@ export class SectionsListComponent implements OnInit, OnDestroy {
   sections: Section[];
 
   selectedSection: Section = null;
-  editSection: Section = null;
 
   private userGuideSub: Subscription;
 
   constructor(
     private userGuideService: UserGuideService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -35,30 +37,12 @@ export class SectionsListComponent implements OnInit, OnDestroy {
   }
 
   onMouseoverSection(section: Section): void {
+    this.setSelectedSection(section);
+  }
+
+  private setSelectedSection(section: Section): void {
     this.selectedSection = section;
     this.userGuideService.setCurrentSection(this.selectedSection);
-  }
-
-  onClickEditSection(section: Section): void {
-    if (this.editSection === section) {
-      this.editSection = null;
-    } else {
-      this.editSection = section;
-    }
-  }
-
-  onSubmit(formValue: Section, section: Section): void {
-    section.content = formValue.content;
-    section.title = formValue.title;
-    this.userGuideService.putSection(section).subscribe(
-      () => {
-        this.messageService.showMessage('Section Saved');
-      },
-      () => {
-        this.messageService.showError('Section Save Failed');
-      }
-    );
-    this.editSection = null;
   }
 
   onClickDeleteSection(section: Section): void {
@@ -76,5 +60,25 @@ export class SectionsListComponent implements OnInit, OnDestroy {
             });
         }
       });
+  }
+
+  onClickEditSection(section: Section): void {
+    this.openSectionFormDialog(section)
+      .afterClosed()
+      .subscribe((section: Section) => {
+        this.setSelectedSection(section);
+      });
+  }
+
+  private openSectionFormDialog(
+    section?: Section
+  ): MatDialogRef<SectionFormDialogComponent, Section> {
+    return this.dialog.open(SectionFormDialogComponent, {
+      disableClose: true,
+      panelClass: 'form-dialog',
+      width: '1080px',
+      height: 'auto',
+      data: section,
+    });
   }
 }

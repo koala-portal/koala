@@ -36,6 +36,7 @@ import { KToolFormDialogComponent } from './k-tools/k-tool-form-dialog/k-tool-fo
 import { ReleaseNotesComponent } from './user-guide/release-notes/release-notes.component';
 import { SectionsListComponent } from './user-guide/sections-list/sections-list.component';
 import { SectionFormComponent } from './user-guide/section-form/section-form.component';
+import { SectionFormDialogComponent } from './user-guide/section-form-dialog/section-form-dialog.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { SectionFormComponent } from './user-guide/section-form/section-form.com
     ReleaseNotesComponent,
     SectionsListComponent,
     SectionFormComponent,
+    SectionFormDialogComponent,
   ],
   imports: [
     BrowserModule,

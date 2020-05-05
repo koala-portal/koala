@@ -10,7 +10,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class SectionFormComponent implements OnInit {
   @Input() section: Section;
 
-  @Output() submit = new EventEmitter<Section>();
+  @Output() formSubmit: EventEmitter<Section> = new EventEmitter();
+  @Output() cancel: EventEmitter<void> = new EventEmitter();
 
   form = this.fb.group({
     id: [''],
@@ -21,10 +22,16 @@ export class SectionFormComponent implements OnInit {
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this.form.patchValue(this.section);
+    if (this.section) {
+      this.form.patchValue(this.section);
+    }
   }
 
   onSubmit(form: FormGroup): void {
-    this.submit.emit(form.value);
+    this.formSubmit.emit(form.value);
+  }
+
+  onClickCancel(): void {
+    this.cancel.emit();
   }
 }

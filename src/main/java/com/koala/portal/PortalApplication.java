@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -11,15 +12,16 @@ import org.springframework.context.event.EventListener;
 import com.koala.portal.exceptions.InvalidFormException;
 import com.koala.portal.models.Faq;
 import com.koala.portal.services.FaqServices;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
-@EnableAutoConfiguration
 @ComponentScan("com.koala.portal.*")
 public class PortalApplication {
 
 	@Autowired
 	private FaqServices faqServices;
-	
+
 	public static void main(String[] args) {
 		SpringApplication.run(PortalApplication.class, args);
 	}
@@ -28,27 +30,27 @@ public class PortalApplication {
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		//Load some dummy data
 		try {
-			Faq f = new Faq(	0, 
-							"How Do I Submit Something", 
-							"In order to be compliant with that stuff you have to do you are required to register with K##.", 
-							"Go to this <a href=\"\">URL</a> and fill out the form and hit submit.", 
-							null, 
+			Faq f = new Faq(	0,
+							"How Do I Submit Something",
+							"In order to be compliant with that stuff you have to do you are required to register with K##.",
+							"Go to this <a href=\"\">URL</a> and fill out the form and hit submit.",
+							null,
 							0);
 			faqServices.create(f);
-			
-			f = new Faq(	0, 
-						"How Do I Track a Registration", 
-						"I registered my system with K## several days ago.  How do I see what it's status is.", 
-						"Click the who knows what tab and you'll see its status there.", 
-						null, 
+
+			f = new Faq(	0,
+						"How Do I Track a Registration",
+						"I registered my system with K## several days ago.  How do I see what it's status is.",
+						"Click the who knows what tab and you'll see its status there.",
+						null,
 						0);
 			faqServices.create(f);
-			
-			f = new Faq(	0, 
-						"Do I Actually Have to Do This", 
-						"Do I actually have to jump through these hoops.", 
-						"Yup.", 
-						null, 
+
+			f = new Faq(	0,
+						"Do I Actually Have to Do This",
+						"Do I actually have to jump through these hoops.",
+						"Yup.",
+						null,
 						0);
 			faqServices.create(f);
 
@@ -56,5 +58,15 @@ public class PortalApplication {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurer() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/api/**").allowedOrigins("http://localhost:4200").allowCredentials(true);
+			}
+		};
 	}
 }

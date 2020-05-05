@@ -1,0 +1,16 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit(form)">
+  <mat-form-field class="border-top-0">
+    <mat-label>Title</mat-label>
+    <input type="text" matInput formControlName="title" />
+  </mat-form-field>
+  <mat-form-field fxLayout="column">
+    <mat-label>Content</mat-label>
+    <textarea
+      formControlName="content"
+      class="line-height-standard"
+      matInput
+      mat-autosize
+    ></textarea>
+  </mat-form-field>
+  <ng-content></ng-content>
+</form>

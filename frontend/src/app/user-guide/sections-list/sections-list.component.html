@@ -4,40 +4,71 @@
     (mouseenter)="onMouseoverSection(section)"
   >
     <a class="hidden-anchor" id="{{ section.title }}"></a>
-    <mat-card-title>
-      {{ section.title }}
+    <mat-card-title *ngIf="editSection !== section">
+      <span *ngIf="editSection !== section">
+        {{ section.title }}
+      </span>
     </mat-card-title>
-    <mat-card-content style="white-space: pre-line;">
-      <div *ngIf="!editMode">
-        {{ section.content }}
-      </div>
-      <mat-form-field *ngIf="editMode" fxLayout="column">
-        <mat-label>Content</mat-label>
-        <textarea
-          class="line-height-normal"
-          matInput
-          [(ngModel)]="section.content"
-          mat-autosize
-        ></textarea>
-      </mat-form-field>
+    <mat-card-content
+      *ngIf="editSection !== section"
+      style="white-space: pre-line;"
+    >
+      {{ section.content }}
     </mat-card-content>
+    <app-section-form
+      #sectionForm
+      *ngIf="editSection === section"
+      [section]="section"
+      (submit)="onSubmit($event, section)"
+    >
+      <button mat-flat-button color="primary">Save</button>
+    </app-section-form>
     <mat-divider></mat-divider>
     <mat-card-footer fxLayoutAlign="end" class="p-1">
-      <button
-        mat-icon-button
-        color="primary"
-        matTooltip="Edit Section"
-        (click)="onClickEditSection()"
-      >
-        <mat-icon>
-          edit
-        </mat-icon>
-      </button>
-      <button mat-icon-button color="warn" matTooltip="Delete Section">
-        <mat-icon>
-          delete
-        </mat-icon>
-      </button>
+      <ng-container *ngIf="editSection !== section">
+        <button
+          mat-icon-button
+          color="primary"
+          matTooltip="Edit Section"
+          (click)="onClickEditSection(section)"
+        >
+          <mat-icon>
+            edit
+          </mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          color="warn"
+          matTooltip="Delete Section"
+          (click)="onClickDeleteSection(section)"
+        >
+          <mat-icon>
+            delete
+          </mat-icon>
+        </button>
+      </ng-container>
+      <ng-container *ngIf="editSection === section">
+        <button
+          mat-icon-button
+          color="primary"
+          matTooltip="Save Section"
+          type="submit"
+        >
+          <mat-icon>
+            save
+          </mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          matTooltip="Stop Editing"
+          type="button"
+          (click)="onClickEditSection(section)"
+        >
+          <mat-icon>
+            cancel
+          </mat-icon>
+        </button>
+      </ng-container>
     </mat-card-footer>
   </mat-card>
 </div>

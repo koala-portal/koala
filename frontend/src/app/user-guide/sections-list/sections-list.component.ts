@@ -1,3 +1,6 @@
+import { SectionService } from './section.service';
+import { MessageService } from './../../shared/message.service';
+import { UserGuideService } from './../user-guide.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Section } from '../section.model';
 import { KToolsService } from 'src/app/k-tools/k-tools.service';
@@ -11,19 +14,21 @@ import { Subscription } from 'rxjs';
 })
 export class SectionsListComponent implements OnInit, OnDestroy {
   sections: Section[];
-  selectedSection: Section = null;
 
-  editMode = false;
+  selectedSection: Section = null;
+  editSection: Section = null;
 
   private routeParamsSub: Subscription;
 
   constructor(
     private route: ActivatedRoute,
-    private kToolsService: KToolsService
+    private kToolsService: KToolsService,
+    private userGuideService: UserGuideService,
+    private sectionService: SectionService,
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
-    debugger;
     this.routeParamsSub = this.route.parent.params.subscribe((params) => {
       this.sections = this.kToolsService.findById(params.id).guide.sections;
     });
@@ -35,9 +40,35 @@ export class SectionsListComponent implements OnInit, OnDestroy {
 
   onMouseoverSection(section: Section): void {
     this.selectedSection = section;
+    this.userGuideService.setCurrentSection(this.selectedSection);
   }
 
-  onClickEditSection(): void {
-    this.editMode = !this.editMode;
+  onClickEditSection(section: Section): void {
+    if (this.editSection === section) {
+      this.editSection = null;
+    } else {
+      this.editSection = section;
+    }
+  }
+
+  onSubmit(formValue: Section, section: Section): void {
+    section.content = formValue.content;
+    section.title = formValue.title;
+    this.sectionService.put(section).subscribe(
+      () => {
+        this.messageService.showMessage('Section Saved');
+      },
+      () => {
+        this.messageService.showError('Section Save Failed');
+      }
+    );
+    this.editSection = null;
+  }
+
+  onClickDeleteSection(section: Section): void {
+    this.messageService.openConfirmDialog(
+      'Delete Section',
+      `Are you sure you want to delete section "${section.title}"?`
+    );
   }
 }

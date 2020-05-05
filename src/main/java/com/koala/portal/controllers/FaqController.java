@@ -2,6 +2,7 @@ package com.koala.portal.controllers;
 
 import java.util.List;
 
+import com.koala.portal.constants.ResponseMessages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -36,8 +37,8 @@ public class FaqController extends BaseController {
 	@ApiOperation(value = "View a list of all existing FAQs.  An optional FAQ category ID can be passed in so that only FAQs from that category are returned.", response = List.class)
 	@ApiResponses(value = {
 	        @ApiResponse(code = 200, message = "Successfully retrieved the list of FAQs"),
-	        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-	        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden")
+	        @ApiResponse(code = 401, message = ResponseMessages.UNAUTHORIZED_VIEW),
+	        @ApiResponse(code = 403, message = ResponseMessages.FORBIDDEN)
 	})
 	@PreAuthorize("isFullyAuthenticated()")
 	public List<Faq> getAll(@PathVariable(name = "categoryId", required=false) Integer categoryId) throws EntityNotFoundException{
@@ -53,8 +54,8 @@ public class FaqController extends BaseController {
 	@ApiOperation(value = "View a list of all existing FAQ categories.", response = List.class)
 	@ApiResponses(value = {
 	        @ApiResponse(code = 200, message = "Successfully retrieved the list of FAQ categories"),
-	        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-	        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden")
+	        @ApiResponse(code = 401, message = ResponseMessages.UNAUTHORIZED_VIEW),
+	        @ApiResponse(code = 403, message = ResponseMessages.FORBIDDEN)
 	})
 	@PreAuthorize("isFullyAuthenticated()")
 	public List<FaqCategory> getAllCategories(){
@@ -66,8 +67,8 @@ public class FaqController extends BaseController {
 	@ApiOperation(value = "View a specific FAQ thats ID maps to the provided value.", response = Faq.class)
 	@ApiResponses(value = {
 	        @ApiResponse(code = 200, message = "Successfully retrieved the specific FAQ"),
-	        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-	        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+	        @ApiResponse(code = 401, message = ResponseMessages.UNAUTHORIZED_VIEW),
+	        @ApiResponse(code = 403, message = ResponseMessages.FORBIDDEN),
 	        @ApiResponse(code = 404, message = "The FAQ you were trying to reach is not found or does not exist.  Please check the response body for details.")
 	})
 	@PreAuthorize("isFullyAuthenticated()")
@@ -80,8 +81,8 @@ public class FaqController extends BaseController {
 	@ApiOperation(value = "View a specific FAQ category thats ID maps to the provided value.", response = Faq.class)
 	@ApiResponses(value = {
 	        @ApiResponse(code = 200, message = "Successfully retrieved the specific FAQ category"),
-	        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-	        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+	        @ApiResponse(code = 401, message = ResponseMessages.UNAUTHORIZED_VIEW),
+	        @ApiResponse(code = 403, message = ResponseMessages.FORBIDDEN),
 	        @ApiResponse(code = 404, message = "The FAQ category you were trying to reach is not found or does not exist.  Please check the response body for details.")
 	})
 	@PreAuthorize("isFullyAuthenticated()")
@@ -122,8 +123,8 @@ public class FaqController extends BaseController {
 	@ApiOperation(value = "Update an existing FAQ that maps to the provided ID value.  In addition to updating the values provided by the client, the updated date will be updated by the system.")
 	@ApiResponses(value = {
 	        @ApiResponse(code = 204, message = "Successfully updated the FAQ, no response body returned"),
-	        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-	        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+	        @ApiResponse(code = 401, message = ResponseMessages.UNAUTHORIZED_VIEW),
+	        @ApiResponse(code = 403, message = ResponseMessages.FORBIDDEN),
 	        @ApiResponse(code = 400, message = "The FAQ you submitted could not be updated because there were issues.  Please check the response body for details."),
 	        @ApiResponse(code = 404, message = "The FAQ you submitted could not be found in the system.  Please check the response body for details.")
 	})
@@ -137,8 +138,8 @@ public class FaqController extends BaseController {
 	@ApiOperation(value = "Update an existing FAQ category that maps to the provided ID value.")
 	@ApiResponses(value = {
 	        @ApiResponse(code = 204, message = "Successfully updated the FAQ category, no response body returned"),
-	        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-	        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+	        @ApiResponse(code = 401, message = ResponseMessages.UNAUTHORIZED_VIEW),
+	        @ApiResponse(code = 403, message = ResponseMessages.FORBIDDEN),
 	        @ApiResponse(code = 400, message = "The FAQ category you submitted could not be updated because there were issues.  Please check the response body for details."),
 	        @ApiResponse(code = 404, message = "The FAQ category you submitted could not be found in the system.  Please check the response body for details.")
 	})
@@ -152,8 +153,8 @@ public class FaqController extends BaseController {
 	@ApiOperation(value = "Remove an existing FAQ that maps to the provided ID value.  This is a hard delete so once the request is submitted if successful the FAQ is gone forever.")
 	@ApiResponses(value = {
 	        @ApiResponse(code = 204, message = "Successfully deleted the FAQ, no response body returned"),
-	        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-	        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+	        @ApiResponse(code = 401, message = ResponseMessages.UNAUTHORIZED_VIEW),
+	        @ApiResponse(code = 403, message = ResponseMessages.FORBIDDEN),
 	        @ApiResponse(code = 404, message = "The FAQ you were trying to reach is not found or does not exist.  Please check the response body for details.")
 	})
 	@PreAuthorize("hasAuthority('ADMIN')")
@@ -166,8 +167,8 @@ public class FaqController extends BaseController {
 	@ApiOperation(value = "Update the timesViewed counter for metrics tracking purposes..")
 	@ApiResponses(value = {
 	        @ApiResponse(code = 204, message = "Successfully updated the counter that tracks how many times the FAQ was viewed, no response body returned"),
-	        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-	        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+	        @ApiResponse(code = 401, message = ResponseMessages.UNAUTHORIZED_VIEW),
+	        @ApiResponse(code = 403, message = ResponseMessages.FORBIDDEN),
 	        @ApiResponse(code = 404, message = "The FAQ you were trying to update is not found or does not exist.  Please check the response body for details.")
 	})
 	@PreAuthorize("isFullyAuthenticated()")

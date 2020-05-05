@@ -2,7 +2,6 @@ package com.koala.portal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -33,28 +32,40 @@ public class PortalApplication {
 
 	@EventListener
 	public void onApplicationEvent(ContextRefreshedEvent event) {
-		// Load some dummy data
+		//Load some dummy data
 		try {
 			int sortVal = 1;
-			FaqCategory faqCategoryGeneral = new FaqCategory(0, "General", "General question about what K## is.", true,
-					sortVal++);
+			FaqCategory faqCategoryGeneral = new FaqCategory(0, "General", "General question about what K## is.", true, sortVal++);
 			faqCategoryServices.save(faqCategoryGeneral);
 
 			FaqCategory faqCategorySal = new FaqCategory(0, "SAL", "General question about what SAL is.", false, sortVal++);
 			faqCategoryServices.save(faqCategorySal);
 
-			Faq f = new Faq(0, "How Do I Submit Something",
-					"In order to be compliant with that stuff you have to do you are required to register with K##.",
-					"Go to this <a href=\"\">URL</a> and fill out the form and hit submit.", null, 0, faqCategoryGeneral);
+			Faq f = new Faq(	0,
+							"How Do I Submit Something",
+							"In order to be compliant with that stuff you have to do you are required to register with K##.",
+							"Go to this <a href=\"\">URL</a> and fill out the form and hit submit.",
+							null,
+							0,
+							faqCategoryGeneral);
 			faqServices.create(f);
 
-			f = new Faq(0, "How Do I Track a Registration",
-					"I registered my system with K## several days ago.  How do I see what it's status is.",
-					"Click the who knows what tab and you'll see its status there.", null, 0, faqCategoryGeneral);
+			f = new Faq(	0,
+						"How Do I Track a Registration",
+						"I registered my system with K## several days ago.  How do I see what it's status is.",
+						"Click the who knows what tab and you'll see its status there.",
+						null,
+						0,
+						faqCategoryGeneral);
 			faqServices.create(f);
 
-			f = new Faq(0, "Do I Actually Have to Do This", "Do I actually have to jump through these hoops.", "Yup.", null,
-					0, faqCategorySal);
+			f = new Faq(	0,
+						"Do I Actually Have to Do This",
+						"Do I actually have to jump through these hoops.",
+						"Yup.",
+						null,
+						0,
+						faqCategorySal);
 			faqServices.create(f);
 
 		} catch (InvalidFormException e) {

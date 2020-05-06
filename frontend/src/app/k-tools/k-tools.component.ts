@@ -13,7 +13,7 @@ import { KToolFormDialogComponent } from './k-tool-form-dialog/k-tool-form-dialo
   styleUrls: ['./k-tools.component.scss'],
 })
 export class KToolsComponent implements OnInit {
-  kTools: KTool[];
+  kTools: KTool[] = [];
 
   userIsAdmin = true; // TODO: Placeholder
 
@@ -35,9 +35,19 @@ export class KToolsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.kTools = this.kToolsService.getKTools();
+    this.fetchKTools();
     this.kToolsSub = this.kToolsService.kTool$.subscribe((kTools) => {
       this.kTools = kTools;
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.kToolsSub.unsubscribe();
+  }
+
+  fetchKTools(): void {
+    this.kToolsService.findAll().subscribe((kTools: KTool[]) => {
+      this.kToolsService.setKTools(kTools);
     });
   }
 
@@ -60,10 +70,6 @@ export class KToolsComponent implements OnInit {
           : -gt
         : -gt
     );
-  }
-
-  ngOnDestroy(): void {
-    this.kToolsSub.unsubscribe();
   }
 
   onClickAddTool(): void {

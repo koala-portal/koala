@@ -34,7 +34,7 @@ public class ToolServicesImpl implements ToolServices {
 
     @Override
     public Tool save(Tool tool) throws InvalidFormException {
-        if (tool.getId() != null) {
+        if (tool.getId() != 0 && tool.getId() != null) {
             throw new InvalidFormException(String.format(ErrorMessages.FIELD_AUTO_GENERATED, "id"), String.format(ErrorMessages.DEMAND_NO_VALUE, "id"));
         }
 
@@ -44,12 +44,21 @@ public class ToolServicesImpl implements ToolServices {
 
     @Override
     public Tool update(Tool tool) throws InvalidFormException, EntityNotFoundException {
-        if (!toolRepo.existsById(tool.getId())) {
-            throw new EntityNotFoundException("Tool", Long.toString(tool.getId()));
-        }
-
+        checkExistence(tool.getId());
         validateTool(tool);
         return toolRepo.save(tool);
+    }
+
+    @Override
+    public void deleteById(Long id) throws EntityNotFoundException {
+        checkExistence(id);
+        this.toolRepo.deleteById(id);
+    }
+
+    private void checkExistence(Long id) throws EntityNotFoundException {
+        if (!toolRepo.existsById(id)) {
+            throw new EntityNotFoundException("Tool", Long.toString(id));
+        }
     }
 
     private static void validateTool(Tool tool) throws InvalidFormException {

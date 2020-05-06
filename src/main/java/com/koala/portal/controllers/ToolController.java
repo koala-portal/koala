@@ -78,7 +78,21 @@ public class ToolController extends BaseController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public void update(@PathVariable("toolId") Long id, @RequestBody Tool newTool) throws EntityNotFoundException, InvalidFormException {
         newTool.setId(id);
-        toolServices.save(newTool);
+        toolServices.update(newTool);
+    }
+
+    @DeleteMapping(value = "/{toolId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ApiOperation(value = "Delete an existing Tool with the given ID")
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "Successfully deleted the Tool, no response body returned"),
+            @ApiResponse(code = 401, message = ResponseMessages.UNAUTHORIZED_DELETE),
+            @ApiResponse(code = 403, message = ResponseMessages.FORBIDDEN),
+            @ApiResponse(code = 404, message = "The Tool you submitted could not be found in the system.  Please check the response body for details.")
+    })
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public void delete(@PathVariable("toolId") Long id) throws EntityNotFoundException {
+        toolServices.deleteById(id);
     }
 }
 

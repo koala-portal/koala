@@ -15,4 +15,6 @@ public interface ToolServices {
     Tool save(Tool tool) throws InvalidFormException;
 
     Tool update(Tool tool) throws InvalidFormException, EntityNotFoundException;
+
+    void deleteById(Long id) throws EntityNotFoundException;
 }

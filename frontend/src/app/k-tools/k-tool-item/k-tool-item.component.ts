@@ -38,7 +38,18 @@ export class KToolItemComponent {
         'Delete Tool',
         `Are you sure you want to delete ${kTool.name}?`
       )
-      .subscribe((confirm) => confirm && this.kToolsService.delete(kTool));
+      .subscribe((confirm) => {
+        if (confirm) {
+          this.kToolsService.delete(kTool).subscribe(
+            () => {
+              this.messageService.showMessage('Deleted Tool');
+            },
+            () => {
+              this.messageService.showMessage('Unable to Delete Tool');
+            }
+          );
+        }
+      });
   }
 
   openKToolFormDialog(

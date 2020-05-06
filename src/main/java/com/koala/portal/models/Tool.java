@@ -20,10 +20,21 @@ public class Tool {
     private String url;
 
     @ApiModelProperty(notes = "The approximate number of users using the Tool", allowEmptyValue = false, dataType = "Integer")
-    private Integer numUsers;
+    private Long numUsers;
 
     @ApiModelProperty(notes = "Whether or not the Tool is starred and marked as important", allowEmptyValue = false, dataType = "Boolean")
     private Boolean starred;
+
+    public Tool() {
+    }
+
+    public Tool(String name, String description, Long numUsers, Boolean starred, String url) {
+        this.name = name;
+        this.description = description;
+        this.numUsers = numUsers;
+        this.starred = starred;
+        this.url = url;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -64,11 +75,11 @@ public class Tool {
     }
 
     @Column(nullable = false)
-    public Integer getNumUsers() {
+    public Long getNumUsers() {
         return numUsers;
     }
 
-    public void setNumUsers(Integer numUsers) {
+    public void setNumUsers(Long numUsers) {
         this.numUsers = numUsers;
     }
 

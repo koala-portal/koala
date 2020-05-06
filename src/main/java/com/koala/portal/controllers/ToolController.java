@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @Api(value = "Tool Controller")
-@RequestMapping(value = "/tools", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(value = "/api/tools", produces = {MediaType.APPLICATION_JSON_VALUE})
 @ResponseStatus(HttpStatus.OK)
 public class ToolController extends BaseController {
 
@@ -51,7 +51,7 @@ public class ToolController extends BaseController {
         return this.toolServices.findById(id);
     }
 
-    @PostMapping()
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Create a new Tool that can be viewed by everyone.", response = Tool.class)
     @ApiResponses(value = {
@@ -65,7 +65,7 @@ public class ToolController extends BaseController {
         return toolServices.save(newTool);
     }
 
-    @PutMapping(value = "/{toolId}")
+    @PutMapping(value = "/{toolId}", consumes = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiOperation(value = "Update an existing Tool that maps to the provided ID value.")
     @ApiResponses(value = {

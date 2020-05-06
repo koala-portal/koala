@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 
+@Entity
 public class Tool {
 
     @ApiModelProperty(notes = "The auto-generated ID of the Tool.  This will be set by the system and not the client.", allowEmptyValue = true, dataType = "Long")

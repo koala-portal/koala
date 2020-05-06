@@ -1,8 +1,9 @@
+import { environment } from './../../environments/environment.prod';
 import { Subject, Observable, of, throwError } from 'rxjs';
 import { KTool } from '../shared/k-tool.model';
 import { Injectable, EventEmitter, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, retry, map } from 'rxjs/operators'
+import { catchError, retry, map, tap } from 'rxjs/operators';
 import { User } from './user.model';
 
 import { ToastrService } from 'ngx-toastr';
@@ -48,7 +49,7 @@ export class KToolsService {
     },
   ];
 
-  constructor(private http: HttpClient, private toastr: ToastrService) { }
+  constructor(private http: HttpClient, private toastr: ToastrService) {}
 
   getKTools(): KTool[] {
     return this.kTools.slice();
@@ -74,37 +75,37 @@ export class KToolsService {
   }
 
   whoAmI(): void {
-      // Http Headers
+    // Http Headers
 
     var url = 'https://localhost:8443/api/whoami';
 
-    this.http.get(url).
-      pipe(
+    this.http
+      .get(url)
+      .pipe(
         map((data: User) => {
           this.whoamiEmitter.emit(data);
           return data;
-        }), catchError( error => {
-          this.toastr.error(  error.error.resolution,
-                              error.error.error);
-          return throwError( error.error );
+        }),
+        catchError((error) => {
+          this.toastr.error(error.error.resolution, error.error.error);
+          return throwError(error.error);
         })
       )
       .subscribe(
-        res => console.log('HTTP response', res),
-        err => console.log('HTTP Error', err.error)
+        (res) => console.log('HTTP response', res),
+        (err) => console.log('HTTP Error', err.error)
       );
 
     // this.http.get(url).subscribe((res)=>{
     //   return res;
     // });
-    
+
     //return this.http.get<User>(url);
 
     // return this.http.get<User>(url).pipe(
     //   tap(_ => this.log(`Who is this???`)),
     // catchError(this.handleError<User>(`Not sure who this is`))
-  //);
-
+    //);
   }
 
   put(kTool: KTool): Observable<KTool> {
@@ -119,10 +120,16 @@ export class KToolsService {
   }
 
   post(kTool: KTool): Observable<KTool> {
-    // TODO: Rest call
-    this.kTools.push(kTool);
-    this.kTool$.next(this.getKTools());
-    return of(kTool);
+    return this.http
+      .post<KTool>(environment.urls.api + '/tools', kTool, {
+        withCredentials: true,
+      })
+      .pipe(
+        tap((kTool) => {
+          this.kTools.push(kTool);
+          this.kTool$.next(this.getKTools());
+        })
+      );
   }
 
   delete(kTool: KTool): Observable<void> {

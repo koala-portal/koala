@@ -81,38 +81,39 @@ public class PortalApplication {
 						0,
 						faqCategorySal);
 			faqServices.create(f);
-                        faqServices.viewed(f.getId());
-                        
-                        toolRepo.saveAll(Arrays.asList(
-                                new Tool(
-                                        "Google",
-                                        "Massively popular search engine",
-                                        58105679288L,
-                                        true,
-                                        "www.google.com"
-                                ),
-                                new Tool(
-                                        "Bing",
-                                        "Massively unpopular search engine",
-                                        8L,
-                                        false,
-                                        "www.bing.com"
-                                        ),
-                                new Tool(
-                                        "WinRAR",
-                                        "Ubiquitous archiving tool",
-                                        5896568L,
-                                        true,
-                                        "www.rarlab.com"
-                                ),
-                                new Tool(
-                                        "Twitter",
-                                        "A place where people post",
-                                        12353567L,
-                                        false,
-                                        "www.twitter.com"
-                                )
-                        ));
+
+			faqServices.viewed(f.getId());
+
+			toolRepo.saveAll(Arrays.asList(
+					new Tool(
+							"Google",
+							"Massively popular search engine",
+							58105679288L,
+							true,
+							"www.google.com"
+					),
+					new Tool(
+							"Bing",
+							"Massively unpopular search engine",
+							8L,
+							false,
+							"www.bing.com"
+							),
+					new Tool(
+							"WinRAR",
+							"Ubiquitous archiving tool",
+							5896568L,
+							true,
+							"www.rarlab.com"
+					),
+					new Tool(
+							"Twitter",
+							"A place where people post",
+							12353567L,
+							false,
+							"www.twitter.com"
+					)
+			));
 
 		} catch (InvalidFormException e) {
 			// TODO Auto-generated catch block
@@ -124,7 +125,7 @@ public class PortalApplication {
         }
         
         @Bean
-        public WebMvcConfigurer corsConfigurer() {`
+        public WebMvcConfigurer corsConfigurer() {
             return new WebMvcConfigurer() {
                 @Override
                 public void addCorsMappings(CorsRegistry registry) {

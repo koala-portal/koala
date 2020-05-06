@@ -26,7 +26,7 @@ public class Faq implements Serializable {
 	private String title;
 	
 	@ApiModelProperty(notes = "A more in-depth description of what the FAQ is about.", allowEmptyValue=false, dataType="String/CLOB")
-	private String desc;
+	private String description;
 	
 	@ApiModelProperty(notes = "Information for the user that will help them resolve the issue or direct them on where to go to learn more.", allowEmptyValue=false, dataType="String/CLOB")
 	private String info;
@@ -45,7 +45,7 @@ public class Faq implements Serializable {
 	public Faq(long id, String title, String desc, String info, Date updated, int timesViewed, FaqCategory faqCategory) {
 		setId(id);
 		setTitle(title);
-		setDesc(desc);
+		setDescription(desc);
 		setUpdated(updated);
 		setInfo(info);
 		setTimesViewed(timesViewed);
@@ -71,11 +71,11 @@ public class Faq implements Serializable {
 	
 	@Lob
 	@Column(nullable = false, length=4000)
-	public String getDesc() {
-		return desc;
+	public String getDescription() {
+		return description;
 	}
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	@Column(nullable = false)

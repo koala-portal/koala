@@ -21,24 +21,20 @@ public class FaqCategory implements Serializable {
 	private String title;
 	
 	@ApiModelProperty(notes = "A more in-depth description of what the FAQ category covers.", allowEmptyValue=false, dataType="String/CLOB")
-	private String desc;
+	private String description;
 	
-	@ApiModelProperty(notes = "If this is the category that should be loaded by default.  In theory only one row should have this value set to true.", allowEmptyValue=false, dataType="boolean")
-	private boolean isDefaultLoadCategory;
-	
-	@ApiModelProperty(notes = "The order the categories should be returned in.  New FAQ categories will have this value created automattically and will be placed at the end.", allowEmptyValue=true, dataType="Integer")
-	private int sortOrder;
+	@ApiModelProperty(notes = "A special designation that contains the top questions regardless of what other categories they fall into.  This cannot be the direct category of any FAQ.", allowEmptyValue=true, dataType="boolean")
+	private boolean topQuestionsCategory;
 
 	public FaqCategory() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public FaqCategory(long id, String title, String desc, boolean isDefaultLoadCategory, int sortOrder) {
+	public FaqCategory(long id, String title, String desc, boolean isTopQuestionsCategory) {
 		setId(id);
 		setTitle(title);
-		setDesc(desc);
-		setDefaultLoadCategory(isDefaultLoadCategory);
-		setSortOrder(sortOrder);
+		setDescription(desc);
+		setTopQuestionsCategory(isTopQuestionsCategory);
 	}
 
 	@Id
@@ -59,28 +55,19 @@ public class FaqCategory implements Serializable {
 	}
 	
 	@Column(nullable = false, length=4000)
-	public String getDesc() {
-		return desc;
+	public String getDescription() {
+		return description;
 	}
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setDescription(String description) {
+		this.description = description;
 	}
-	
+
 	@Column(nullable = false)
-	public boolean isDefaultLoadCategory() {
-		return isDefaultLoadCategory;
+	public boolean isTopQuestionsCategory() {
+		return topQuestionsCategory;
 	}
 
-	public void setDefaultLoadCategory(boolean isDefaultLoadCategory) {
-		this.isDefaultLoadCategory = isDefaultLoadCategory;
-	}
-	
-	@Column
-	public int getSortOrder() {
-		return sortOrder;
-	}
-
-	public void setSortOrder(int sortOrder) {
-		this.sortOrder = sortOrder;
+	public void setTopQuestionsCategory(boolean topQuestionsCategory) {
+		this.topQuestionsCategory = topQuestionsCategory;
 	}
 }

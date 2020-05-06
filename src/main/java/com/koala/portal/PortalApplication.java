@@ -2,12 +2,14 @@ package com.koala.portal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 
+import com.koala.portal.exceptions.EntityNotFoundException;
 import com.koala.portal.exceptions.InvalidFormException;
 import com.koala.portal.models.Faq;
 import com.koala.portal.models.FaqCategory;
@@ -17,15 +19,16 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
+@EnableAutoConfiguration
 @ComponentScan("com.koala.portal.*")
 public class PortalApplication {
 
 	@Autowired
 	private FaqServices faqServices;
-
+	
 	@Autowired
 	private FaqCategoryRepo faqCategoryServices;
-
+	
 	public static void main(String[] args) {
 		SpringApplication.run(PortalApplication.class, args);
 	}
@@ -34,41 +37,49 @@ public class PortalApplication {
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		//Load some dummy data
 		try {
-			int sortVal = 1;
-			FaqCategory faqCategoryGeneral = new FaqCategory(0, "General", "General question about what K## is.", true, sortVal++);
+			FaqCategory faqCategoryGeneral = new FaqCategory(0, "Top FAQs", "The top FAQs as determined by the users of KOALA.", true);
 			faqCategoryServices.save(faqCategoryGeneral);
-
-			FaqCategory faqCategorySal = new FaqCategory(0, "SAL", "General question about what SAL is.", false, sortVal++);
+			
+			FaqCategory faqCategorySal = new FaqCategory(0, "SAL", "General question about what SAL is.", false);
 			faqCategoryServices.save(faqCategorySal);
+			
+			FaqCategory faqCategoryU = new FaqCategory(0, "U##", "General question about what U## is.", false);
+			faqCategoryServices.save(faqCategoryU);
 
 			Faq f = new Faq(	0,
-							"How Do I Submit Something",
-							"In order to be compliant with that stuff you have to do you are required to register with K##.",
-							"Go to this <a href=\"\">URL</a> and fill out the form and hit submit.",
-							null,
+							"How Do I Submit Something", 
+							"In order to be compliant with that stuff you have to do you are required to register with K##.", 
+							"Go to this <a href=\"\">URL</a> and fill out the form and hit submit.", 
+							null, 
 							0,
-							faqCategoryGeneral);
+							faqCategorySal);
 			faqServices.create(f);
-
-			f = new Faq(	0,
-						"How Do I Track a Registration",
-						"I registered my system with K## several days ago.  How do I see what it's status is.",
-						"Click the who knows what tab and you'll see its status there.",
-						null,
+			
+			f = new Faq(	0, 
+						"How Do I Track a Registration", 
+						"I registered my system with K## several days ago.  How do I see what it's status is.", 
+						"Click the who knows what tab and you'll see its status there.", 
+						null, 
 						0,
-						faqCategoryGeneral);
+						faqCategoryU);
 			faqServices.create(f);
+			faqServices.viewed(f.getId());
+			faqServices.viewed(f.getId());
 
-			f = new Faq(	0,
-						"Do I Actually Have to Do This",
-						"Do I actually have to jump through these hoops.",
-						"Yup.",
-						null,
+			f = new Faq(	0, 
+						"Do I Actually Have to Do This", 
+						"Do I actually have to jump through these hoops.", 
+						"Yup.", 
+						null, 
 						0,
 						faqCategorySal);
 			faqServices.create(f);
+			faqServices.viewed(f.getId());
 
 		} catch (InvalidFormException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (EntityNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

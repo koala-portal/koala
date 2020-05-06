@@ -8,6 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 
+import com.koala.portal.exceptions.EntityNotFoundException;
 import com.koala.portal.exceptions.InvalidFormException;
 import com.koala.portal.models.Faq;
 import com.koala.portal.models.FaqCategory;
@@ -33,12 +34,14 @@ public class PortalApplication {
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		//Load some dummy data
 		try {
-			int sortVal = 1;
-			FaqCategory faqCategoryGeneral = new FaqCategory(0, "General", "General question about what K## is.", true, sortVal++);
+			FaqCategory faqCategoryGeneral = new FaqCategory(0, "Top FAQs", "The top FAQs as determined by the users of KOALA.", true);
 			faqCategoryServices.save(faqCategoryGeneral);
 			
-			FaqCategory faqCategorySal = new FaqCategory(0, "SAL", "General question about what SAL is.", false, sortVal++);
+			FaqCategory faqCategorySal = new FaqCategory(0, "SAL", "General question about what SAL is.", false);
 			faqCategoryServices.save(faqCategorySal);
+			
+			FaqCategory faqCategoryU = new FaqCategory(0, "U##", "General question about what U## is.", false);
+			faqCategoryServices.save(faqCategoryU);
 			
 			Faq f = new Faq(	0, 
 							"How Do I Submit Something", 
@@ -46,7 +49,7 @@ public class PortalApplication {
 							"Go to this <a href=\"\">URL</a> and fill out the form and hit submit.", 
 							null, 
 							0,
-							faqCategoryGeneral);
+							faqCategorySal);
 			faqServices.create(f);
 			
 			f = new Faq(	0, 
@@ -55,8 +58,10 @@ public class PortalApplication {
 						"Click the who knows what tab and you'll see its status there.", 
 						null, 
 						0,
-						faqCategoryGeneral);
+						faqCategoryU);
 			faqServices.create(f);
+			faqServices.viewed(f.getId());
+			faqServices.viewed(f.getId());
 			
 			f = new Faq(	0, 
 						"Do I Actually Have to Do This", 
@@ -66,8 +71,12 @@ public class PortalApplication {
 						0,
 						faqCategorySal);
 			faqServices.create(f);
+			faqServices.viewed(f.getId());
 
 		} catch (InvalidFormException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (EntityNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

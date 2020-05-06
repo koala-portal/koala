@@ -1,11 +1,13 @@
 package com.koala.portal.services.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
@@ -24,8 +26,11 @@ public class FaqServicesImpl implements FaqServices {
 	private FaqRepo faqRepo;
 	
 	@Autowired
-	private FaqCategoryRepo faqCategoryServices;
+	private FaqCategoryRepo faqCategoryRepo;
 	
+	@Value("${max.num.top.questions:3}") // value after ':' is the default
+	private int maxTopQuestions;
+		
 	@Override
 	public List<Faq> getAll() {		
 		return Lists.newArrayList(faqRepo.findAll());
@@ -33,7 +38,22 @@ public class FaqServicesImpl implements FaqServices {
 	
 	@Override
 	public List<Faq> getAll(Integer categoryId) throws EntityNotFoundException {
-		return faqRepo.findByCategoryOrderByTitle(getFaqCategory(categoryId));	//If the category ID is invalid an EntityNotFoundException will be thrown from getFaqCategory().
+		FaqCategory fc = getFaqCategory(categoryId);	//If the category ID is invalid an EntityNotFoundException will be thrown from getFaqCategory().
+		
+		//If they selected the "Top Questions" category then we select n number of FAQs, reguardless of their assigned category, and return those.
+		if (fc.isTopQuestionsCategory()) {
+			List<Faq> topFaqs = new ArrayList<>();
+			int counter = 0;
+			for (Faq f : faqRepo.findAllByOrderByTimesViewedDesc()) {
+				topFaqs.add(f);
+				counter++;
+				if (counter == maxTopQuestions)
+					break;
+			}
+			return topFaqs;
+		} else {
+			return faqRepo.findByCategoryOrderByTitle(fc);
+		}
 	}
 
 	@Override
@@ -42,7 +62,7 @@ public class FaqServicesImpl implements FaqServices {
 	}
 
 	@Override
-	public Faq create(Faq faq) throws InvalidFormException {
+	public Faq create(Faq faq) throws InvalidFormException, EntityNotFoundException {
 		if (faq.getId() != 0)
 			throw new InvalidFormException("You provided a FAQ with an ID field set to " + faq.getId() + ".  When creating a new FAQ the system is responsible for assigning all IDs.", "Re-submit your form without the ID field set or set it to zero.");
 		
@@ -65,13 +85,19 @@ public class FaqServicesImpl implements FaqServices {
 		faqRepo.save(faq);
 	}
 	
-	private void sharedSaveUpdateValidation(Faq faq) throws InvalidFormException {
+	private void sharedSaveUpdateValidation(Faq faq) throws InvalidFormException, EntityNotFoundException {
 		if (StringUtils.isBlank(faq.getTitle()))
 			throw new InvalidFormException("The 'Title' field is blank or null and is a required field.", "Provide a valid value in the 'Title' field and try again.");
-		if (StringUtils.isBlank(faq.getDesc()))
+		if (StringUtils.isBlank(faq.getDescription()))
 			throw new InvalidFormException("The 'Desc' field is blank or null and is a required field.", "Provide a valid value in the 'Desc' field and try again.");
 		if (StringUtils.isBlank(faq.getInfo()))
 			throw new InvalidFormException("The 'Info' field is blank or null and is a required field.", "Provide a valid value in the 'Info' field and try again.");
+		
+		if (faq.getCategory() == null || faq.getCategory().getId() <= 0)
+			throw new InvalidFormException("A valid FAQ category ID was not provided.", "Provide a valid FAQ category ID and try again.");
+		
+		if (getFaqCategory(faq.getCategory().getId()).isTopQuestionsCategory())
+			throw new InvalidFormException("The Top Questions category was selected as this FAQ's category, which is not permitted.", "Select the correct category for this FAQ that is not the Top Questions category, or create a new category that is more appropriate and use that.");
 	}
 
 	@Override
@@ -100,7 +126,7 @@ public class FaqServicesImpl implements FaqServices {
 
 	@Override
 	public List<FaqCategory> getAllCategories() {
-		return faqCategoryServices.findAllByOrderBySortOrderAsc();
+		return faqCategoryRepo.findAllByOrderByTopQuestionsCategoryDescTitleAsc();
 	}
 	
 	@Override
@@ -115,9 +141,7 @@ public class FaqServicesImpl implements FaqServices {
 		
 		sharedSaveUpdateValidation(newFaqCategory);
 		
-		newFaqCategory.setSortOrder(faqCategoryServices.getNextSortOrderValue());
-		
-		return faqCategoryServices.save(newFaqCategory);
+		return faqCategoryRepo.save(newFaqCategory);
 	}
 	
 	@Override
@@ -128,18 +152,18 @@ public class FaqServicesImpl implements FaqServices {
 		sharedSaveUpdateValidation(newFaqCategory);
 		getFaqCategory(newFaqCategory.getId());
 		
-		faqCategoryServices.save(newFaqCategory);
+		faqCategoryRepo.save(newFaqCategory);
 	}
 	
 	private void sharedSaveUpdateValidation(FaqCategory faq) throws InvalidFormException {
 		if (StringUtils.isBlank(faq.getTitle()))
 			throw new InvalidFormException("The 'Title' field is blank or null and is a required field.", "Provide a valid value in the 'Title' field and try again.");
-		if (StringUtils.isBlank(faq.getDesc()))
+		if (StringUtils.isBlank(faq.getDescription()))
 			throw new InvalidFormException("The 'Desc' field is blank or null and is a required field.", "Provide a valid value in the 'Desc' field and try again.");
 	}
 	
 	private FaqCategory getFaqCategory(long id) throws EntityNotFoundException {
-		Optional<FaqCategory> faqCategory = faqCategoryServices.findById(id);
+		Optional<FaqCategory> faqCategory = faqCategoryRepo.findById(id);
 		
 		if (!faqCategory.isPresent())
 			throw new EntityNotFoundException("FAQ Category", Long.toString(id));

@@ -15,7 +15,7 @@ public interface FaqServices {
 	
 	public Faq get(long id) throws EntityNotFoundException;
 
-	public Faq create(Faq faq) throws InvalidFormException;
+	public Faq create(Faq faq) throws InvalidFormException, EntityNotFoundException;
 	
 	public void update(Faq faq) throws InvalidFormException, EntityNotFoundException;
 	

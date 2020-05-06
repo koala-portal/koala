@@ -100,7 +100,7 @@ public class FaqController extends BaseController {
 	        @ApiResponse(code = 400, message = "The FAQ you submitted could not be created because there were issues.  Please check the response body for details.")
 	})
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public Faq create(@RequestBody Faq newFaq) throws InvalidFormException{
+	public Faq create(@RequestBody Faq newFaq) throws InvalidFormException, EntityNotFoundException{
 		return faqServices.create(newFaq);
 	}
 	

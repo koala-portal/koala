@@ -13,4 +13,6 @@ public interface FaqRepo extends CrudRepository<Faq, Long> {
 
 	public List<Faq> findByCategoryOrderByTitle(FaqCategory fc);
 	
+	public List<Faq> findAllByOrderByTimesViewedDesc();
+	
 }

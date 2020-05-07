@@ -1,0 +1,38 @@
+<mat-accordion class="w-100">
+  <div fxLayout="column" class="timeline">
+    <div
+      fxLayout="row"
+      fxLayoutGap="12px"
+      *ngFor="let note of releaseNotes; let i = index"
+      class="timeline-item p-3 rounded"
+      [ngClass]="note.id === selectedReleaseNote.id ? 'timeline-selected' : ''"
+    >
+      <div fxLayout="column" class="timeline-item-label">
+        <strong>{{ note.releaseDate | date }}</strong>
+        <span class="text-muted">Version {{ note.versionNumber }}</span>
+      </div>
+      <mat-icon class="timeline-item-notch">
+        {{
+          note.id === selectedReleaseNote.id
+            ? "radio_button_checked"
+            : "radio_button_unchecked"
+        }}
+      </mat-icon>
+
+      <mat-expansion-panel
+        class="w-100"
+        [expanded]="i === 0"
+        (opened)="onOpenReleaseNote(note)"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title
+            ><strong>{{ note.name }}</strong></mat-panel-title
+          >
+        </mat-expansion-panel-header>
+        <div class="preserve-whitespace">
+          {{ note.description }}
+        </div>
+      </mat-expansion-panel>
+    </div>
+  </div>
+</mat-accordion>

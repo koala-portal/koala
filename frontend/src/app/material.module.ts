@@ -35,7 +35,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
-import { ModalComponent } from './modal/modal.component';
+import { ModalComponent } from './shared/modal/modal.component';
 
 @NgModule({
   imports: [

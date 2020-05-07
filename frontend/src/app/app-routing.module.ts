@@ -11,8 +11,8 @@ import { FaqsComponent } from './faqs/faqs.component';
 import { KToolsComponent } from './k-tools/k-tools.component';
 import { FaqListComponent } from './faqs/faq-list/faq-list.component';
 import { UserGuideComponent } from './user-guide/user-guide.component';
-import { ReleaseNotesComponent } from './user-guide/release-notes/release-notes.component';
 import { SectionsListComponent } from './user-guide/sections-list/sections-list.component';
+import { ReleaseNotesComponent } from './release-notes/release-notes.component';
 
 const appRoutes: Routes = [
   // { path: '', redirectTo: '', pathMatch: 'full' },

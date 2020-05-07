@@ -57,7 +57,7 @@ public class FaqController extends BaseController {
 	        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden")
 	})
 	@PreAuthorize("isFullyAuthenticated()")
-	public List<FaqCategory> getAllCategories(){
+	public List<FaqCategory> getAllCategories() throws InvalidFormException{
 		return faqServices.getAllCategories();
 	}
 	
@@ -128,8 +128,8 @@ public class FaqController extends BaseController {
 	        @ApiResponse(code = 404, message = "The FAQ you submitted could not be found in the system.  Please check the response body for details.")
 	})
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public void update(@RequestBody Faq newFaq) throws EntityNotFoundException, InvalidFormException{
-		faqServices.update(newFaq);
+	public void update(@RequestBody Faq existingFaq) throws EntityNotFoundException, InvalidFormException{
+		faqServices.update(existingFaq);
 	}
 	
 	@RequestMapping(value = "/faqCategory", method = RequestMethod.PUT, consumes= {MediaType.APPLICATION_JSON_VALUE})
@@ -159,6 +159,21 @@ public class FaqController extends BaseController {
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public void remove(@PathVariable(value="faqId") long id) throws EntityNotFoundException{
 		faqServices.remove(id);
+	}
+	
+	@RequestMapping(value = "/faqCategory/{faqCategoryId}", method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@ApiOperation(value = "Remove an existing FAQ category that maps to the provided ID value.  This is a hard delete so once the request is submitted if successful the FAQ is gone forever.  Also, it can have no FAQs tied to it prior to deleting it.")
+	@ApiResponses(value = {
+	        @ApiResponse(code = 204, message = "Successfully deleted the FAQ, no response body returned"),
+	        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+	        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+	        @ApiResponse(code = 400, message = "This request was invalid, most likely due to FAQs still being linked to this category.  Please check the response body for exact details."),
+	        @ApiResponse(code = 404, message = "The FAQ you were trying to reach is not found or does not exist.  Please check the response body for details.")
+	})
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public void removeCategory(@PathVariable(value="faqCategoryId") long id) throws EntityNotFoundException, InvalidFormException {
+		faqServices.removeCategory(id);
 	}
 	
 	@RequestMapping(value = "/faq/{faqId}", method = RequestMethod.PUT)

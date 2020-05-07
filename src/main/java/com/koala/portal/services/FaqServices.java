@@ -20,6 +20,8 @@ public interface FaqServices {
 	public void update(Faq faq) throws InvalidFormException, EntityNotFoundException;
 	
 	public void remove(long id) throws EntityNotFoundException;
+	
+	public void removeCategory(long id) throws InvalidFormException, EntityNotFoundException;
 
 	public void viewed(long id) throws EntityNotFoundException;
 
@@ -31,5 +33,4 @@ public interface FaqServices {
 	
 	public void update(FaqCategory newFaqCategory) throws InvalidFormException, EntityNotFoundException;
 
-	
 }

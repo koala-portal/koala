@@ -9,7 +9,7 @@
 /build
 /bin
 /gradle
-.gradle/
+.gradle/*
 
 # dependencies
 frontend/node_modules

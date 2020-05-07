@@ -1,13 +1,11 @@
 import { FaqCategory } from './faq-category.model';
 
 export interface Faq {
-  id: string;
+  id: number;
   title: string;
   description: string;
-  starred: boolean;
-  created: Date;
-  createdBy: string;
-  updated: Date;
-  updatedBy: string;
+  info: string;
+  //updated: Date;
+  timesViewed: number;
   category: FaqCategory;
 }

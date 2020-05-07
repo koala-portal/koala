@@ -21,7 +21,7 @@ export class HeaderComponent {
     this.ktService.whoamiEmitter.subscribe((user:User) => {
       this.toastr.show( "Currently you hold the role of <strong>" + user.role + "</strong> within the system.",
                         "Welcome to KOALA " + user.userName);
-  });
+    });
 
     this.tickets = this.ticketService.getTickets();
     this.ktService.whoAmI();

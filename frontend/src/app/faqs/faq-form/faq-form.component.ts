@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
+import { MessageService } from 'src/app/shared/message.service';
 import { Faq } from '../faq.model';
 import { FaqCategory } from '../faq-category.model';
 import { FaqsService } from '../faqs.service';
@@ -17,26 +17,40 @@ export class FaqFormComponent implements OnInit {
   @Output() formSubmit: EventEmitter<Faq> = new EventEmitter();
   @Output() cancel: EventEmitter<void> = new EventEmitter();
 
-  faqCategories: FaqCategory[];
+  faqCategories: FaqCategory[] = [];
 
   faqForm = this.fb.group({
     id: [''],
     category: [this.category, Validators.required],
     title: ['', Validators.required],
     description: ['', Validators.required],
-    starred: false,
+    info: ['', Validators.required]
   });
 
-  constructor(private fb: FormBuilder, private faqsService: FaqsService) {}
+  constructor(private fb: FormBuilder, private faqsService: FaqsService,private messageService: MessageService) {}
 
   ngOnInit(): void {
-    this.faqCategories = this.faqsService.getFaqCategories();
-    if (this.faq) {
-      this.faqForm.patchValue(this.faq);
-    }
-    if (this.category) {
-      this.faqForm.patchValue({ category: this.category });
-    }
+   //Load the list of categories
+    this.faqsService.loadFaqCategories().subscribe(
+        (faqCats:FaqCategory[])=> {
+          for (var x=0; x < faqCats.length; x++) {
+            if (!faqCats[x].topQuestionsCategory) {
+              this.faqCategories.push(faqCats[x]);
+            }
+          }
+
+          if (this.faq) {
+            this.faqForm.patchValue(this.faq);
+          }
+          if (this.category) {
+            this.faqForm.patchValue({ category: this.category });
+          }
+        },
+        (error: any)=> {
+          this.messageService.showErrorWithDetailsTst(  error.error.resolution,
+                                                        error.error.error);
+        }
+    );
   }
 
   onSubmit(form: FormGroup): void {

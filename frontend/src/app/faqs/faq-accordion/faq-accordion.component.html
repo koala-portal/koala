@@ -3,26 +3,31 @@
     *ngFor="let faq of faqs"
     [expanded]="selectedFaq?.id === faq.id"
   >
-    <mat-expansion-panel-header>
+    <mat-expansion-panel-header (click)="onFaqSelected(faq)">
       <mat-panel-title>
-        {{ faq.title }}
+        <strong [innerHTML]="faq.title"></strong>
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <p class="ml-4">{{ faq.description }}</p>
+    
+    <strong *ngIf="selectedFaqCategory.topQuestionsCategory">
+      From the <span style="text-decoration: underline;">{{faq.category.title}}</span> Category
+    </strong>
+
+    <p class="ml-4" style="margin-top: 5px;">
+      <strong>Description:</strong>
+      <span [innerHTML]="faq.description"></span>
+    </p>
+    <p class="ml-4">
+      <strong>Details:</strong>
+      <span [innerHTML]="faq.info"></span>
+    </p>
+    <p class="ml-4" style="" *ngIf="userIsAdmin">
+      This FAQ has been viewed <u>{{faq.timesViewed}}</u> time(s)
+    </p>
 
     <!-- FAQ Admin Toolbar -->
     <mat-divider *ngIf="userIsAdmin" class="mb-1"></mat-divider>
     <div class="d-flex flex-row justify-content-end" *ngIf="userIsAdmin">
-      <button
-        mat-icon-button
-        color="accent"
-        matTooltip="Star FAQ"
-        (click)="onClickStarFaq(faq)"
-      >
-        <mat-icon>
-          {{ faq.starred ? "star" : "star_border" }}
-        </mat-icon>
-      </button>
       <button
         mat-icon-button
         color="primary"

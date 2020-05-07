@@ -13,6 +13,6 @@ export class FaqStarredComponent implements OnInit {
   constructor(private faqsService: FaqsService) {}
 
   ngOnInit(): void {
-    this.faqs = this.faqsService.getFaqs().filter((faq) => faq.starred);
+    
   }
 }

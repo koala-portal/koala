@@ -24,7 +24,6 @@ export class FaqListComponent implements OnInit, OnDestroy {
   faqs:Faq[]
 
   private paramsSub: Subscription;
-  private faqCategoriesSub: Subscription;
 
   userIsAdmin = false;
 
@@ -101,7 +100,6 @@ export class FaqListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.paramsSub.unsubscribe();
-    this.faqCategoriesSub.unsubscribe();
   }
 
   onClickCategory(category: FaqCategory): void {

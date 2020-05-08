@@ -17,7 +17,7 @@ export class FaqCategoryFormComponent implements OnInit {
     id: [''],
     title: ['', Validators.required],
     description: ['', Validators.required],
-    icon: ['', Validators.required],
+    topQuestionsCategory: [false]
   });
 
   constructor(private fb: FormBuilder) {}

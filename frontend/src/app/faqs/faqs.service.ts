@@ -1,142 +1,98 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter, Output } from '@angular/core';
 import { FaqCategory } from './faq-category.model';
+import { HttpEmitAction } from '../shared/http-emit-action.model';
 import { Faq } from './faq.model';
 import { Observable, of, Subject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class FaqsService {
+
+  @Output() saveFaqCategoriesEmitter: EventEmitter<FaqCategory> = new EventEmitter<FaqCategory>();
+  @Output() updateFaqCategoriesEmitter: EventEmitter<FaqCategory> = new EventEmitter<FaqCategory>();
+
+  @Output() saveFaqEmitter: EventEmitter<Faq> = new EventEmitter<Faq>();
+  @Output() updateFaqEmitter: EventEmitter<Faq> = new EventEmitter<Faq>();
+
+  constructor(
+    private http: HttpClient
+  ) {}
+
   faqCategorie$ = new Subject<FaqCategory[]>();
-  private faqCategories: FaqCategory[] = [
-    {
-      id: 'a',
-      title: 'General',
-      description: 'General Questions',
-      icon: 'fa-life-saver',
-    },
-    {
-      id: 'b',
-      title: 'One',
-      description:
-        'One Questions and other things related to the One. This is just going to be a very long description and you are going to have to deal with that.',
-      icon: 'fa-address-card',
-    },
-  ];
 
   faq$ = new Subject<Faq[]>();
-  private faqs: Faq[] = [
-    {
-      id: 'a',
-      title: 'How do I do the thing?',
-      description: 'You can do the thing in a number of ways.',
-      starred: true,
-      created: new Date(),
-      createdBy: 'user1',
-      updated: null,
-      updatedBy: null,
-      category: this.faqCategories[0],
-    },
-    {
-      id: 'b',
-      title: 'If I do it this way, how can it be done?',
-      description: 'You should do the thing the way we told you.',
-      starred: true,
-      created: new Date(),
-      createdBy: 'user2',
-      updated: null,
-      updatedBy: null,
-      category: this.faqCategories[0],
-    },
-    {
-      id: 'c',
-      title: 'I think I am doing this wrong. Am I doing this wrong?',
-      description: 'Yes you should consider doing it the other way.',
-      starred: true,
-      created: new Date(),
-      createdBy: 'user1',
-      updated: new Date(),
-      updatedBy: 'user1',
-      category: this.faqCategories[1],
-    },
-  ];
+  private faqs: Faq[] = [];
 
-  getFaqCategories(): FaqCategory[] {
-    return this.faqCategories.slice();
+  public loadFaqCategories(): Observable<FaqCategory[]> {
+    var url = 'https://localhost:8443/api/faqCategory';
+    return this.http.get<FaqCategory[]>(url); 
   }
 
-  getFaqs(): Faq[] {
-    return this.faqs.slice();
+  public saveFaqCategory(faqCategory: FaqCategory): HttpEmitAction<FaqCategory> {
+    var url = 'https://localhost:8443/api/faqCategory';
+
+    const returnVal: HttpEmitAction<FaqCategory> = {
+      obser: this.http.post<FaqCategory>(url, faqCategory),
+      emit: this.saveFaqCategoriesEmitter,
+      action: "SAVE"
+    };
+
+    return returnVal;
   }
 
-  findFaqById(id: string): Faq {
-    return this.faqs.find((faq) => faq.id === id);
+  public updateFaqCategory(faqCategory: FaqCategory): HttpEmitAction<FaqCategory> {
+    var url = 'https://localhost:8443/api/faqCategory';
+
+    const returnVal: HttpEmitAction<FaqCategory> = {
+      obser: this.http.put<FaqCategory>(url, faqCategory),
+      emit: this.updateFaqCategoriesEmitter,
+      action: "UPDATE"
+    };
+
+    return returnVal;
   }
 
-  findAllByFaqCategory(faqCategory: FaqCategory): Faq[] {
-    return this.faqs.filter((faq) => faq.category.id === faqCategory.id);
+  public deleteFaqCategory(faqCategory: FaqCategory): Observable<void> {
+    var url = 'https://localhost:8443/api/faqCategory/' + faqCategory.id;
+    return this.http.delete<void>(url);
   }
 
-  findAllByStarred(starred: boolean): Faq[] {
-    return this.faqs.filter((faq) => faq.starred === starred);
+  public loadFaqs(id: Number): Observable<Faq[]> {
+    var url = 'https://localhost:8443/api/faqs/' + id;
+    return this.http.get<Faq[]>(url);
   }
 
-  findFaqCategoryById(id: string): FaqCategory {
-    return this.faqCategories.find((cat) => cat.id === id);
+  public saveFaq(faq: Faq): HttpEmitAction<Faq> {
+    var url = 'https://localhost:8443/api/faq';
+
+    const returnVal: HttpEmitAction<Faq> = {
+      obser: this.http.post<Faq>(url, faq),
+      emit: this.saveFaqEmitter,
+      action: "SAVE"
+    };
+
+    return returnVal;
   }
 
-  starFaq(faq: Faq): Observable<Faq> {
-    faq.starred = !faq.starred;
-    return this.put(faq);
+  public updateFaq(faq: Faq): HttpEmitAction<Faq> {
+    var url = 'https://localhost:8443/api/faq';
+
+    const returnVal: HttpEmitAction<Faq> = {
+      obser: this.http.put<Faq>(url, faq),
+      emit: this.updateFaqEmitter,
+      action: "UPDATE"
+    };
+
+    return returnVal;
   }
 
-  putFaqCategory(faqCategory: FaqCategory): Observable<FaqCategory> {
-    // TODO: Rest Call
-    this.faqCategories.splice(
-      this.faqs.findIndex(
-        (faqCategoryIt) => faqCategoryIt.id === faqCategory.id
-      ),
-      1,
-      faqCategory
-    );
-    this.faqCategorie$.next(this.getFaqCategories());
-    return of(faqCategory);
+  public viewedFaq(faq: Faq): Observable<void> {
+    var url = 'https://localhost:8443/api/faq/' + faq.id;
+    return this.http.put<void>(url, null);
   }
 
-  postFaqCategory(faqCategory: FaqCategory): Observable<FaqCategory> {
-    // TODO: Rest Call
-    this.faqCategories.push(faqCategory);
-    this.faqCategorie$.next(this.getFaqCategories());
-    return of(faqCategory);
-  }
-
-  deleteFaqCategory(faqCategory: FaqCategory): Observable<void> {
-    this.faqCategories = this.faqCategories.filter(
-      (faqCategoryIt) => faqCategory.id !== faqCategoryIt.id
-    );
-    this.faqCategorie$.next(this.getFaqCategories());
-    return of();
-  }
-
-  put(faq: Faq): Observable<Faq> {
-    // TODO: Rest Call
-    this.faqs.splice(
-      this.faqs.findIndex((faqIt) => faqIt.id === faq.id),
-      1,
-      faq
-    );
-    return of(faq);
-  }
-
-  post(faq: Faq): Observable<Faq> {
-    // TODO: Rest Call
-    this.faqs.push(faq);
-    this.faq$.next(this.getFaqs());
-    return of(faq);
-  }
-
-  delete(faqToDelete: Faq): Observable<void> {
-    // TODO: Rest Call
-    this.faqs = this.faqs.filter((faq) => faqToDelete.id !== faq.id);
-    this.faq$.next(this.getFaqs());
-    return of();
+  public deleteFaq(faqToDelete: Faq): Observable<void> {
+    var url = 'https://localhost:8443/api/faq/' + faqToDelete.id;
+    return this.http.delete<void>(url);
   }
 }

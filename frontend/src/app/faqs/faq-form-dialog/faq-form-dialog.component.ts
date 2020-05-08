@@ -20,24 +20,27 @@ export class FaqFormDialogComponent {
 
   onSubmit(faq: Faq): void {
     if (faq.id) {
-      this.faqsService.put(faq).subscribe(
+      var httpResp = this.faqsService.updateFaq(faq);
+      httpResp.obser.subscribe(
         () => {
           this.dialogRef.close(true);
           this.messageService.showMessage('FAQ Updated');
+          httpResp.emit.emit(faq);
         },
-        () => {
-          this.messageService.showError('Updating FAQ Failed');
+        (error: any) => {
+          this.messageService.showErrorWithDetailsTst(error.error.error, error.error.resolution);
         }
       );
     } else {
-      faq.id = (Math.random() * 1000).toString();
-      this.faqsService.post(faq).subscribe(
-        () => {
+      var httpResp = this.faqsService.saveFaq(faq);
+      httpResp.obser.subscribe(
+        (faq:Faq) => {
           this.dialogRef.close(true);
           this.messageService.showMessage('FAQ Saved');
+          httpResp.emit.emit(faq);
         },
-        () => {
-          this.messageService.showError('Creating FAQ Failed');
+        (error: any) => {
+          this.messageService.showErrorWithDetailsTst(error.error.error, error.error.resolution);
         }
       );
     }

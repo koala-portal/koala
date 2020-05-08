@@ -1,12 +1,12 @@
 import { Subject, Observable, of, throwError } from 'rxjs';
 import { KTool } from '../shared/k-tool.model';
-import { KToolsDummyData } from './k-tools.data';
 import { Injectable, EventEmitter, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 import { User } from './user.model';
 
 import { ToastrService } from 'ngx-toastr';
+import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class KToolsService {
@@ -14,9 +14,20 @@ export class KToolsService {
 
   kTool$ = new Subject<KTool[]>();
 
-  private kTools: KTool[] = KToolsDummyData;
+  private kTools: KTool[] = [];
+
+  private url = environment.urls.api + '/tools';
 
   constructor(private http: HttpClient, private toastr: ToastrService) {}
+
+  setKTools(kTools: KTool[]): void {
+    this.kTools = kTools;
+    this.kTool$.next(this.getKTools());
+  }
+
+  findAll(): Observable<KTool[]> {
+    return this.http.get<KTool[]>(this.url, { withCredentials: true });
+  }
 
   getKTools(): KTool[] {
     return this.kTools.slice();

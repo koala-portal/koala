@@ -22,7 +22,8 @@
       <span [innerHTML]="faq.info"></span>
     </p>
     <p class="ml-4" style="" *ngIf="userIsAdmin">
-      This FAQ has been viewed <u>{{faq.timesViewed}}</u> time(s)
+      This FAQ has been viewed <u>{{faq.timesViewed}}</u> time(s)<br />
+      <span style="font-size: 8pt;">As an admin your view of this FAQ will not be counted</span>
     </p>
 
     <!-- FAQ Admin Toolbar -->

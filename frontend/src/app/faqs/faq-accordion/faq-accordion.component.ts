@@ -29,7 +29,7 @@ export class FaqAccordionComponent {
   ) {}
 
   onFaqSelected(faq: Faq): void {
-    if (!this.clickedFaq || this.clickedFaq.id !== faq.id) {
+    if (!this.userIsAdmin && (!this.clickedFaq || this.clickedFaq.id !== faq.id)) {
       this.clickedFaq = faq;
       this.faqsService.viewedFaq(faq).subscribe(
         ()=> {

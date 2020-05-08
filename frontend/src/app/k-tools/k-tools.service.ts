@@ -62,17 +62,6 @@ export class KToolsService {
         (res) => console.log('HTTP response', res),
         (err) => console.log('HTTP Error', err.error)
       );
-
-    // this.http.get(url).subscribe((res)=>{
-    //   return res;
-    // });
-
-    //return this.http.get<User>(url);
-
-    // return this.http.get<User>(url).pipe(
-    //   tap(_ => this.log(`Who is this???`)),
-    // catchError(this.handleError<User>(`Not sure who this is`))
-    //);
   }
 
   put(kTool: KTool): Observable<KTool> {

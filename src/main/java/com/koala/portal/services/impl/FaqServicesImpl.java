@@ -78,8 +78,9 @@ public class FaqServicesImpl implements FaqServices {
 		if (faq.getId() <= 0)
 			throw new InvalidFormException("You provided a FAQ with an ID field set to " + faq.getId() + ".  When updating a FAQ its existing ID must be used.", "Re-submit your form with the ID field of the FAQ set to the proper value.");
 		sharedSaveUpdateValidation(faq);
-		getFaq(faq.getId());
 		
+		//Preserve times viewed count, while at the same time making sure that the FAQ already exist
+		faq.setTimesViewed(getFaq(faq.getId()).getTimesViewed());
 		faq.setUpdated(new Date());
 		
 		faqRepo.save(faq);
@@ -106,6 +107,24 @@ public class FaqServicesImpl implements FaqServices {
 			throw new EntityNotFoundException("FAQ", Long.toString(id));
 		
 		faqRepo.deleteById(id);
+	}
+	
+
+	@Override
+	public void removeCategory(long id) throws InvalidFormException, EntityNotFoundException {
+		Optional<FaqCategory> fcOption = faqCategoryRepo.findById(id);
+		if (!fcOption.isPresent())
+			throw new EntityNotFoundException("FAQ Category", Long.toString(id));
+		
+		//Make sure there are not FAQs tied to this category.  Also make sure that it's not the Top Questions category
+		FaqCategory fc = fcOption.get();
+		if (fc.isTopQuestionsCategory())
+			throw new InvalidFormException("FAQ categories marked as a 'Top Questions' category cannot be deleted", "Nothing can be done through the service, please contact the development team if you truly need this category removed.");
+		
+		if (faqRepo.findByCategoryOrderByTitle(fc).size() != 0)
+			throw new InvalidFormException("You cannot delete a FAQ category that has FAQs assigned to it.", "First remove all associated FAQs from this category and then try again.");
+		
+		faqCategoryRepo.delete(fc);
 	}
 
 	@Override

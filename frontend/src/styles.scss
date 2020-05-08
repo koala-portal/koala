@@ -44,6 +44,7 @@ body {
   width: 100%;
   padding: 0;
   margin: 0;
+  display: flex;
 }
 
 body {
@@ -63,3 +64,6 @@ footer {
 }
 
 // Additional Bootstrap-like utility classes
+.background-primary {
+  background-color: $primary;
+}

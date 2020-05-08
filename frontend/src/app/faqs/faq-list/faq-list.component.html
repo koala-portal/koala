@@ -1,5 +1,6 @@
 <div fxLayout="row" fxLayoutAlign="center center" class="k-header">
   <button
+    *ngIf="userIsAdmin"
     mat-fab
     color="primary"
     matTooltip="Add Category"
@@ -14,22 +15,6 @@
   <div fxLayout="row">
     <!-- Category Selector -->
     <div fxFlex="20">
-      <mat-card
-        class="mb-3 clickable"
-        matRipple
-        (click)="onClickTopCategory()"
-        [ngClass]="topOnly ? 'bg-livid-1' : ''"
-      >
-        <mat-card-title>
-          <i class="fa fa-star"></i>
-          Top Questions</mat-card-title
-        >
-        <mat-card-subtitle
-          >The top questions we receive across all categories</mat-card-subtitle
-        >
-        <mat-card-content></mat-card-content>
-      </mat-card>
-      <hr />
       <div *ngFor="let faqCategory of faqCategories">
         <mat-card
           class="mb-3 clickable"
@@ -40,6 +25,7 @@
           matRipple
         >
           <mat-card-title>
+            <i class="fa fa-star" *ngIf="faqCategory.topQuestionsCategory"></i>
             {{ faqCategory.title }}
           </mat-card-title>
           <mat-card-subtitle>
@@ -47,50 +33,30 @@
           </mat-card-subtitle>
           <mat-card-content></mat-card-content>
         </mat-card>
+        <hr *ngIf="faqCategory.topQuestionsCategory" />
       </div>
     </div>
 
     <!-- Categories -->
-    <div fxFlex="80" class="pl-3" id="faq-section">
-      <!-- Clear Filter Button -->
-      <button
-        id="view-questions"
-        class="mb-3"
-        mat-raised-button
-        (click)="onClickTopCategory()"
-        *ngIf="!topOnly || filterFaqCategory"
-      >
-        View Top Questions
-      </button>
-      <div *ngIf="topOnly && !filterFaqCategory"></div>
-
+    <div fxFlex="80" class="pl-3" id="faq-section" *ngIf="filterFaqCategory">
       <!-- Categories List -->
       <div class="w-100">
-        <!-- Top Categories -->
-        <div *ngIf="topOnly || !filterFaqCategory" class="mb-3">
-          <app-faq-accordion [faqs]="getTopFaqs()"></app-faq-accordion>
-        </div>
-
-        <!-- Filtered Categories -->
-        <div *ngIf="!topOnly">
-          <mat-card
-            class="mb-4 faq-first-card"
-            *ngFor="let faqCategory of getFilteredCategories(); let i = index"
-          >
+        <div>
+          <mat-card class="mb-4 faq-first-card" >
             <mat-card-title>
               <div
                 class="d-flex flex-row justify-content-between align-items-center"
               >
-                <span class="pb-2"> {{ faqCategory.title }}</span>
+                <span class="pb-2"> {{ filterFaqCategory.title }}</span>
 
                 <!-- Category Admin Toolbar -->
                 <div *ngIf="userIsAdmin" class="d-flex flex-row">
                   <button
-                    *ngIf="userIsAdmin"
+                    *ngIf="!filterFaqCategory.topQuestionsCategory"
                     mat-icon-button
                     class="mr-2"
                     matTooltip="Add FAQ"
-                    (click)="onClickAddFaq(faqCategory)"
+                    (click)="onClickAddFaq(filterFaqCategory)"
                   >
                     <mat-icon>
                       add
@@ -101,18 +67,19 @@
                     color="primary"
                     class="mr-2"
                     matTooltip="Edit Category"
-                    (click)="onClickEditCategory(faqCategory)"
+                    (click)="onClickEditCategory(filterFaqCategory)"
                   >
                     <mat-icon>
                       edit
                     </mat-icon>
                   </button>
                   <button
+                    *ngIf="!filterFaqCategory.topQuestionsCategory"
                     mat-icon-button
                     color="warn"
                     matTooltip="Delete Category"
-                    [disabled]="!!findAllFaqsByFaqCategory(faqCategory).length"
-                    (click)="onClickDeleteCategory(faqCategory)"
+                    [disabled]="faqs.length != 0"
+                    (click)="onClickDeleteCategory(filterFaqCategory)"
                   >
                     <mat-icon>
                       delete
@@ -122,14 +89,16 @@
               </div>
             </mat-card-title>
             <mat-card-subtitle class="flex-fill">
-              {{ faqCategory.description }}
+              {{ filterFaqCategory.description }}
             </mat-card-subtitle>
 
             <!-- FAQ Accordian -->
             <div class="mt-2">
               <app-faq-accordion
                 [selectedFaq]="selectedFaq"
-                [faqs]="findAllFaqsByFaqCategory(faqCategory)"
+                [faqs]="faqs"
+                [selectedFaqCategory]="filterFaqCategory"
+                [userIsAdmin]="userIsAdmin"
               ></app-faq-accordion>
             </div>
           </mat-card>

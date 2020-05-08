@@ -1,6 +1,6 @@
 export interface FaqCategory {
-  id: string;
-  description: string;
+  id: number;
   title: string;
-  icon: string;
+  description: string;
+  topQuestionsCategory: Boolean;
 }

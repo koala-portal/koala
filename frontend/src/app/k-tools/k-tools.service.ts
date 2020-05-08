@@ -1,33 +1,22 @@
 import { Subject, Observable, of, throwError } from 'rxjs';
 import { KTool } from '../shared/k-tool.model';
+import { KToolsDummyData } from './k-tools.data';
 import { Injectable, EventEmitter, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 import { User } from './user.model';
 
 import { ToastrService } from 'ngx-toastr';
-import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class KToolsService {
-  kTool$ = new Subject<KTool[]>();
-
   @Output() whoamiEmitter: EventEmitter<User> = new EventEmitter<User>();
 
-  private kTools: KTool[] = [];
+  kTool$ = new Subject<KTool[]>();
 
-  private url = environment.urls.api + '/tools';
+  private kTools: KTool[] = KToolsDummyData;
 
   constructor(private http: HttpClient, private toastr: ToastrService) {}
-
-  setKTools(kTools: KTool[]): void {
-    this.kTools = kTools;
-    this.kTool$.next(this.getKTools());
-  }
-
-  findAll(): Observable<KTool[]> {
-    return this.http.get<KTool[]>(this.url, { withCredentials: true });
-  }
 
   getKTools(): KTool[] {
     return this.kTools.slice();
@@ -73,17 +62,6 @@ export class KToolsService {
         (res) => console.log('HTTP response', res),
         (err) => console.log('HTTP Error', err.error)
       );
-
-    // this.http.get(url).subscribe((res)=>{
-    //   return res;
-    // });
-
-    //return this.http.get<User>(url);
-
-    // return this.http.get<User>(url).pipe(
-    //   tap(_ => this.log(`Who is this???`)),
-    // catchError(this.handleError<User>(`Not sure who this is`))
-    //);
   }
 
   put(kTool: KTool): Observable<KTool> {

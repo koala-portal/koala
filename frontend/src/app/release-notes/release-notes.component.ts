@@ -1,10 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ReleaseNotes } from './release-notes.model';
+import { ActivatedRoute } from '@angular/router';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
+
+import { ReleaseNotes } from './release-notes.model';
 import { ReleaseNotesFormDialogComponent } from './release-notes-form-dialog/release-notes-form-dialog.component';
 import { ReleaseNotesService } from './release-notes.service';
-import { ActivatedRoute } from '@angular/router';
 import { MessageService } from '../shared/message.service';
+
 import { Subscription } from 'rxjs';
 
 @Component({

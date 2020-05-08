@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { UserGuide } from './guide.model';
-import { Subject, Observable, of, BehaviorSubject } from 'rxjs';
-import { Section } from './section.model';
 import { Injectable } from '@angular/core';
+
+import { UserGuide } from './guide.model';
+import { Section } from './section.model';
+
+import { Subject, Observable, of, BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class UserGuideService {

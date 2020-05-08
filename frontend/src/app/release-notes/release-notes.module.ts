@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+
 import { ReleaseNotesComponent } from './release-notes.component';
 import { CoreModule } from '../core.module';
 import { SharedModule } from '../shared/shared.module';

@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+
 import { ReleaseNotes } from '../release-notes.model';
 import { MessageService } from 'src/app/shared/message.service';
 import { ReleaseNotesService } from '../release-notes.service';

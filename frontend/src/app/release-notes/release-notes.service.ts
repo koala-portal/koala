@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { ReleaseNotes } from './release-notes.model';
-import { of, Observable, BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+
+import { ReleaseNotes } from './release-notes.model';
 import { data } from './release-notes.data';
+
+import { of, Observable, BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ReleaseNotesService {

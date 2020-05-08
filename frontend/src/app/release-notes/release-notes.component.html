@@ -3,36 +3,58 @@
     <div
       fxLayout="row"
       fxLayoutGap="12px"
-      *ngFor="let note of releaseNotes; let i = index"
+      *ngFor="let note of releaseNotesList; let i = index"
       class="timeline-item p-3 rounded"
-      [ngClass]="note.id === selectedReleaseNote.id ? 'timeline-selected' : ''"
+      [ngClass]="note.id === selectedReleaseNote?.id ? 'timeline-selected' : ''"
     >
-      <div fxLayout="column" class="timeline-item-label">
+      <!-- Label -->
+      <div
+        fxLayout="column"
+        class="timeline-item-label"
+        fxLayoutAlign="start end"
+      >
         <strong>{{ note.releaseDate | date }}</strong>
         <span class="text-muted">Version {{ note.versionNumber }}</span>
       </div>
+
+      <!-- Icon/Timeline -->
       <mat-icon class="timeline-item-notch">
         {{
-          note.id === selectedReleaseNote.id
+          note.id === selectedReleaseNote?.id
             ? "radio_button_checked"
             : "radio_button_unchecked"
         }}
       </mat-icon>
 
-      <mat-expansion-panel
-        class="w-100"
-        [expanded]="i === 0"
-        (opened)="onOpenReleaseNote(note)"
-      >
-        <mat-expansion-panel-header>
-          <mat-panel-title
-            ><strong>{{ note.name }}</strong></mat-panel-title
-          >
-        </mat-expansion-panel-header>
-        <div class="preserve-whitespace">
-          {{ note.description }}
-        </div>
-      </mat-expansion-panel>
+      <!-- Content -->
+      <div>
+        <mat-expansion-panel
+          class="w-100"
+          [expanded]="i === 0"
+          (opened)="onOpenReleaseNote(note)"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <strong>{{ note.name }}</strong>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="preserve-whitespace">
+            {{ note.description }}
+          </div>
+          <mat-action-row *ngIf="userIsAdmin" class="p-1">
+            <mat-divider></mat-divider>
+            <button
+              mat-icon-button
+              color="primary"
+              (click)="onClickEditReleaseNote(note)"
+            >
+              <mat-icon>
+                edit
+              </mat-icon>
+            </button>
+          </mat-action-row>
+        </mat-expansion-panel>
+      </div>
     </div>
   </div>
 </mat-accordion>

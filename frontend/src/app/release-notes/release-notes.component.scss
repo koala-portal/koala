@@ -16,7 +16,6 @@
 
   .timeline-item mat-card,
   .timeline-item mat-expansion-panel {
-    margin-bottom: 12px;
     margin-top: -12px;
   }
 
@@ -62,7 +61,7 @@
   }
 
   .timeline-item-label {
-    width: 90px;
+    width: 120px;
     flex-shrink: 0;
   }
 }

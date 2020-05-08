@@ -1,0 +1,67 @@
+<mat-card>
+  <mat-card-title>
+    {{ releaseNotes?.id ? "Edit" : "New" }} Release Notes
+  </mat-card-title>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-card-content fxLayout="column">
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="name"
+          required
+          placeholder="A brief description or title for this release"
+        />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Release Date</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          formControlName="releaseDate"
+          required
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Version Number</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="versionNumber"
+          required
+          pattern="[0-9]*(\.[0-9]+)*"
+          placeholder="Ex. 1.0, 45.3.23"
+          maxlength="8"
+        />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Notes</mat-label>
+        <textarea
+          formControlName="description"
+          matInput
+          mat-autosize
+          matAutosizeMinRows="10"
+          matAutosizeMaxRows="25"
+          required
+          placeholder="A description of the changes and other notes about this release"
+        ></textarea>
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-footer fxLayoutAlign="space-between">
+      <button mat-raised-button type="button" (click)="onClickCancel()">
+        Cancel
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="form.invalid"
+      >
+        Save
+      </button>
+    </mat-card-footer>
+  </form>
+</mat-card>

@@ -7,6 +7,8 @@ import { KToolsService } from '../k-tools/k-tools.service';
 import { Section } from './section.model';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { SectionFormDialogComponent } from './section-form-dialog/section-form-dialog.component';
+import { ReleaseNotesFormDialogComponent } from '../release-notes/release-notes-form-dialog/release-notes-form-dialog.component';
+import { ReleaseNotes } from '../release-notes/release-notes.model';
 
 @Component({
   selector: 'app-user-guide',
@@ -52,15 +54,21 @@ export class UserGuideComponent implements OnInit, OnDestroy {
     this.scrollToSection(section);
   }
 
-  onClickAddSection(): void {
-    this.openSectionFormDialog()
-      .afterClosed()
-      .subscribe((section: Section) => {
-        if (section) {
-          this.userGuideService.setCurrentSection(section);
-          this.scrollToSection(section);
-        }
-      });
+  onClickPlusFab(): void {
+    if (this.router.url.includes('/content')) {
+      this.openSectionFormDialog()
+        .afterClosed()
+        .subscribe((section: Section) => {
+          if (section) {
+            this.userGuideService.setCurrentSection(section);
+            this.scrollToSection(section);
+          }
+        });
+    } else if (this.router.url.includes('/release-notes')) {
+      this.openReleaseNotesFormDialog({
+        kTool: this.kTool,
+      } as ReleaseNotes);
+    }
   }
 
   private scrollToSection(section: Section): void {
@@ -81,6 +89,18 @@ export class UserGuideComponent implements OnInit, OnDestroy {
       width: '1080px',
       height: 'auto',
       data: section,
+    });
+  }
+
+  private openReleaseNotesFormDialog(
+    releaseNotes?: ReleaseNotes
+  ): MatDialogRef<ReleaseNotesFormDialogComponent, ReleaseNotes> {
+    return this.dialog.open(ReleaseNotesFormDialogComponent, {
+      disableClose: true,
+      panelClass: 'form-dialog',
+      width: '1080px',
+      height: 'auto',
+      data: releaseNotes,
     });
   }
 }

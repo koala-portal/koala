@@ -1,6 +1,6 @@
 import { KTool } from '../shared/k-tool.model';
 
-export class ReleaseNote {
+export class ReleaseNotes {
   id: number;
   kTool: KTool;
   releaseDate: Date;

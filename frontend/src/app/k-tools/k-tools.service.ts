@@ -1,54 +1,22 @@
 import { Subject, Observable, of, throwError } from 'rxjs';
 import { KTool } from '../shared/k-tool.model';
+import { KToolsDummyData } from './k-tools.data';
 import { Injectable, EventEmitter, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, retry, map } from 'rxjs/operators'
+import { catchError, map } from 'rxjs/operators';
 import { User } from './user.model';
 
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable({ providedIn: 'root' })
 export class KToolsService {
-  kTool$ = new Subject<KTool[]>();
-
   @Output() whoamiEmitter: EventEmitter<User> = new EventEmitter<User>();
 
-  private kTools: KTool[] = [
-    {
-      id: 'a',
-      name: 'Google',
-      description: 'Massively popular search engine',
-      numUsers: 58105679288,
-      starred: true,
-      url: 'www.google.com',
-    },
-    {
-      id: 'b',
-      name: 'Bing',
-      description: 'Massively unpopular search engine',
-      numUsers: 8,
-      starred: false,
-      url: 'www.bing.com',
-    },
-    {
-      id: 'c',
-      name: 'WinRAR',
-      description: 'Ubiquitous archiving tool',
-      numUsers: 5896568,
-      starred: true,
-      url: 'www.rarlab.com',
-    },
-    {
-      id: 'd',
-      name: 'Twitter',
-      description: 'A place where people post',
-      numUsers: 12353567,
-      starred: false,
-      url: 'www.twitter.com',
-    },
-  ];
+  kTool$ = new Subject<KTool[]>();
 
-  constructor(private http: HttpClient, private toastr: ToastrService) { }
+  private kTools: KTool[] = KToolsDummyData;
+
+  constructor(private http: HttpClient, private toastr: ToastrService) {}
 
   getKTools(): KTool[] {
     return this.kTools.slice();
@@ -74,22 +42,25 @@ export class KToolsService {
   }
 
   whoAmI(): void {
-    var url = 'https://localhost:8443/api/whoami';
+    // Http Headers
 
-    this.http.get(url).
-      pipe(
+    const url = 'https://localhost:8443/api/whoami';
+
+    this.http
+      .get(url, { withCredentials: true })
+      .pipe(
         map((data: User) => {
           this.whoamiEmitter.emit(data);
           return data;
-        }), catchError( error => {
-          this.toastr.error(  error.error.resolution,
-                              error.error.error);
-          return throwError( error.error );
+        }),
+        catchError((error) => {
+          this.toastr.error(error.error.resolution, error.error.error);
+          return throwError(error.error);
         })
       )
       .subscribe(
-        res => console.log('HTTP response', res),
-        err => console.log('HTTP Error', err.error)
+        (res) => console.log('HTTP response', res),
+        (err) => console.log('HTTP Error', err.error)
       );
   }
 

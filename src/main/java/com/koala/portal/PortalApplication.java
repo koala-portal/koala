@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -17,6 +18,8 @@ import com.koala.portal.models.Faq;
 import com.koala.portal.models.FaqCategory;
 import com.koala.portal.repos.FaqCategoryRepo;
 import com.koala.portal.services.FaqServices;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 @EnableAutoConfiguration
@@ -90,7 +93,7 @@ public class PortalApplication {
 			faqServices.create(f);
 			faqServices.viewed(f.getId());
 			faqServices.viewed(f.getId());
-			
+
 			f = new Faq(	0, 
 					"Who Installs U##", 
 					"Is this something we install or do you guys install it for us.", 
@@ -127,5 +130,15 @@ public class PortalApplication {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurer() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/api/**").allowedOrigins("http://localhost:4200").allowCredentials(true);
+			}
+		};
 	}
 }

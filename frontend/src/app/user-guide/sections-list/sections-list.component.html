@@ -1,0 +1,43 @@
+<div fxLayout="column" fxLayoutGap="16px">
+  <mat-card
+    *ngFor="let section of sections"
+    (mouseenter)="onMouseoverSection(section)"
+  >
+    <a class="hidden-anchor" id="{{ section.title }}"></a>
+
+    <mat-card-title>
+      {{ section.title }}
+    </mat-card-title>
+    <mat-card-content style="white-space: pre-line;">
+      {{ section.content }}
+    </mat-card-content>
+    <mat-divider></mat-divider>
+
+    <!-- Toolbar -->
+    <mat-card-footer fxLayoutAlign="end" class="p-1">
+      <button
+        mat-icon-button
+        color="primary"
+        matTooltip="Edit Section"
+        (click)="onClickEditSection(section)"
+      >
+        <mat-icon>
+          edit
+        </mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        color="warn"
+        matTooltip="Delete Section"
+        (click)="onClickDeleteSection(section)"
+      >
+        <mat-icon>
+          delete
+        </mat-icon>
+      </button>
+    </mat-card-footer>
+  </mat-card>
+  <div class="w-100 text-center" *ngIf="!sections?.length">
+    <strong>There's nothing here yet!</strong>
+  </div>
+</div>

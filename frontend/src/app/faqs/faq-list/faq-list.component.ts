@@ -11,6 +11,7 @@ import { FaqCategoryFormDialogComponent } from '../faq-category-form-dialog/faq-
 import { KToolsService } from '../../k-tools/k-tools.service';
 import { User } from '../../k-tools/user.model';
 
+
 @Component({
   selector: 'app-faqs-list',
   templateUrl: './faq-list.component.html',
@@ -36,6 +37,7 @@ export class FaqListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+
     //Get the user's role
     this.ktService.whoamiEmitter.subscribe((user:User) => {
       this.userIsAdmin = user.role == "ADMIN";

@@ -10,6 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 
+import com.koala.portal.daos.FaqDao;
 import com.koala.portal.exceptions.EntityNotFoundException;
 import com.koala.portal.exceptions.InvalidFormException;
 import com.koala.portal.models.Faq;
@@ -24,10 +25,7 @@ public class PortalApplication {
 
 	@Autowired
 	private FaqServices faqServices;
-	
-	@Autowired
-	private FaqCategoryRepo faqCategoryServices;
-	
+			
 	public static void main(String[] args) {
 		SpringApplication.run(PortalApplication.class, args);
 	}
@@ -36,17 +34,18 @@ public class PortalApplication {
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		//Load some dummy data
 		try {
-			FaqCategory faqCategoryGeneral = new FaqCategory(0, "Top FAQs", "The top FAQs as determined by you, the users of KOALA.", true);
-			faqCategoryServices.save(faqCategoryGeneral);
+			
+			FaqCategory faqCategoryGeneral = new FaqCategory(0, "Top FAQs", "The top {max.num.top.questions} FAQs over the past {days.back.top.faqs} days as determined by you, the users of KOALA.", true);
+			faqServices.create(faqCategoryGeneral);
 			
 			FaqCategory faqCategorySal = new FaqCategory(0, "SAL", "General question about what SAL is.", false);
-			faqCategoryServices.save(faqCategorySal);
+			faqServices.create(faqCategorySal);
 			
 			FaqCategory faqCategoryU = new FaqCategory(0, "U##", "General question about what U## is.", false);
-			faqCategoryServices.save(faqCategoryU);
+			faqServices.create(faqCategoryU);
 			
 			FaqCategory faqCategoryAto = new FaqCategory(0, "K## in the ATO Process", "General question where K## fits into your A&A and ATO process.", false);
-			faqCategoryServices.save(faqCategoryAto);
+			faqServices.create(faqCategoryAto);
 			
 			Faq f = new Faq(	0, 
 							"Do I Need to Be in SAL", 

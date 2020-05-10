@@ -39,7 +39,7 @@ public class Faq implements Serializable {
 
 	@ApiModelProperty(notes = "The category the FAQ falls under.", allowEmptyValue=false)
     private FaqCategory category;
-	
+		
 	public Faq() {/* Base Constructor */}
 	
 	public Faq(long id, String title, String desc, String info, Date updated, int timesViewed, FaqCategory faqCategory) {

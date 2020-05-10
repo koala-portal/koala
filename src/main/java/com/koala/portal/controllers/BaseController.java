@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.koala.portal.domain.ErrorInfo;
 import com.koala.portal.exceptions.EntityNotFoundException;
+import com.koala.portal.exceptions.InvalidConfigException;
 import com.koala.portal.exceptions.InvalidFormException;
 
 
@@ -29,6 +30,21 @@ public class BaseController {
 														// a standard Java utility for handling JSON) to serialize the ErrorInfo 
 														// object into JSON .
 	public ErrorInfo handleBadRequest(HttpServletRequest req, InvalidFormException ex) {
+		ex.printStackTrace();
+		return new ErrorInfo(	HttpStatus.BAD_REQUEST.value(),
+								ex.getMessage(),
+								ex.getSolution());
+
+	}
+	
+	@ResponseStatus(HttpStatus.BAD_REQUEST)				// Defines the HTTP status code to return, 400 in this case.
+	@ExceptionHandler(InvalidConfigException.class)		// Tells it what Exception class to listen for, in this case we
+														// need to create InvalidConfigException for any time a user ask for a config 
+														//that's not public.
+	@ResponseBody 										// Tells the method it's going to be writing to the response body (using Jackson,
+														// a standard Java utility for handling JSON) to serialize the ErrorInfo 
+														// object into JSON .
+	public ErrorInfo handleBadRequest(HttpServletRequest req, InvalidConfigException ex) {
 		ex.printStackTrace();
 		return new ErrorInfo(	HttpStatus.BAD_REQUEST.value(),
 								ex.getMessage(),

@@ -14,10 +14,20 @@
 <div class="mat-elevation-z8">
   <mat-sidenav-container>
     <mat-sidenav-content>
-      <div fxLayout="row">
+      <div fxLayout="row" fxLayoutAlign="end center" class="ml-3">
+        <mat-form-field fxFlex>
+          <mat-label>Filter</mat-label>
+          <input
+            type="text"
+            matInput
+            [(ngModel)]="filterText"
+            (keyup)="getFilteredTickets()"
+          />
+        </mat-form-field>
         <mat-paginator
-          [pageSizeOptions]="[5, 10, 20]"
+          [pageSizeOptions]="[3, 10, 20]"
           showFirstLastButtons
+          [length]="tickets.length"
           fxFlex
         ></mat-paginator>
         <button
@@ -121,9 +131,12 @@
 
       <mat-list>
         <div mat-subheader>Statuses</div>
-        <mat-selection-list #status *ngFor="let stat of statusValues">
-          <mat-list-option>
-            {{ stat.status }}
+        <mat-selection-list
+          *ngFor="let statOpt of ticketStatus"
+          (selectionChange)="selectionChange($event.option)"
+        >
+          <mat-list-option #statusSelect [selected]="statOpt">
+            {{ statOpt.status }}
           </mat-list-option>
         </mat-selection-list>
         <mat-divider></mat-divider>
@@ -134,7 +147,7 @@
               *ngFor="let kTool of kTools"
               [selectable]="kTool.isActive"
               [removable]="removable"
-              (removed)="removeMat(kTool)"
+              (removed)="removeMatChip(kTool)"
               (click)="kTool.isActive = !kTool.isActive"
               [ngClass]="kTool.isActive === true ? 'active' : ''"
             >

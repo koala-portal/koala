@@ -6,3 +6,7 @@ export interface KTool {
   numUsers: number;
   starred: boolean;
 }
+
+export interface KToolActive extends KTool {
+  isActive: boolean;
+}

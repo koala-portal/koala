@@ -1,9 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatSort } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material/paginator';
+// import { MatSort } from '@angular/material/sort';
+// import { MatPaginator } from '@angular/material/paginator';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
-import { MatChipInputEvent } from '@angular/material/chips';
-import { FormControl } from '@angular/forms';
+import { FormControl, NgModel } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { StatusMap } from '../ticket.model';
@@ -11,8 +10,9 @@ import { Ticket } from '../ticket.model';
 import { TicketService } from '../ticket.service';
 import { TicketItemComponent } from '../ticket-item/ticket-item.component';
 import { TicketFormComponent } from '../ticket-form/ticket-form.component';
-import { KTool } from 'src/app/shared/k-tool.model';
+import { KToolActive } from 'src/app/shared/k-tool.model';
 import { KToolsService } from '../../k-tools/k-tools.service';
+import { MatListOption } from '@angular/material/list';
 
 @Component({
   selector: 'app-ticket-list',
@@ -21,22 +21,24 @@ import { KToolsService } from '../../k-tools/k-tools.service';
 })
 export class TicketListComponent implements OnInit {
   tickets: Ticket[];
-  statusValues: StatusMap[];
+  ticketStatus: StatusMap[];
+  kTools: KToolActive[];
+  kToolsActive: KToolActive[];
 
   // ticketsTable = new MatTableDataSource(this.tickets);
   displayedColumns: string[] = ['stat'];
   sideNavEvents: string[] = [];
-  opened: boolean;
   mode = new FormControl('side');
+  opened: boolean;
   visible = true;
   selectable = true;
   removable = true;
-  kTools: KTool[];
+  filterText = '';
+  direction = 'asc';
+  status = '';
+  statusSelect = '';
 
   private ticketChangeSub: Subscription;
-
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(
     private ticketService: TicketService,
@@ -46,7 +48,7 @@ export class TicketListComponent implements OnInit {
 
   ngOnInit(): void {
     this.tickets = this.ticketService.getTickets();
-    this.statusValues = this.ticketService.getStatuses();
+    this.ticketStatus = this.ticketService.getStatuses();
     this.kTools = this.kToolsService
       .getKTools()
       .map((v) => ({ ...v, isActive: true }));
@@ -56,8 +58,6 @@ export class TicketListComponent implements OnInit {
         this.tickets = tickets;
       }
     );
-
-    console.log(this.kTools);
   }
 
   openDetails(data?: Ticket): MatDialogRef<TicketItemComponent, Ticket> {
@@ -83,10 +83,37 @@ export class TicketListComponent implements OnInit {
     return status.color;
   }
 
-  //Fix mat filter for applying this.
-  applyFilter(event: Event): void {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.ticketService.filterTickets(filterValue);
+  getFilteredTickets(): void {
+    this.tickets = this.ticketService.getTickets();
+
+    const ticketFiltering = this.ticketService.filterTickets(
+      this.kToolsActive,
+      this.ticketStatus,
+      this.filterText
+    );
+
+    this.tickets = ticketFiltering;
+  }
+
+  // mat chips
+  removeMatChip(kTool: { isActive: boolean }): boolean {
+    kTool.isActive = false;
+    this.findByActive();
+    return kTool.isActive;
+  }
+
+  //Find by selected Tools on sidenav
+  findByActive(): void {
+    this.kToolsActive = this.kTools.filter((tool) => tool.isActive);
+  }
+
+  selectionChange(option: MatListOption): void {
+    const selectedStatus = [];
+    console.log(option);
+    console.log(this.statusSelect);
+    if (option.selected) {
+      console.log('checked');
+    }
   }
 
   ngOnDestroy(): void {
@@ -104,11 +131,4 @@ export class TicketListComponent implements OnInit {
   //   dialogConfig.panelClass = 'form-dialog';
   //   const modalDialog = this.dialog.open(ModalComponent, dialogConfig);
   // }
-
-  // mat chips
-  removeMat(kTool: { isActive: boolean }): boolean {
-    kTool.isActive = false;
-    console.log(kTool.isActive);
-    return kTool.isActive;
-  }
 }

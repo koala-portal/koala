@@ -1,6 +1,5 @@
 package com.koala.portal.services.impl;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -28,16 +27,16 @@ import com.koala.portal.services.FaqServices;
 public class FaqServicesImpl implements FaqServices {
 
 	@Autowired
-	private FaqRepo faqRepo;
+	protected FaqRepo faqRepo;
 	
 	@Autowired
-	private FaqDao faqDao;
+	protected FaqDao faqDao;
 	
 	@Autowired
-	private FaqCategoryRepo faqCategoryRepo;
+	protected FaqCategoryRepo faqCategoryRepo;
 	
 	@Autowired
-	private FaqViewsRepo faqViewsRepo;
+	protected FaqViewsRepo faqViewsRepo;
 	
 	@Value("${max.num.top.questions:5}") // value after ':' is the default
 	private int maxTopQuestions;
@@ -120,25 +119,7 @@ public class FaqServicesImpl implements FaqServices {
 		
 		faqRepo.deleteById(id);
 	}
-	
 
-	@Override
-	public void removeCategory(long id) throws InvalidFormException, EntityNotFoundException {
-		Optional<FaqCategory> fcOption = faqCategoryRepo.findById(id);
-		if (!fcOption.isPresent())
-			throw new EntityNotFoundException("FAQ Category", Long.toString(id));
-		
-		//Make sure there are not FAQs tied to this category.  Also make sure that it's not the Top Questions category
-		FaqCategory fc = fcOption.get();
-		if (fc.isTopQuestionsCategory())
-			throw new InvalidFormException("FAQ categories marked as a 'Top Questions' category cannot be deleted", "Nothing can be done through the service, please contact the development team if you truly need this category removed.");
-		
-		if (faqRepo.findByCategoryOrderByTitle(fc).size() != 0)
-			throw new InvalidFormException("You cannot delete a FAQ category that has FAQs assigned to it.", "First remove all associated FAQs from this category and then try again.");
-		
-		faqCategoryRepo.delete(fc);
-	}
-	
 	private Faq getFaq(long id) throws EntityNotFoundException {
 		Optional<Faq> faq = faqRepo.findById(id);
 		
@@ -147,7 +128,7 @@ public class FaqServicesImpl implements FaqServices {
 		
 		return faq.get();
 	}
-
+	
 	@Override
 	public List<FaqCategory> getAllCategories() {
 		return faqCategoryRepo.findAllByOrderByTopQuestionsCategoryDescTitleAsc();
@@ -165,9 +146,6 @@ public class FaqServicesImpl implements FaqServices {
 		
 		sharedSaveUpdateValidation(newFaqCategory);
 		
-		//There are some config values we may want to insert/update
-		applyConfigValues(newFaqCategory);
-		
 		return faqCategoryRepo.save(newFaqCategory);
 	}
 	
@@ -178,17 +156,25 @@ public class FaqServicesImpl implements FaqServices {
 		
 		sharedSaveUpdateValidation(updatedFaqCategory);
 		getFaqCategory(updatedFaqCategory.getId());
-		applyConfigValues(updatedFaqCategory);
 		
 		faqCategoryRepo.save(updatedFaqCategory);
 	}
-	
-	private void applyConfigValues(FaqCategory faqCat) {
-		faqCat.setTitle(faqCat.getTitle().replace("{max.num.top.questions}", Integer.toString(maxTopQuestions)));
-		faqCat.setDescription(faqCat.getDescription().replace("{max.num.top.questions}", Integer.toString(maxTopQuestions)));
+
+	@Override
+	public void removeCategory(long id) throws InvalidFormException, EntityNotFoundException {
+		Optional<FaqCategory> fcOption = faqCategoryRepo.findById(id);
+		if (!fcOption.isPresent())
+			throw new EntityNotFoundException("FAQ Category", Long.toString(id));
 		
-		faqCat.setTitle(faqCat.getTitle().replace("{days.back.top.faqs}", Integer.toString(daysBackTopFaqs)));
-		faqCat.setDescription(faqCat.getDescription().replace("{days.back.top.faqs}", Integer.toString(daysBackTopFaqs)));
+		//Make sure there are not FAQs tied to this category.  Also make sure that it's not the Top Questions category
+		FaqCategory fc = fcOption.get();
+		if (fc.isTopQuestionsCategory())
+			throw new InvalidFormException("FAQ categories marked as a 'Top Questions' category cannot be deleted", "Nothing can be done through the service, please contact the development team if you truly need this category removed.");
+		
+		if (faqRepo.findByCategoryOrderByTitle(fc).size() != 0)
+			throw new InvalidFormException("You cannot delete a FAQ category that has FAQs assigned to it.", "First remove all associated FAQs from this category and then try again.");
+		
+		faqCategoryRepo.delete(fc);
 	}
 	
 	private void sharedSaveUpdateValidation(FaqCategory faq) throws InvalidFormException {

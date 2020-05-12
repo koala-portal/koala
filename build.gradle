@@ -37,7 +37,6 @@ dependencies {
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
-	//testImplementation 'org.springframework.security:spring-security-test'
 
 	//Standard
 	implementation 'org.apache.commons:commons-lang3:3.0'
@@ -49,6 +48,10 @@ dependencies {
 	implementation 'io.springfox:springfox-swagger2:2.9.2'
 	implementation 'io.springfox:springfox-swagger-ui:2.9.2'
 	implementation 'org.springframework.plugin:spring-plugin-core:1.2.0.RELEASE'
+
+	//Testing
+	testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:2.7.22'
 }
 
 test {

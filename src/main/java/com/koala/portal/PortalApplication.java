@@ -10,16 +10,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.koala.portal.daos.FaqDao;
 import com.koala.portal.exceptions.EntityNotFoundException;
 import com.koala.portal.exceptions.InvalidFormException;
 import com.koala.portal.models.Faq;
 import com.koala.portal.models.FaqCategory;
-import com.koala.portal.repos.FaqCategoryRepo;
 import com.koala.portal.services.FaqServices;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 @EnableAutoConfiguration
@@ -38,7 +36,7 @@ public class PortalApplication {
 		//Load some dummy data
 		try {
 			
-			FaqCategory faqCategoryGeneral = new FaqCategory(0, "Top FAQs", "The top {max.num.top.questions} FAQs over the past {days.back.top.faqs} days as determined by you, the users of KOALA.", true);
+			FaqCategory faqCategoryGeneral = new FaqCategory(0, "Top FAQs", "The top FAQs as determined by you, the users of KOALA.", true);
 			faqServices.create(faqCategoryGeneral);
 			
 			FaqCategory faqCategorySal = new FaqCategory(0, "SAL", "General question about what SAL is.", false);

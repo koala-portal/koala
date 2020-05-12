@@ -10,6 +10,7 @@ import { FaqFormDialogComponent } from '../faq-form-dialog/faq-form-dialog.compo
 import { FaqCategoryFormDialogComponent } from '../faq-category-form-dialog/faq-category-form-dialog.component';
 import { KToolsService } from '../../k-tools/k-tools.service';
 import { User } from '../../k-tools/user.model';
+import { ConfigServices } from '../../shared/config.services';
 
 
 @Component({
@@ -24,6 +25,9 @@ export class FaqListComponent implements OnInit, OnDestroy {
   faqCategories: FaqCategory[];
   faqs:Faq[]
 
+  maxNumFaqs: String;
+  clicksOverNumberOfDays: String;
+
   private paramsSub: Subscription;
 
   userIsAdmin = false;
@@ -33,7 +37,8 @@ export class FaqListComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private route: ActivatedRoute,
     private dialog: MatDialog,
-    private ktService: KToolsService
+    private ktService: KToolsService,
+    private configServices: ConfigServices
   ) {}
 
   ngOnInit(): void {
@@ -42,6 +47,27 @@ export class FaqListComponent implements OnInit, OnDestroy {
     this.ktService.whoamiEmitter.subscribe((user:User) => {
       this.userIsAdmin = user.role == "ADMIN";
     });
+
+    //Get the config values for the Top Questions category
+    this.configServices.getPublicConfig("max.num.top.questions").subscribe(
+        (val)=> {
+          this.maxNumFaqs = val;
+        },
+        (error: any)=> {
+          this.messageService.showErrorWithDetailsTst(  error.error.resolution,
+                                                        error.error.error);
+        }
+    );
+
+    this.configServices.getPublicConfig("days.back.top.faqs").subscribe(
+        (val)=> {
+          this.clicksOverNumberOfDays = val;
+        },
+        (error: any)=> {
+          this.messageService.showErrorWithDetailsTst(  error.error.resolution,
+                                                        error.error.error);
+        }
+    );
 
     //Load the list of categories
     this.faqsService.loadFaqCategories().subscribe(

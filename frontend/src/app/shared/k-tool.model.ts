@@ -9,3 +9,7 @@ export interface KTool {
   starred: boolean;
   userGuide: UserGuide;
 }
+
+export interface KToolActive extends KTool {
+  isActive: boolean;
+}

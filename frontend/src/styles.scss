@@ -27,6 +27,7 @@ $koala-theme: mat-light-theme($koala-primary, $koala-accent, $koala-warn);
 
 @import "../src/styles/variables";
 @import "../src/styles/cards";
+@import "../src/styles/chips";
 @import "../src/styles/buttons";
 @import "../src/styles/form";
 @import "../src/styles/fontAwesome";
@@ -57,8 +58,6 @@ main {
 }
 
 footer {
-  @extend .bg-greyBlue-4;
-
   color: white;
   height: 40px;
 }

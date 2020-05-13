@@ -32,6 +32,7 @@ public class FaqDaoImpl implements FaqDao {
 		query.setParameter("from", from);
 		query.setParameter("to", to);
 		
+		@SuppressWarnings("unchecked")
 		List<FaqRollup> resultList = query.getResultList();
 		
 		int counter = 0;

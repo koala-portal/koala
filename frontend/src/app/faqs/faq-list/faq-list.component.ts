@@ -8,9 +8,8 @@ import { MessageService } from 'src/app/shared/message.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FaqFormDialogComponent } from '../faq-form-dialog/faq-form-dialog.component';
 import { FaqCategoryFormDialogComponent } from '../faq-category-form-dialog/faq-category-form-dialog.component';
-import { KToolsService } from '../../k-tools/k-tools.service';
-import { User } from '../../k-tools/user.model';
 import { ConfigServices } from '../../shared/config.services';
+import { WhoAmIServices } from '../../shared/whoami.services';
 
 
 @Component({
@@ -37,16 +36,23 @@ export class FaqListComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private route: ActivatedRoute,
     private dialog: MatDialog,
-    private ktService: KToolsService,
-    private configServices: ConfigServices
+    private configServices: ConfigServices,
+    private whoAmIServices: WhoAmIServices
   ) {}
 
   ngOnInit(): void {
 
     //Get the user's role
-    this.ktService.whoamiEmitter.subscribe((user:User) => {
-      this.userIsAdmin = user.role == "ADMIN";
-    });
+    this.whoAmIServices.whoAmI().subscribe(
+        (user)=> {
+          this.userIsAdmin = user.role == "ADMIN";
+        },
+        (error: any)=> {
+          this.messageService.showErrorWithDetailsTst(  error.error.resolution,
+                                                        error.error.error);
+          this.userIsAdmin = false; //Ensure that we don't let them operate as an admin 
+        }
+    );
 
     //Get the config values for the Top Questions category
     this.configServices.getPublicConfig("max.num.top.questions").subscribe(

@@ -15,6 +15,18 @@ The back end for this project was generated with [Spring Initializer] (https://s
 - Now you need to start up the front end.  To do this open a second command prompt and navigate to ./frontend (the root of your front-end application).
 - Once there run `ng serve` to start your Angular front-end.  Open up `http://localhost:4200/` in your browser.  If everything went as planned you should have a pop-up that says something like: "John Doe is logged in as a(n) [ADMIN/VIEWER]".
 
+## To Build the Full App
+To build the fully executable jar, which contains both the front end and the back end all you need to do is the following:
+ - Navigate in a command propmpt to the root of the project.
+ - Run the following command: `./gradlew clean build`.  This will run `javaCompile` for your class files and `ng build` for your Angular/Type Script and then package the two together.
+ - You can test this out by then navigating to [root]/build/libs and run `java -jar -Dspring.profiles.active=[your name] 
+ koala.jar`.  For example, `java -jar -Dspring.profiles.active=matt koala.jar`.
+
+ ## To Deploy the Full App
+To push out a fresh copy of the app all you have to do is run: `./gradlew clean deploy`.  That's it.  The gradle task will push a fresh copy of the jar to the EC2 instance and stop/start the service.  You can manually start/stop the app on the EC2 instance by running `sudo service koala [start/stop]` if you need to, but you shouldn't since the deploy task does this for you.  You can then go to `https://ec2-54-90-122-118.compute-1.amazonaws.com:8443/` to see the latest.  Make sure you have the proper certs loaded in your browser in order to make sure that you have access.
+
+## Loading Certs Into Your Browser
+Coming Soon
 
 ## Code scaffolding
 

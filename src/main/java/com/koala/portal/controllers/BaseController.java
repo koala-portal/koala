@@ -20,6 +20,7 @@ import com.koala.portal.exceptions.InvalidFormException;
 
 @RestController()
 @RequestMapping(path="/api")
+@CrossOrigin(origins = "http://localhost:4200")
 public class BaseController {
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)				// Defines the HTTP status code to return, 400 in this case.

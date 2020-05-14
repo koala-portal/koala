@@ -6,6 +6,7 @@ import { FormControl, NgModel } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { StatusMap } from '../ticket.model';
+import { MyTicket } from '../ticket.model';
 import { Ticket } from '../ticket.model';
 import { TicketService } from '../ticket.service';
 import { TicketItemComponent } from '../ticket-item/ticket-item.component';
@@ -22,6 +23,7 @@ import { MatListOption } from '@angular/material/list';
 export class TicketListComponent implements OnInit {
   tickets: Ticket[];
   ticketStatus: StatusMap[];
+  myViews: MyTicket[];
   kTools: KToolActive[];
   kToolsActive: KToolActive[];
 
@@ -49,6 +51,7 @@ export class TicketListComponent implements OnInit {
   ngOnInit(): void {
     this.tickets = this.ticketService.getTickets();
     this.ticketStatus = this.ticketService.getStatuses();
+    this.myViews = this.ticketService.getMyViews();
     this.kTools = this.kToolsService
       .getKTools()
       .map((v) => ({ ...v, isActive: true }));

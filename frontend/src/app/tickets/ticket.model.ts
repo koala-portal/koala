@@ -20,3 +20,8 @@ export interface StatusMap {
   color: string;
   checked: boolean;
 }
+
+export interface MyTicket {
+  status: string;
+  checked: boolean;
+}

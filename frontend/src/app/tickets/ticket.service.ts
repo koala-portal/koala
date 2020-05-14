@@ -3,6 +3,7 @@ import { Observable, of, Subject } from 'rxjs';
 
 import { Ticket } from './ticket.model';
 import { StatusMap } from './ticket.model';
+import { MyTicket } from './ticket.model';
 import { KToolsService } from '../k-tools/k-tools.service';
 import { KTool } from '../shared/k-tool.model';
 // import { KTool } from '../shared/k-tool.model';
@@ -11,6 +12,7 @@ import { KTool } from '../shared/k-tool.model';
 export class TicketService {
   ticket$ = new Subject<Ticket[]>();
   selectedStatus$ = new Subject<StatusMap[]>();
+  selectedMyTicket$ = new Subject<MyTicket[]>();
   selctedTools$ = new Subject<KTool[]>();
 
   private tickets: Ticket[] = [
@@ -108,6 +110,11 @@ export class TicketService {
     { status: 'Canceled', color: 'koala-carminePink-bg-2', checked: true },
   ];
 
+
+  private myTicketStatus: MyTicket[] = [
+    { status: 'Created by me', checked: true },
+    { status: 'Assigned to me', checked: true }    
+  ];
   constructor(private ktService: KToolsService) {}
 
   getTicket(ticketNo: string): Ticket {
@@ -124,6 +131,10 @@ export class TicketService {
 
   getStatuses(): StatusMap[] {
     return this.ticketStatus.slice();
+  }
+
+  getMyViews(): MyTicket[] {
+    return this.myTicketStatus.slice();
   }
 
   //TODO fix this.. jmd

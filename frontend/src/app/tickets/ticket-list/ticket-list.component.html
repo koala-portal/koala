@@ -140,6 +140,16 @@
           </mat-list-option>
         </mat-selection-list>
         <mat-divider></mat-divider>
+        <div mat-subheader>My tickets</div>
+        <mat-selection-list
+          *ngFor="let myView of myViews"
+          (selectionChange)="selectionChange($event.option)"
+        >
+          <mat-list-option #statusSelect [selected]="myView">
+            {{ myView.status }}
+          </mat-list-option>
+        </mat-selection-list>
+        <mat-divider></mat-divider>
         <div mat-subheader>Tools</div>
         <div id="mat-chip-list-ktools">
           <mat-chip-list #toolList aria-label="Tool selection">

@@ -26,7 +26,13 @@ To build the fully executable jar, which contains both the front end and the bac
 To push out a fresh copy of the app all you have to do is run: `./gradlew clean deploy`.  That's it.  The gradle task will push a fresh copy of the jar to the EC2 instance and stop/start the service.  You can manually start/stop the app on the EC2 instance by running `sudo service koala [start/stop]` if you need to, but you shouldn't since the deploy task does this for you.  You can then go to `https://ec2-54-90-122-118.compute-1.amazonaws.com:8443/` to see the latest.  Make sure you have the proper certs loaded in your browser in order to make sure that you have access.
 
 ## Loading Certs Into Your Browser
-Coming Soon
+In [root]/src/main/resources/keys/[local/aws] you'll find the .p12 browser certs you need.  Load them into your browser and then hit the web site.
+
+Instructions for Chrome: https://support.globalsign.com/digital-certificates/digital-certificate-installation/install-client-digital-certificate-windows-using-chrome
+
+Instructions for Firefox: https://www.sslsupportdesk.com/how-to-import-a-certificate-into-firefox/
+
+IMPORTANT: There is a known CORS issue with FireFox and CORS that Matt is working on but hasn't figured out yet.  For now just use Chrome.
 
 ## Code scaffolding
 

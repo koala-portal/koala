@@ -121,9 +121,9 @@ task deploy {
 	doLast {
 		ssh.run {
 			session(remotes.webServer) {
-				execute 'sudo service ' + rootProject.name + " stop"
+				execute 'sudo service ' + rootProject.name + ' stop'
 				put from: rootProject.projectDir.absolutePath + '/build/libs/' + rootProject.name + '.jar', into: appLocation
-				execute 'sudo service ' + rootProject.name + " start"
+				execute 'sudo service ' + rootProject.name + ' start'
 			}
 		}
 	}

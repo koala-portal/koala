@@ -1,0 +1,53 @@
+package com.koala.portal.controllers;
+
+import java.security.Principal;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.koala.portal.domain.form.FormStatus;
+import com.koala.portal.exceptions.InvalidFormException;
+import com.koala.portal.models.UamForm;
+import com.koala.portal.models.UserDetails;
+import com.koala.portal.services.UamFormServices;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
+@RestController
+@Api(value="UAM Form Controller")
+public class UamFormController extends BaseController {
+	
+	@Autowired
+	private UamFormServices uamFormServices;
+
+	@RequestMapping(value = "/uamForm", method = RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
+	@ResponseStatus(HttpStatus.OK)
+	@ApiOperation(value = "Based on role, return all UAM forms this person is permitted to see.  There is an optional field that will filter all forms by their status.", response = UserDetails.class)
+	@ApiResponses(value = {
+	        @ApiResponse(code = 200, message = "All forms that you're permitted to see."),
+	        @ApiResponse(code = 401, message = "You are not authorized to enter the system because we don't know who you are."),
+	        @ApiResponse(code = 403, message = "You are not authorized to enter the system because we DO know who you are and we still don't trust your ass.")
+	})
+	@PreAuthorize("isFullyAuthenticated()")
+	public List<UamForm> getAll(Authentication authentication, Principal principal, @RequestParam(required = false, name="status") FormStatus status) throws InvalidFormException {
+		if (status == null) {
+			return uamFormServices.getAll(getUser());
+		} else {
+			return uamFormServices.getAll(	getUser(),
+											status);
+		}
+	}
+	
+}

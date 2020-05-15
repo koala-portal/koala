@@ -6,18 +6,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.koala.portal.domain.PortalRoles;
+import com.koala.portal.domain.form.FormStatus;
 import com.koala.portal.exceptions.EntityNotFoundException;
 import com.koala.portal.exceptions.InvalidFormException;
 import com.koala.portal.models.Faq;
 import com.koala.portal.models.FaqCategory;
+import com.koala.portal.models.UamForm;
+import com.koala.portal.models.UserDetails;
 import com.koala.portal.services.FaqServices;
+import com.koala.portal.services.UamFormServices;
 
 @SpringBootApplication
 @EnableAutoConfiguration
@@ -26,6 +28,9 @@ public class PortalApplication {
 
 	@Autowired
 	private FaqServices faqServices;
+
+	@Autowired
+	private UamFormServices uamFormServices;
 			
 	public static void main(String[] args) {
 		SpringApplication.run(PortalApplication.class, args);
@@ -125,6 +130,19 @@ public class PortalApplication {
 			faqServices.viewed(f.getId());
 
 		} catch (InvalidFormException | EntityNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			UamForm form = new UamForm();
+			UserDetails user = new UserDetails("John Doe", "KOALA-VIEWER", PortalRoles.PARTNER);
+			
+			form.setOrganization("COM/APACHE/KAFKA");
+			form.setaAndANum("ABC/123");
+			
+			uamFormServices.save(user, form);
+		} catch (InvalidFormException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

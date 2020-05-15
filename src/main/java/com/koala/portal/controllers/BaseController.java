@@ -1,21 +1,32 @@
 package com.koala.portal.controllers;
 
+import java.beans.PropertyEditorSupport;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.koala.portal.domain.ErrorInfo;
+import com.koala.portal.domain.PortalRoles;
+import com.koala.portal.domain.form.FormAction;
+import com.koala.portal.domain.form.FormStatus;
 import com.koala.portal.exceptions.EntityNotFoundException;
 import com.koala.portal.exceptions.InvalidConfigException;
 import com.koala.portal.exceptions.InvalidFormException;
+import com.koala.portal.models.User;
+import com.koala.portal.models.UserDetails;
 
 
 @RestController()
@@ -92,6 +103,48 @@ public class BaseController {
 								ex.getMessage(),
 								"The credentials provided could be found in LDAP, however the LDAP entry maps to a role in the system that does not have permission to perform this action.  If you believe you should have access to this feature please contact the KOALA team.");
 
+	}
+	
+	protected UserDetails getUser() {
+		User userDetailsObj = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		UserDetails user = new UserDetails(	userDetailsObj.getUserLabel(), 
+											userDetailsObj.getUsername(), 
+											null);
+		
+		for (GrantedAuthority r : userDetailsObj.getAuthorities())
+			user.setRole(PortalRoles.valueOf(r.getAuthority()));
+		
+
+		return user;
+	}
+	
+	protected class FormStatusEnumConverter extends PropertyEditorSupport {
+	    @Override
+	    public void setAsText(String text) throws IllegalArgumentException {
+	    		if (text == null) {
+	    			setValue(null);
+	    			return;
+	    		}
+	        setValue(FormStatus.valueOf(text.toUpperCase()));
+	    }
+	}
+	
+	protected class FormActionEnumConverter extends PropertyEditorSupport {
+	    @Override
+	    public void setAsText(String text) throws IllegalArgumentException {
+	    		if (text == null) {
+	    			setValue(null);
+	    			return;
+	    		}
+	        setValue(FormAction.valueOf(text.toUpperCase()));
+	    }
+	}
+	
+	@InitBinder
+	public void initBinder(WebDataBinder dataBinder) {
+	    dataBinder.registerCustomEditor(FormStatus.class, new FormStatusEnumConverter());
+	    dataBinder.registerCustomEditor(FormAction.class, new FormActionEnumConverter());
 	}
 	
 }

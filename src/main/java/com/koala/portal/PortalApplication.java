@@ -11,11 +11,12 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 
 import com.koala.portal.domain.PortalRoles;
-import com.koala.portal.domain.form.FormStatus;
+import com.koala.portal.domain.form.FormAction;
 import com.koala.portal.exceptions.EntityNotFoundException;
 import com.koala.portal.exceptions.InvalidFormException;
 import com.koala.portal.models.Faq;
 import com.koala.portal.models.FaqCategory;
+import com.koala.portal.models.Note;
 import com.koala.portal.models.UamForm;
 import com.koala.portal.models.UserDetails;
 import com.koala.portal.services.FaqServices;
@@ -141,8 +142,25 @@ public class PortalApplication {
 			form.setOrganization("COM/APACHE/KAFKA");
 			form.setaAndANum("ABC/123");
 			
-			uamFormServices.save(user, form);
-		} catch (InvalidFormException e) {
+			UamForm newForm = uamFormServices.save(user, form);
+						
+			Note note = new Note(	newForm.getId(),
+									"Mock Random Text from Non-KOALA person", 
+									true);			
+			uamFormServices.addNote(user, note);
+			
+			UserDetails adminUser = new UserDetails("John Doe", "KOALA-ADMIN", PortalRoles.ADMIN);
+			note = new Note(	newForm.getId(),
+					"Mock Random Text from KOALA Admin", 
+					true);			
+			uamFormServices.addNote(adminUser, note);
+			
+			
+			uamFormServices.performAction(	newForm.getId(), 
+											FormAction.SUBMIT, 
+											user);
+			
+		} catch (InvalidFormException | EntityNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

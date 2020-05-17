@@ -6,5 +6,6 @@ public enum FormStatus {
 	RETURNED,
 	REJECTED,
 	APPROVED,
-	COMPLETED;
+	COMPLETED, 
+	DELETED;
 }

@@ -4,6 +4,7 @@ package com.koala.portal.services.impl;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,17 @@ import com.google.common.collect.Lists;
 import com.koala.portal.domain.PortalRoles;
 import com.koala.portal.domain.form.FormAction;
 import com.koala.portal.domain.form.FormStatus;
+import com.koala.portal.domain.history.EntityType;
+import com.koala.portal.domain.notes.NoteCategory;
+import com.koala.portal.exceptions.EntityNotFoundException;
 import com.koala.portal.exceptions.InvalidFormException;
+import com.koala.portal.models.HistoryEntry;
+import com.koala.portal.models.Note;
 import com.koala.portal.models.UamForm;
 import com.koala.portal.models.UserDetails;
+import com.koala.portal.repos.HistoryEntryRepo;
 import com.koala.portal.repos.UamFormRepo;
+import com.koala.portal.services.NotesServices;
 import com.koala.portal.services.UamFormServices;
 
 @Service
@@ -24,6 +32,12 @@ public class UamFormServicesImpl implements UamFormServices {
 
 	@Autowired
 	private UamFormRepo uamFormRepo;
+	
+	@Autowired
+	private NotesServices notesServices;
+	
+	@Autowired
+	private HistoryEntryRepo historyRepo;
 
 	@Override
 	public List<UamForm> getAll(UserDetails user) throws InvalidFormException {
@@ -44,6 +58,31 @@ public class UamFormServicesImpl implements UamFormServices {
 		return null;
 	}
 	
+	@Override
+	public UamForm get(long id, UserDetails user) throws InvalidFormException, EntityNotFoundException {
+		Optional<UamForm> uamFormOpt = uamFormRepo.findById(id);
+		if (!uamFormOpt.isPresent())
+			throw new EntityNotFoundException("UAM Form", Long.toString(id));
+		
+		//@TODO - Do they have access to see this form???
+		
+		UamForm uamForm = uamFormOpt.get();
+		addNotesAndHistory(uamForm, user);
+		fullyPopulateTicket(uamForm, user);
+		
+		
+		return uamForm;
+	}
+	
+
+	private void addNotesAndHistory(UamForm uamForm, UserDetails user) {
+		//Pull back any and all notes on this UAM form that the user can see
+		uamForm.getNotes().addAll(notesServices.getAll(NoteCategory.UAMFORM, uamForm.getId(), user));
+		
+		//Now pull back any and all history on this UAM form that the user can see
+		if (user.getRole().isInternalKoalaRole())
+			uamForm.getHistory().addAll(historyRepo.findByEntityIdAndEntityTypeOrderByDoneOn(uamForm.getId(), EntityType.UAM_FORM));			
+	}
 
 	@Override
 	public UamForm save(UserDetails user, UamForm form) throws InvalidFormException {
@@ -114,5 +153,60 @@ public class UamFormServicesImpl implements UamFormServices {
 		return actionsSet;
 	}
 
+	@Override
+	public void addNote(UserDetails user, Note note) throws InvalidFormException {
+		note.setCategory(NoteCategory.UAMFORM);
+		
+		notesServices.save(note, user);
+	}
+
+	@Override
+	public void performAction(long id, FormAction action, UserDetails user) throws EntityNotFoundException, InvalidFormException {
+		Optional<UamForm> formOpt = uamFormRepo.findById(id);
+		
+		if (!formOpt.isPresent())
+			throw new EntityNotFoundException("UAM Form", Long.toString(id));
+		
+		//@TODO - Check to make sure the logged in person has the proper role to perform this action.
+		
+		UamForm form = formOpt.get();
+		FormStatus orgStatus = form.getStatus();	//Save this for later
+		FormStatus newStatus = null;
+		if (action == FormAction.SUBMIT) {
+			newStatus = FormStatus.SUBMITTED;
+			
+		} else if (action == FormAction.REJECT) {
+			newStatus = FormStatus.REJECTED;
+			
+		} else if (action == FormAction.DELETE) {
+			newStatus = FormStatus.DELETED;
+			
+		} else if (action == FormAction.APPROVE) {
+			newStatus = FormStatus.APPROVED;
+			
+		} else if (action == FormAction.RETURN) {
+			newStatus = FormStatus.DRAFT;
+			
+		} else if (action == FormAction.CLOSE) {
+			newStatus = FormStatus.COMPLETED;
+			
+		} else {
+			throw new InvalidFormException(action.name() + " does not map to a know action/status pattern.", "Talk to the developer about what you're trying to do and try again.");
+		}
+		
+		form.setStatus(newStatus);
+		form.setUpdated(new Date());
+		form.setUpdatedBy(user.getUserCreds());
+		uamFormRepo.save(form);
+		
+		HistoryEntry he = new HistoryEntry(	form.getId(), 
+											EntityType.UAM_FORM, 
+											orgStatus, 
+											action, 
+											newStatus,
+											user.getUserCreds(),
+											new Date());
+		historyRepo.save(he);
+	}
 	
 }

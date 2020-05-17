@@ -22,6 +22,7 @@ import com.koala.portal.domain.ErrorInfo;
 import com.koala.portal.domain.PortalRoles;
 import com.koala.portal.domain.form.FormAction;
 import com.koala.portal.domain.form.FormStatus;
+import com.koala.portal.domain.notes.NoteCategory;
 import com.koala.portal.exceptions.EntityNotFoundException;
 import com.koala.portal.exceptions.InvalidConfigException;
 import com.koala.portal.exceptions.InvalidFormException;
@@ -140,11 +141,23 @@ public class BaseController {
 	        setValue(FormAction.valueOf(text.toUpperCase()));
 	    }
 	}
+
+	protected class NoteCategoryEnumConverter extends PropertyEditorSupport {
+	    @Override
+	    public void setAsText(String text) throws IllegalArgumentException {
+	    		if (text == null) {
+	    			setValue(null);
+	    			return;
+	    		}
+	        setValue(NoteCategory.valueOf(text.toUpperCase()));
+	    }
+	}
 	
 	@InitBinder
 	public void initBinder(WebDataBinder dataBinder) {
 	    dataBinder.registerCustomEditor(FormStatus.class, new FormStatusEnumConverter());
 	    dataBinder.registerCustomEditor(FormAction.class, new FormActionEnumConverter());
+	    dataBinder.registerCustomEditor(NoteCategory.class, new NoteCategoryEnumConverter());	    
 	}
 	
 }

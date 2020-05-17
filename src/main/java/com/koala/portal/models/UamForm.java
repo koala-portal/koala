@@ -1,8 +1,10 @@
 package com.koala.portal.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -55,6 +57,12 @@ public class UamForm implements Serializable {
 	private String createdByLabel;
 	@ApiModelProperty(notes = "The human readable name of the person who last updated the form.", allowEmptyValue=true, dataType="String")
 	private String updatedByLabel;
+	
+	@ApiModelProperty(notes = "Any and all notes tied to this form that the user is permitted to see.", allowEmptyValue=true, dataType="List of Notes")
+	private List<Note> notes;
+	
+	@ApiModelProperty(notes = "The history of how this form moved through the process.", allowEmptyValue=true, dataType="List of HistoryEntries")
+	private List<HistoryEntry> history;
 	
 	@ApiModelProperty(notes = "A list of actions the user is permitted to take on this form determined by their role and the status of the form.", allowEmptyValue=true, dataType="Set")
 	private Set<FormAction> permittedActions;
@@ -191,5 +199,28 @@ public class UamForm implements Serializable {
 
 	public void setPermittedActions(Set<FormAction> permittedActions) {
 		this.permittedActions = permittedActions;
+	}
+
+	@Transient
+	public List<Note> getNotes() {
+		if (null == notes)
+			notes = new ArrayList<>();
+		
+		return notes;
+	}
+
+	public void setNotes(List<Note> notes) {
+		this.notes = notes;
+	}
+
+	@Transient
+	public List<HistoryEntry> getHistory() {
+		if (null == history)
+			history = new ArrayList<>();
+		return history;
+	}
+
+	public void setHistory(List<HistoryEntry> history) {
+		this.history = history;
 	}
 }

@@ -74,6 +74,14 @@ export class UserGuideComponent implements OnInit, OnDestroy {
     }
   }
 
+  onToolUpdated(kTool: KTool): void {
+    this.kTool = kTool;
+  }
+
+  onToolDeleted(): void {
+    this.router.navigate(['k-tools']);
+  }
+
   private scrollToSection(section: Section): void {
     setTimeout(() => {
       this.router.navigate(['./'], {

@@ -1,12 +1,19 @@
-import { Component, Input } from '@angular/core';
-import { MatDialogRef, MatDialog } from '@angular/material/dialog';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+
+import { Observable } from 'rxjs';
 
 import { KTool } from 'src/app/shared/k-tool.model';
 import { MessageService } from 'src/app/shared/message.service';
-import { KToolsService } from '../../k-tools/k-tools.service';
 import { KToolFormDialogComponent } from '../../k-tools/k-tool-form-dialog/k-tool-form-dialog.component';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { KToolsService } from '../../k-tools/k-tools.service';
 
 @Component({
   selector: 'app-k-tool-item',
@@ -16,6 +23,9 @@ import { Observable } from 'rxjs';
 export class KToolItemComponent {
   @Input() kTool: KTool;
 
+  @Output() updated = new EventEmitter<KTool>();
+  @Output() deleted = new EventEmitter<void>();
+
   userIsAdmin = true; // TODO: Placeholder
 
   constructor(
@@ -24,6 +34,10 @@ export class KToolItemComponent {
     private dialog: MatDialog,
     private router: Router
   ) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.kTool = changes.kTool.currentValue;
+  }
 
   get isGuideLinkHidden(): boolean {
     return (
@@ -40,7 +54,7 @@ export class KToolItemComponent {
 
   onClickEditTool(kTool: KTool): void {
     this.openKToolFormDialog(kTool).subscribe((kTool) => {
-      this.kTool = kTool;
+      this.updated.emit(kTool);
     });
   }
 
@@ -54,7 +68,8 @@ export class KToolItemComponent {
         if (confirm) {
           this.kToolsService.delete(kTool).subscribe(
             () => {
-              this.messageService.showMessage('Deleted Tool');
+              this.deleted.emit();
+              this.messageService.showMessage('Tool deleted');
             },
             () => {
               this.messageService.showMessage('Unable to Delete Tool');

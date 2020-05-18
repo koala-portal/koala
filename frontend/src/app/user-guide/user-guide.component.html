@@ -21,7 +21,11 @@
       fxLayoutGap="16px"
     >
       <!-- Tool Card -->
-      <app-k-tool-item [kTool]="kTool"></app-k-tool-item>
+      <app-k-tool-item
+        [kTool]="kTool"
+        (updated)="onToolUpdated($event)"
+        (deleted)="onToolDeleted()"
+      ></app-k-tool-item>
 
       <!-- Section Links -->
       <mat-card *ngIf="userGuide">

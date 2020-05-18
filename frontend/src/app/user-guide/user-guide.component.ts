@@ -58,7 +58,7 @@ export class UserGuideComponent implements OnInit, OnDestroy {
   }
 
   onClickPlusFab(): void {
-    if (this.router.url.includes('/content')) {
+    if (this.router.url.includes('/user-guide')) {
       this.openSectionFormDialog()
         .afterClosed()
         .subscribe((section: Section) => {

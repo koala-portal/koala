@@ -32,7 +32,7 @@ import com.koala.portal.models.UserDetails;
 
 @RestController()
 @RequestMapping(path="/api")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class BaseController {
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)				// Defines the HTTP status code to return, 400 in this case.

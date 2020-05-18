@@ -1,22 +1,26 @@
-import { Subject, Observable, of, throwError } from 'rxjs';
-import { KTool } from '../shared/k-tool.model';
-import { KToolsDummyData } from './k-tools.data';
-import { Injectable, EventEmitter, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map } from 'rxjs/operators';
-import { User } from './user.model';
+import { Injectable } from '@angular/core';
 
-import { ToastrService } from 'ngx-toastr';
+import { Observable, Subject } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+
+import { environment } from 'src/environments/environment';
+import { KTool } from '../shared/k-tool.model';
 
 @Injectable({ providedIn: 'root' })
 export class KToolsService {
-  @Output() whoamiEmitter: EventEmitter<User> = new EventEmitter<User>();
-
   kTool$ = new Subject<KTool[]>();
 
-  private kTools: KTool[] = KToolsDummyData;
+  private kTools: KTool[] = [];
 
-  constructor(private http: HttpClient, private toastr: ToastrService) {}
+  private url = environment.urls.api + '/tools';
+
+  constructor(private http: HttpClient) {}
+
+  setKTools(kTools: KTool[]): void {
+    this.kTools = kTools;
+    this.kTool$.next(this.getKTools());
+  }
 
   getKTools(): KTool[] {
     return this.kTools.slice();
@@ -32,7 +36,7 @@ export class KToolsService {
     this.kTool$.next(this.getKTools());
   }
 
-  findById(id: string): KTool {
+  findById(id: number): KTool {
     return this.kTools.find((kTool) => kTool.id === id);
   }
 
@@ -41,54 +45,50 @@ export class KToolsService {
     return this.put(kTool);
   }
 
-  whoAmI(): void {
-    // Http Headers
+  fetchById(id: number): Observable<KTool> {
+    return this.http.get<KTool>(this.url + '/' + id);
+  }
 
-    const url = 'https://localhost:8443/api/whoami';
-
-    this.http
-      .get(url, { withCredentials: true })
-      .pipe(
-        map((data: User) => {
-          this.whoamiEmitter.emit(data);
-          return data;
-        }),
-        catchError((error) => {
-          this.toastr.error(error.error.resolution, error.error.error);
-          return throwError(error.error);
-        })
-      )
-      .subscribe(
-        (res) => console.log('HTTP response', res),
-        (err) => console.log('HTTP Error', err.error)
-      );
+  fetchAll(): Observable<KTool[]> {
+    return this.http.get<KTool[]>(this.url);
   }
 
   put(kTool: KTool): Observable<KTool> {
-    // TODO: Rest call
-    this.kTools.splice(
-      this.kTools.findIndex((kToolIt) => kToolIt.id === kTool.id),
-      1,
-      kTool
+    return this.http.put<void>(this.url + '/' + kTool.id, kTool).pipe(
+      map(() => {
+        const kToolIndex = this.kTools.findIndex(
+          (kToolIt) => kToolIt.id === kTool.id
+        );
+        if (kToolIndex !== -1) {
+          // If the updated kTool is in kTools, update it and the sub
+          this.kTools.splice(kToolIndex, 1, kTool);
+          this.kTool$.next(this.getKTools());
+        }
+        return kTool;
+      })
     );
-    this.kTool$.next(this.getKTools());
-    return of(kTool);
   }
 
   post(kTool: KTool): Observable<KTool> {
-    // TODO: Rest call
-    this.kTools.push(kTool);
-    this.kTool$.next(this.getKTools());
-    return of(kTool);
+    return this.http.post<KTool>(this.url, kTool).pipe(
+      tap((kTool) => {
+        this.kTools.push(kTool);
+        this.kTool$.next(this.getKTools());
+      })
+    );
   }
 
   delete(kTool: KTool): Observable<void> {
-    // TODO: Rest call
-    this.kTools.splice(
-      this.kTools.findIndex((kToolIt) => kToolIt.id === kTool.id),
-      1
+    return this.http.delete<void>(this.url + '/' + kTool.id).pipe(
+      tap(() => {
+        const kToolIndex = this.kTools.findIndex(
+          (kToolIt) => kToolIt.id === kTool.id
+        );
+        if (kToolIndex !== -1) {
+          this.kTools.splice(kToolIndex, 1);
+          this.kTool$.next(this.getKTools());
+        }
+      })
     );
-    this.kTool$.next(this.getKTools());
-    return of();
   }
 }

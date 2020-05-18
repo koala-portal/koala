@@ -15,6 +15,7 @@ public class User implements UserDetails {
 	private boolean enabled;
 	private boolean accountNonLocked;
 	private String username;
+	private String userLabel;
 	private List<GrantedAuthority> roles = new ArrayList<>();
 	
 	public void addRole(PortalRoles role) {
@@ -59,4 +60,12 @@ public class User implements UserDetails {
 	
 	@Override
 	public String getPassword() { return null; }
+
+	public String getUserLabel() {
+		return userLabel;
+	}
+
+	public void setUserLabel(String userLabel) {
+		this.userLabel = userLabel;
+	}
 }

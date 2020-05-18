@@ -4,10 +4,11 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
 import { ShortNumberPipe } from './pipes/short-number/short-number.pipe';
 import { CoreModule } from '../core.module';
 import { TruncatePipe } from './pipes/truncate/truncate.pipe';
+import { KToolItemComponent } from './k-tool-item/k-tool-item.component';
 
 @NgModule({
   imports: [CoreModule],
-  declarations: [ShortNumberPipe, ConfirmDialogComponent, TruncatePipe],
-  exports: [ShortNumberPipe, ConfirmDialogComponent, TruncatePipe],
+  declarations: [ShortNumberPipe, ConfirmDialogComponent, TruncatePipe, KToolItemComponent],
+  exports: [ShortNumberPipe, ConfirmDialogComponent, TruncatePipe, KToolItemComponent],
 })
 export class SharedModule {}

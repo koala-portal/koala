@@ -15,7 +15,7 @@ export class KToolFormComponent implements OnInit {
   @Output() cancel: EventEmitter<void> = new EventEmitter();
 
   kToolForm = this.fb.group({
-    id: [''],
+    id: [null],
     name: ['', Validators.required],
     url: ['', Validators.required],
     description: ['', Validators.required],

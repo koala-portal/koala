@@ -37,7 +37,6 @@ dependencies {
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
-	//testImplementation 'org.springframework.security:spring-security-test'
 
 	//Standard
 	implementation 'org.apache.commons:commons-lang3:3.0'
@@ -49,16 +48,64 @@ dependencies {
 	implementation 'io.springfox:springfox-swagger2:2.9.2'
 	implementation 'io.springfox:springfox-swagger-ui:2.9.2'
 	implementation 'org.springframework.plugin:spring-plugin-core:1.2.0.RELEASE'
+
+	//Testing
+	testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:2.7.22'
 }
 
 test {
 	useJUnitPlatform()
 }
 
+
 bootRun {
     String activeProfile =  System.properties['spring.profiles.active']
     systemProperty "spring.profiles.active", activeProfile
 }
+
+//Here is where we find the source code for our front end.
+def webappDir = "$projectDir/frontend"
+
+//This will allow us to build out the project through Gradle (the same as calling 'ng build' through the command line)
+task buildAngular(type:Exec) {
+	// installAngular should be run prior to this task
+	dependsOn "installAngular"
+	workingDir "$webappDir"
+	inputs.dir "$webappDir"
+
+	// Add task to the standard build group
+	group = BasePlugin.BUILD_GROUP
+	// ng doesn't exist as a file in windows -> ng.cmd
+	if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
+		commandLine "ng.cmd", "build", "--prod"
+	} else {
+		commandLine "ng", "build", "--prod"
+	}
+}
+
+//This will insure we have installed the tools we need to build out the project's front end
+task installAngular(type:Exec) {
+	workingDir "$webappDir"
+	inputs.dir "$webappDir"
+
+	group = BasePlugin.BUILD_GROUP
+	if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
+		commandLine "npm.cmd", "install"
+	} else {
+		commandLine "npm", "install"
+	}
+}
+
+//This will take the compiled/webpack artifacts and move them into the build directory so that they can be part of the jar
+task copyAngularFrontend(type: Copy) {
+	dependsOn "buildAngular"
+    from "$webappDir/dist/$rootProject.name"
+	into "$projectDir/build/resources/main/static"
+}
+//Make sure we copy over the compiled front end before building out the jar
+bootJar.dependsOn(copyAngularFrontend)
+
 
 remotes {
   webServer {
@@ -68,14 +115,15 @@ remotes {
   }
 }
 
+//This will push out a compiled final Jar to our remote EC2 instance and call start/restart on the service that manages it.
 task deploy {
 	dependsOn build
 	doLast {
 		ssh.run {
 			session(remotes.webServer) {
-				execute 'sudo systemctl stop ' + rootProject.name
+				execute 'sudo service ' + rootProject.name + ' stop'
 				put from: rootProject.projectDir.absolutePath + '/build/libs/' + rootProject.name + '.jar', into: appLocation
-				execute 'sudo systemctl start ' + rootProject.name
+				execute 'sudo service ' + rootProject.name + ' start'
 			}
 		}
 	}

@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
 
-import { SectionsListComponent } from './sections-list/sections-list.component';
-import { SectionFormComponent } from './section-form/section-form.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { SectionFormDialogComponent } from './section-form-dialog/section-form-dialog.component';
+import { SectionFormComponent } from './section-form/section-form.component';
+import { SectionsListComponent } from './sections-list/sections-list.component';
 import { UserGuideComponent } from './user-guide.component';
-import { SharedModule } from '../shared/shared.module';
-import { KToolsModule } from '../k-tools/k-tools.module';
 import { CoreModule } from '../core.module';
 
 @NgModule({
@@ -15,6 +14,6 @@ import { CoreModule } from '../core.module';
     SectionFormDialogComponent,
     UserGuideComponent,
   ],
-  imports: [CoreModule, SharedModule, KToolsModule],
+  imports: [CoreModule, SharedModule],
 })
 export class UserGuideModule {}

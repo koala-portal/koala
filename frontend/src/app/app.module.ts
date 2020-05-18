@@ -1,15 +1,9 @@
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NgModule, Injector } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { Injector, NgModule } from '@angular/core';
 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
 
 import { AbodeComponent } from './abode/abode.component';
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FaqAccordionComponent } from './faqs/faq-accordion/faq-accordion.component';
 import { FaqCategoryFormDialogComponent } from './faqs/faq-category-form-dialog/faq-category-form-dialog.component';
@@ -24,14 +18,15 @@ import { HeaderComponent } from './header/header.component';
 import { HttpSecurityInterceptor } from './http-security.interceptor';
 import { KToolsModule } from './k-tools/k-tools.module';
 import { KoalaSearchComponent } from './koala-search/koala-search.component';
+import { ServiceLocator } from './locator.service';
+import { ReleaseNotesModule } from './release-notes/release-notes.module';
 import { DropdownDirective } from './shared/dropdown.directive';
-import { MaterialModule } from './shared/material.module';
 import { SharedModule } from './shared/shared.module';
 import { TicketFormComponent } from './tickets/ticket-form/ticket-form.component';
 import { TicketItemComponent } from './tickets/ticket-item/ticket-item.component';
 import { TicketListComponent } from './tickets/ticket-list/ticket-list.component';
 import { TicketsComponent } from './tickets/tickets.component';
-import { ServiceLocator } from './locator.service';
+import { CoreModule } from './core.module';
 
 @NgModule({
   declarations: [
@@ -55,17 +50,10 @@ import { ServiceLocator } from './locator.service';
     FaqAccordionComponent,
   ],
   imports: [
-    BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    NgbModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MaterialModule,
-    FlexLayoutModule,
+    CoreModule,
     SharedModule,
     KToolsModule,
+    ReleaseNotesModule,
     ToastrModule.forRoot({
       timeOut: 5000,
       positionClass: 'toast-bottom-right',

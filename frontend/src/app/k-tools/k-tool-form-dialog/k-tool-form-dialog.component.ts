@@ -21,7 +21,7 @@ export class KToolFormDialogComponent {
     if (kTool.id) {
       this.kToolsService.put(kTool).subscribe(
         () => {
-          this.dialogRef.close(true);
+          this.dialogRef.close(kTool);
           this.messageService.showMessage('Tool updated');
         },
         () => {
@@ -31,7 +31,7 @@ export class KToolFormDialogComponent {
     } else {
       this.kToolsService.post(kTool).subscribe(
         () => {
-          this.dialogRef.close(true);
+          this.dialogRef.close(kTool);
           this.messageService.showMessage('Tool created');
         },
         () => {

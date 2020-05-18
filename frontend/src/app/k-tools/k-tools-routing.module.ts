@@ -3,10 +3,10 @@ import { NgModule } from '@angular/core';
 
 import { KToolsComponent } from './k-tools.component';
 import { KToolResolver } from './k-tool.resolver';
-import { UserGuideComponent } from './user-guide/user-guide.component';
-import { SectionsListComponent } from './user-guide/sections-list/sections-list.component';
-import { ReleaseNotesComponent } from './user-guide/release-notes/release-notes.component';
-import { UserGuideResolver } from './user-guide/user-guide.resolver';
+import { ReleaseNotesComponent } from '../release-notes/release-notes.component';
+import { UserGuideComponent } from '../user-guide/user-guide.component';
+import { SectionsListComponent } from '../user-guide/sections-list/sections-list.component';
+import { UserGuideResolver } from '../user-guide/user-guide.resolver';
 
 const routes: Routes = [
   {

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ReleaseNotesComponent } from './release-notes.component';
+import { ReleaseNotesFormComponent } from './release-notes-form.component';
 
-describe('ReleaseNotesComponent', () => {
-  let component: ReleaseNotesComponent;
-  let fixture: ComponentFixture<ReleaseNotesComponent>;
+describe('ReleaseNotesFormComponent', () => {
+  let component: ReleaseNotesFormComponent;
+  let fixture: ComponentFixture<ReleaseNotesFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ReleaseNotesComponent ]
+      declarations: [ ReleaseNotesFormComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ReleaseNotesComponent);
+    fixture = TestBed.createComponent(ReleaseNotesFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

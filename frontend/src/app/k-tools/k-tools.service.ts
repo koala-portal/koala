@@ -1,24 +1,21 @@
-import { Subject, Observable, of, throwError } from 'rxjs';
-import { KTool } from '../shared/k-tool.model';
-import { Injectable, EventEmitter, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, tap } from 'rxjs/operators';
-import { User } from './user.model';
+import { Injectable } from '@angular/core';
 
-import { ToastrService } from 'ngx-toastr';
+import { Observable, Subject } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+
 import { environment } from 'src/environments/environment';
+import { KTool } from '../shared/k-tool.model';
 
 @Injectable({ providedIn: 'root' })
 export class KToolsService {
-  @Output() whoamiEmitter: EventEmitter<User> = new EventEmitter<User>();
-
   kTool$ = new Subject<KTool[]>();
 
   private kTools: KTool[] = [];
 
   private url = environment.urls.api + '/tools';
 
-  constructor(private http: HttpClient, private toastr: ToastrService) {}
+  constructor(private http: HttpClient) {}
 
   setKTools(kTools: KTool[]): void {
     this.kTools = kTools;
@@ -48,81 +45,50 @@ export class KToolsService {
     return this.put(kTool);
   }
 
-  whoAmI(): void {
-    // Http Headers
-
-    const url = 'https://localhost:8443/api/whoami';
-
-    this.http
-      .get(url, { withCredentials: true })
-      .pipe(
-        map((data: User) => {
-          this.whoamiEmitter.emit(data);
-          return data;
-        }),
-        catchError((error) => {
-          this.toastr.error(error.error.resolution, error.error.error);
-          return throwError(error.error);
-        })
-      )
-      .subscribe(
-        (res) => console.log('HTTP response', res),
-        (err) => console.log('HTTP Error', err.error)
-      );
-  }
-
   fetchById(id: number): Observable<KTool> {
-    return this.http.get<KTool>(this.url + '/' + id, { withCredentials: true });
+    return this.http.get<KTool>(this.url + '/' + id);
   }
 
   fetchAll(): Observable<KTool[]> {
-    return this.http.get<KTool[]>(this.url, { withCredentials: true });
+    return this.http.get<KTool[]>(this.url);
   }
 
   put(kTool: KTool): Observable<KTool> {
-    return this.http
-      .put<void>(this.url + '/' + kTool.id, kTool, { withCredentials: true })
-      .pipe(
-        map(() => {
-          const kToolIndex = this.kTools.findIndex(
-            (kToolIt) => kToolIt.id === kTool.id
-          );
-          if (kToolIndex !== -1) {
-            // If the updated kTool is in kTools, update it and the sub
-            this.kTools.splice(kToolIndex, 1, kTool);
-            this.kTool$.next(this.getKTools());
-          }
-          return kTool;
-        })
-      );
+    return this.http.put<void>(this.url + '/' + kTool.id, kTool).pipe(
+      map(() => {
+        const kToolIndex = this.kTools.findIndex(
+          (kToolIt) => kToolIt.id === kTool.id
+        );
+        if (kToolIndex !== -1) {
+          // If the updated kTool is in kTools, update it and the sub
+          this.kTools.splice(kToolIndex, 1, kTool);
+          this.kTool$.next(this.getKTools());
+        }
+        return kTool;
+      })
+    );
   }
 
   post(kTool: KTool): Observable<KTool> {
-    return this.http
-      .post<KTool>(this.url, kTool, {
-        withCredentials: true,
+    return this.http.post<KTool>(this.url, kTool).pipe(
+      tap((kTool) => {
+        this.kTools.push(kTool);
+        this.kTool$.next(this.getKTools());
       })
-      .pipe(
-        tap((kTool) => {
-          this.kTools.push(kTool);
-          this.kTool$.next(this.getKTools());
-        })
-      );
+    );
   }
 
   delete(kTool: KTool): Observable<void> {
-    return this.http
-      .delete<void>(this.url + '/' + kTool.id, { withCredentials: true })
-      .pipe(
-        tap(() => {
-          const kToolIndex = this.kTools.findIndex(
-            (kToolIt) => kToolIt.id === kTool.id
-          );
-          if (kToolIndex !== -1) {
-            this.kTools.splice(kToolIndex, 1);
-            this.kTool$.next(this.getKTools());
-          }
-        })
-      );
+    return this.http.delete<void>(this.url + '/' + kTool.id).pipe(
+      tap(() => {
+        const kToolIndex = this.kTools.findIndex(
+          (kToolIt) => kToolIt.id === kTool.id
+        );
+        if (kToolIndex !== -1) {
+          this.kTools.splice(kToolIndex, 1);
+          this.kTool$.next(this.getKTools());
+        }
+      })
+    );
   }
 }

@@ -1,23 +1,38 @@
 package com.koala.portal.controllers;
 
+import java.beans.PropertyEditorSupport;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.koala.portal.domain.ErrorInfo;
+import com.koala.portal.domain.PortalRoles;
+import com.koala.portal.domain.form.FormAction;
+import com.koala.portal.domain.form.FormStatus;
+import com.koala.portal.domain.notes.NoteCategory;
 import com.koala.portal.exceptions.EntityNotFoundException;
+import com.koala.portal.exceptions.InvalidConfigException;
 import com.koala.portal.exceptions.InvalidFormException;
+import com.koala.portal.models.User;
+import com.koala.portal.models.UserDetails;
 
 
 @RestController()
 @RequestMapping(path="/api")
+@CrossOrigin(origins = "http://localhost:4200")
 public class BaseController {
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)				// Defines the HTTP status code to return, 400 in this case.
@@ -27,6 +42,21 @@ public class BaseController {
 														// a standard Java utility for handling JSON) to serialize the ErrorInfo 
 														// object into JSON .
 	public ErrorInfo handleBadRequest(HttpServletRequest req, InvalidFormException ex) {
+		ex.printStackTrace();
+		return new ErrorInfo(	HttpStatus.BAD_REQUEST.value(),
+								ex.getMessage(),
+								ex.getSolution());
+
+	}
+
+	@ResponseStatus(HttpStatus.BAD_REQUEST)				// Defines the HTTP status code to return, 400 in this case.
+	@ExceptionHandler(InvalidConfigException.class)		// Tells it what Exception class to listen for, in this case we
+														// need to create InvalidConfigException for any time a user ask for a config
+														//that's not public.
+	@ResponseBody 										// Tells the method it's going to be writing to the response body (using Jackson,
+														// a standard Java utility for handling JSON) to serialize the ErrorInfo
+														// object into JSON .
+	public ErrorInfo handleBadRequest(HttpServletRequest req, InvalidConfigException ex) {
 		ex.printStackTrace();
 		return new ErrorInfo(	HttpStatus.BAD_REQUEST.value(),
 								ex.getMessage(),
@@ -76,4 +106,58 @@ public class BaseController {
 
 	}
 	
+	protected UserDetails getUser() {
+		User userDetailsObj = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		UserDetails user = new UserDetails(	userDetailsObj.getUserLabel(),
+											userDetailsObj.getUsername(),
+											null);
+
+		for (GrantedAuthority r : userDetailsObj.getAuthorities())
+			user.setRole(PortalRoles.valueOf(r.getAuthority()));
+
+
+		return user;
+	}
+
+	protected class FormStatusEnumConverter extends PropertyEditorSupport {
+	    @Override
+	    public void setAsText(String text) throws IllegalArgumentException {
+	    		if (text == null) {
+	    			setValue(null);
+	    			return;
+	    		}
+	        setValue(FormStatus.valueOf(text.toUpperCase()));
+	    }
+	}
+
+	protected class FormActionEnumConverter extends PropertyEditorSupport {
+	    @Override
+	    public void setAsText(String text) throws IllegalArgumentException {
+	    		if (text == null) {
+	    			setValue(null);
+	    			return;
+	    		}
+	        setValue(FormAction.valueOf(text.toUpperCase()));
+	    }
+	}
+
+	protected class NoteCategoryEnumConverter extends PropertyEditorSupport {
+	    @Override
+	    public void setAsText(String text) throws IllegalArgumentException {
+	    		if (text == null) {
+	    			setValue(null);
+	    			return;
+	    		}
+	        setValue(NoteCategory.valueOf(text.toUpperCase()));
+	    }
+	}
+
+	@InitBinder
+	public void initBinder(WebDataBinder dataBinder) {
+	    dataBinder.registerCustomEditor(FormStatus.class, new FormStatusEnumConverter());
+	    dataBinder.registerCustomEditor(FormAction.class, new FormActionEnumConverter());
+	    dataBinder.registerCustomEditor(NoteCategory.class, new NoteCategoryEnumConverter());
+	}
+
 }

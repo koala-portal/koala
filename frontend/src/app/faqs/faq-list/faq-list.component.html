@@ -49,6 +49,14 @@
               >
                 <span class="pb-2"> {{ filterFaqCategory.title }}</span>
 
+                <!-- Category Non-Admin Toolbar -->
+                <div *ngIf="!userIsAdmin" class="d-flex flex-row">
+                    <mat-icon title="This category shows the top {{maxNumFaqs}} FAQs based on user clicks over the last {{clicksOverNumberOfDays}} days.  It is possible for new FAQs to show up in this list as more people find other FAQs more relevant to what they are looking for." *ngIf="filterFaqCategory.topQuestionsCategory" style="">
+                      info
+                    </mat-icon>
+                </div>
+
+
                 <!-- Category Admin Toolbar -->
                 <div *ngIf="userIsAdmin" class="d-flex flex-row">
                   <button
@@ -101,6 +109,7 @@
                 [userIsAdmin]="userIsAdmin"
               ></app-faq-accordion>
             </div>
+            <span style="font-size: 8pt; color: red;" *ngIf="userIsAdmin">* As an admin any viewing of a FAQ will not be counted</span>
           </mat-card>
         </div>
       </div>

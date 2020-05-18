@@ -1,18 +1,13 @@
 package com.koala.portal.controllers;
 
-import java.security.Principal;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.koala.portal.domain.PortalRoles;
 import com.koala.portal.models.UserDetails;
 
 import io.swagger.annotations.Api;
@@ -33,12 +28,8 @@ public class WhoAmIController extends BaseController {
 	        @ApiResponse(code = 403, message = "You are not authorized to enter the system because we DO know who you are and we still don't trust your ass.")
 	})
 	@PreAuthorize("isFullyAuthenticated()")
-	public UserDetails whoAmI(Authentication authentication, Principal principal){
-		UserDetails user = new UserDetails(authentication.getName(), principal.getName(), null);
-		for (GrantedAuthority r : authentication.getAuthorities())
-			user.setRole(PortalRoles.valueOf(r.getAuthority()));
-
-		return user;
+	public UserDetails whoAmI(){
+		return getUser();
 	}
 	
 }

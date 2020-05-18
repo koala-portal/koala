@@ -13,12 +13,17 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 
+import com.koala.portal.domain.PortalRoles;
+import com.koala.portal.domain.form.FormAction;
 import com.koala.portal.exceptions.EntityNotFoundException;
 import com.koala.portal.exceptions.InvalidFormException;
 import com.koala.portal.models.Faq;
 import com.koala.portal.models.FaqCategory;
-import com.koala.portal.repos.FaqCategoryRepo;
+import com.koala.portal.models.Note;
+import com.koala.portal.models.UamForm;
+import com.koala.portal.models.UserDetails;
 import com.koala.portal.services.FaqServices;
+import com.koala.portal.services.UamFormServices;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -33,10 +38,10 @@ public class PortalApplication {
 	private FaqServices faqServices;
 
 	@Autowired
-	private FaqCategoryRepo faqCategoryServices;
+	private ToolRepo toolRepo;
 
 	@Autowired
-	private ToolRepo toolRepo;
+	private UamFormServices uamFormServices;
 
 	public static void main(String[] args) {
 		SpringApplication.run(PortalApplication.class, args);
@@ -46,23 +51,26 @@ public class PortalApplication {
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		// Load some dummy data
 		try {
-			FaqCategory faqCategoryGeneral = new FaqCategory(0, "Top FAQs",
-					"The top FAQs as determined by you, the users of KOALA.", true);
-			faqCategoryServices.save(faqCategoryGeneral);
 
+			FaqCategory faqCategoryGeneral = new FaqCategory(0, "Top FAQs", "The top FAQs as determined by you, the users of KOALA.", true);
+			faqServices.create(faqCategoryGeneral);
+			
 			FaqCategory faqCategorySal = new FaqCategory(0, "SAL", "General question about what SAL is.", false);
-			faqCategoryServices.save(faqCategorySal);
-
+			faqServices.create(faqCategorySal);
+			
 			FaqCategory faqCategoryU = new FaqCategory(0, "U##", "General question about what U## is.", false);
-			faqCategoryServices.save(faqCategoryU);
+			faqServices.create(faqCategoryU);
 
-			FaqCategory faqCategoryAto = new FaqCategory(0, "K## in the ATO Process",
-					"General question where K## fits into your A&A and ATO process.", false);
-			faqCategoryServices.save(faqCategoryAto);
-
-			Faq f = new Faq(0, "Do I Need to Be in SAL", "Maybe, I don't know.  What type of thing are you.",
-					"Look at this <a href=\"http://google.com\" target=\"_blank\">logic chart</a> and follow the path.",
-					new Date(), 0, faqCategorySal);
+			FaqCategory faqCategoryAto = new FaqCategory(0, "K## in the ATO Process", "General question where K## fits into your A&A and ATO process.", false);
+			faqServices.create(faqCategoryAto);
+			
+			Faq f = new Faq(	0, 
+							"Do I Need to Be in SAL", 
+							"Maybe, I don't know.  What type of thing are you.", 
+							"Look at this <a href=\"http://google.com\" target=\"_blank\">logic chart</a> and follow the path.", 
+							new Date(), 
+							0,
+							faqCategorySal);
 			faqServices.create(f);
 
 			f = new Faq(0, "How Do I Register in SAL", "You do this through the registration section of SAL.",
@@ -111,6 +119,36 @@ public class PortalApplication {
 							new Tool("Bing", "Massively unpopular search engine", 8L, false, "www.bing.com"),
 							new Tool("WinRAR", "Ubiquitous archiving tool", 5896568L, true, "www.rarlab.com"),
 							new Tool("Twitter", "A place where people post", 12353567L, false, "www.twitter.com")));
+
+		} catch (InvalidFormException | EntityNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		try {
+			UamForm form = new UamForm();
+			UserDetails user = new UserDetails("John Doe", "KOALA-VIEWER", PortalRoles.PARTNER);
+
+			form.setOrganization("COM/APACHE/KAFKA");
+			form.setaAndANum("ABC/123");
+
+			UamForm newForm = uamFormServices.save(user, form);
+
+			Note note = new Note(	newForm.getId(),
+									"Mock Random Text from Non-KOALA person",
+									true);
+			uamFormServices.addNote(user, note);
+
+			UserDetails adminUser = new UserDetails("John Doe", "KOALA-ADMIN", PortalRoles.ADMIN);
+			note = new Note(	newForm.getId(),
+					"Mock Random Text from KOALA Admin",
+					true);
+			uamFormServices.addNote(adminUser, note);
+
+
+			uamFormServices.performAction(	newForm.getId(),
+											FormAction.SUBMIT,
+											user);
 
 		} catch (InvalidFormException | EntityNotFoundException e) {
 			// TODO Auto-generated catch block

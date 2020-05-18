@@ -1,4 +1,4 @@
-import { UserGuide } from '../user-guide/guide.model';
+import { UserGuide } from '../k-tools/user-guide/user-guide.model';
 
 export interface KTool {
   id: number;

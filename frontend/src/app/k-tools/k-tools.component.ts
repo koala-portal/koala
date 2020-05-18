@@ -46,7 +46,7 @@ export class KToolsComponent implements OnInit {
   }
 
   fetchKTools(): void {
-    this.kToolsService.findAll().subscribe((kTools: KTool[]) => {
+    this.kToolsService.fetchAll().subscribe((kTools: KTool[]) => {
       this.kToolsService.setKTools(kTools);
     });
   }

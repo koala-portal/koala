@@ -27,7 +27,6 @@ import { FaqFormDialogComponent } from './faqs/faq-form-dialog/faq-form-dialog.c
 import { FaqFormComponent } from './faqs/faq-form/faq-form.component';
 import { FaqAccordionComponent } from './faqs/faq-accordion/faq-accordion.component';
 import { SharedModule } from './shared/shared.module';
-import { UserGuideModule } from './user-guide/user-guide.module';
 import { KToolsModule } from './k-tools/k-tools.module';
 
 import { ToastrModule } from 'ngx-toastr';
@@ -64,7 +63,6 @@ import { ToastrModule } from 'ngx-toastr';
     MaterialModule,
     FlexLayoutModule,
     SharedModule,
-    UserGuideModule,
     KToolsModule,
     ToastrModule.forRoot({
       timeOut: 5000,

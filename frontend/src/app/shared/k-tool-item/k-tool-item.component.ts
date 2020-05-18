@@ -3,8 +3,9 @@ import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 
 import { KTool } from 'src/app/shared/k-tool.model';
 import { MessageService } from 'src/app/shared/message.service';
-import { KToolsService } from '../k-tools.service';
-import { KToolFormDialogComponent } from '../k-tool-form-dialog/k-tool-form-dialog.component';
+import { KToolsService } from '../../k-tools/k-tools.service';
+import { KToolFormDialogComponent } from '../../k-tools/k-tool-form-dialog/k-tool-form-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-k-tool-item',
@@ -19,8 +20,16 @@ export class KToolItemComponent {
   constructor(
     private messageService: MessageService,
     private kToolsService: KToolsService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) {}
+
+  get isGuideLinkHidden(): boolean {
+    return (
+      this.router.url.includes('user-guide') ||
+      this.router.url.includes('release-notes')
+    );
+  }
 
   onClickStarTool(kTool: KTool): void {
     this.kToolsService.star(kTool).subscribe(() => {

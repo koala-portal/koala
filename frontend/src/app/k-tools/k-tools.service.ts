@@ -25,10 +25,6 @@ export class KToolsService {
     this.kTool$.next(this.getKTools());
   }
 
-  findAll(): Observable<KTool[]> {
-    return this.http.get<KTool[]>(this.url, { withCredentials: true });
-  }
-
   getKTools(): KTool[] {
     return this.kTools.slice();
   }
@@ -73,6 +69,14 @@ export class KToolsService {
         (res) => console.log('HTTP response', res),
         (err) => console.log('HTTP Error', err.error)
       );
+  }
+
+  fetchById(id: number): Observable<KTool> {
+    return this.http.get<KTool>(this.url + '/' + id, { withCredentials: true });
+  }
+
+  fetchAll(): Observable<KTool[]> {
+    return this.http.get<KTool[]>(this.url, { withCredentials: true });
   }
 
   put(kTool: KTool): Observable<KTool> {

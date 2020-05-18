@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { UserGuide } from './guide.model';
+import { UserGuide } from './user-guide.model';
 import { Subject, Observable, of, BehaviorSubject } from 'rxjs';
 import { Section } from './section.model';
 import { Injectable } from '@angular/core';
@@ -20,6 +20,10 @@ export class UserGuideService {
 
   constructor(private http: HttpClient) {}
 
+  getUserGuide(): UserGuide {
+    return this.userGuide;
+  }
+
   setUserGuide(userGuide: UserGuide): void {
     this.userGuide = userGuide;
     this.userGuide$.next(this.userGuide);
@@ -28,6 +32,12 @@ export class UserGuideService {
   setCurrentSection(currentSection: Section): void {
     this.currentSection = currentSection;
     this.currentSection$.next(this.currentSection);
+  }
+
+  fetchByKToolId(id: number): Observable<UserGuide> {
+    // TODO: Rest Call
+
+    return of(null);
   }
 
   post(userGuide: UserGuide): Observable<UserGuide> {

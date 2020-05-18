@@ -18,8 +18,8 @@
     <a
       mat-button
       class="mt-2 text-reset text-decoration-none p-2 w-100"
-      [routerLink]="['/guides', kTool.id]"
-      routerLinkActive="d-none"
+      [routerLink]="['/k-tools', kTool.id, 'user-guide']"
+      [ngClass]="isGuideLinkHidden ? 'd-none' : ''"
     >
       <div fxLayout="row">
         <mat-icon class="mr-3 line-height-normal" color="disabled">

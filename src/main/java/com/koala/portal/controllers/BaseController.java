@@ -32,7 +32,7 @@ import com.koala.portal.models.UserDetails;
 
 @RestController()
 @RequestMapping(path="/api")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class BaseController {
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)				// Defines the HTTP status code to return, 400 in this case.
@@ -48,13 +48,13 @@ public class BaseController {
 								ex.getSolution());
 
 	}
-	
+
 	@ResponseStatus(HttpStatus.BAD_REQUEST)				// Defines the HTTP status code to return, 400 in this case.
 	@ExceptionHandler(InvalidConfigException.class)		// Tells it what Exception class to listen for, in this case we
-														// need to create InvalidConfigException for any time a user ask for a config 
+														// need to create InvalidConfigException for any time a user ask for a config
 														//that's not public.
 	@ResponseBody 										// Tells the method it's going to be writing to the response body (using Jackson,
-														// a standard Java utility for handling JSON) to serialize the ErrorInfo 
+														// a standard Java utility for handling JSON) to serialize the ErrorInfo
 														// object into JSON .
 	public ErrorInfo handleBadRequest(HttpServletRequest req, InvalidConfigException ex) {
 		ex.printStackTrace();
@@ -108,18 +108,18 @@ public class BaseController {
 	
 	protected UserDetails getUser() {
 		User userDetailsObj = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		
-		UserDetails user = new UserDetails(	userDetailsObj.getUserLabel(), 
-											userDetailsObj.getUsername(), 
+
+		UserDetails user = new UserDetails(	userDetailsObj.getUserLabel(),
+											userDetailsObj.getUsername(),
 											null);
-		
+
 		for (GrantedAuthority r : userDetailsObj.getAuthorities())
 			user.setRole(PortalRoles.valueOf(r.getAuthority()));
-		
+
 
 		return user;
 	}
-	
+
 	protected class FormStatusEnumConverter extends PropertyEditorSupport {
 	    @Override
 	    public void setAsText(String text) throws IllegalArgumentException {
@@ -130,7 +130,7 @@ public class BaseController {
 	        setValue(FormStatus.valueOf(text.toUpperCase()));
 	    }
 	}
-	
+
 	protected class FormActionEnumConverter extends PropertyEditorSupport {
 	    @Override
 	    public void setAsText(String text) throws IllegalArgumentException {
@@ -152,12 +152,12 @@ public class BaseController {
 	        setValue(NoteCategory.valueOf(text.toUpperCase()));
 	    }
 	}
-	
+
 	@InitBinder
 	public void initBinder(WebDataBinder dataBinder) {
 	    dataBinder.registerCustomEditor(FormStatus.class, new FormStatusEnumConverter());
 	    dataBinder.registerCustomEditor(FormAction.class, new FormActionEnumConverter());
-	    dataBinder.registerCustomEditor(NoteCategory.class, new NoteCategoryEnumConverter());	    
+	    dataBinder.registerCustomEditor(NoteCategory.class, new NoteCategoryEnumConverter());
 	}
-	
+
 }

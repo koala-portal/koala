@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { AppRoutingModule } from 'src/app/app-routing.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from 'src/app/shared/material.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { ReleaseNotesComponent } from './release-notes/release-notes.component';
 import { SectionsListComponent } from './sections-list/sections-list.component';
 import { SectionFormComponent } from './section-form/section-form.component';
 import { SectionFormDialogComponent } from './section-form-dialog/section-form-dialog.component';
 import { UserGuideComponent } from './user-guide.component';
-import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
-import { MaterialModule } from '../shared/material.module';
-import { AppRoutingModule } from '../app-routing.module';
-import { SharedModule } from '../shared/shared.module';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { KToolsModule } from '../k-tools/k-tools.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -23,14 +23,15 @@ import { KToolsModule } from '../k-tools/k-tools.module';
     UserGuideComponent,
   ],
   imports: [
-    AppRoutingModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    MaterialModule,
     BrowserModule,
-    SharedModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MaterialModule,
     FlexLayoutModule,
-    KToolsModule,
+    SharedModule,
   ],
 })
 export class UserGuideModule {}

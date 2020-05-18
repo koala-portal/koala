@@ -1,12 +1,14 @@
-import { UserGuideService } from './user-guide.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { KTool } from '../shared/k-tool.model';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { KToolsService } from '../k-tools/k-tools.service';
-import { Section } from './section.model';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { UserGuideService } from './user-guide.service';
+import { Section } from './section.model';
 import { SectionFormDialogComponent } from './section-form-dialog/section-form-dialog.component';
+import { KTool } from 'src/app/shared/k-tool.model';
+
+import { Subscription } from 'rxjs';
+import { UserGuide } from './user-guide.model';
 
 @Component({
   selector: 'app-user-guide',
@@ -15,26 +17,27 @@ import { SectionFormDialogComponent } from './section-form-dialog/section-form-d
 })
 export class UserGuideComponent implements OnInit, OnDestroy {
   kTool: KTool;
+  userGuide: UserGuide;
 
   selectedSection: Section = null;
 
-  private routeParamsSub: Subscription;
   private sectionSub: Subscription;
+  private userGuideSub: Subscription;
 
   constructor(
     private route: ActivatedRoute,
-    private kToolsService: KToolsService,
     private userGuideService: UserGuideService,
     private router: Router,
     private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
-    this.routeParamsSub = this.route.params.subscribe((params) => {
-      this.kTool = this.kToolsService.findById(params.id);
-      this.userGuideService.setUserGuide(this.kTool.userGuide);
-    });
-
+    this.kTool = this.route.snapshot.data.kTool;
+    this.userGuideSub = this.userGuideService.userGuide$.subscribe(
+      (userGuide) => {
+        this.userGuide = userGuide;
+      }
+    );
     this.sectionSub = this.userGuideService.currentSection$.subscribe(
       (section) => {
         this.selectedSection = section;
@@ -43,8 +46,8 @@ export class UserGuideComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.routeParamsSub.unsubscribe();
     this.sectionSub.unsubscribe();
+    this.userGuideSub.unsubscribe();
   }
 
   onClickSectionLink(section: Section): void {

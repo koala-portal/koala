@@ -26,7 +26,7 @@ public class UamForm implements Serializable {
 	@ApiModelProperty(notes = "The auto-generated ID of the UAM form.  This will be set by the system and not the client.", allowEmptyValue=true, dataType="Long")
 	private long id;
 	
-	@ApiModelProperty(notes = "The ID of the user who owns the form form.", allowEmptyValue=true, dataType="String")
+	@ApiModelProperty(notes = "The ID of the user who owns this form and is responsible for filling it out.", allowEmptyValue=false, dataType="String")
 	private String ownerId;
 	
 	@ApiModelProperty(notes = "The date and time the form was created.  This value should not be submitted and will be filled in on the back end.", allowEmptyValue=true, dataType="Date")
@@ -45,12 +45,12 @@ public class UamForm implements Serializable {
 	@ApiModelProperty(notes = "The organization for the system that is being submitted.", allowEmptyValue=false, dataType="String")
 	private String organization;
 	
-	@ApiModelProperty(notes = "The A&A number for your system.", allowEmptyValue=false, dataType="String")
-	private String aAndANum;
+	@ApiModelProperty(notes = "The A&A number for your system.", allowEmptyValue=true, dataType="String")
+	private String authAndAccredNumber;
 	
 	//These are all transient values, and should be calculated in the service layer depending on who the user is, not stored in the database.
-	@ApiModelProperty(notes = "Is the person who request this form the same person who submitted it originally.", allowEmptyValue=true, dataType="Boolean")
-	private boolean submitter;	
+	@ApiModelProperty(notes = "Is the person who was assigned this form the same person who is now requesting it.", allowEmptyValue=true, dataType="Boolean")
+	private boolean ownerOfForm;	
 	@ApiModelProperty(notes = "Can the person logged in edit/update this form.", allowEmptyValue=true, dataType="Boolean")
 	private boolean editable;
 	@ApiModelProperty(notes = "The human readable name of the person who created the form.", allowEmptyValue=true, dataType="String")
@@ -136,7 +136,7 @@ public class UamForm implements Serializable {
 		this.status = status;
 	}
 
-	@Column(nullable = false)
+	@Column(nullable = true)
 	public String getOrganization() {
 		return organization;
 	}
@@ -145,22 +145,22 @@ public class UamForm implements Serializable {
 		this.organization = organization;
 	}
 
-	@Column(nullable = false)
-	public String getaAndANum() {
-		return aAndANum;
+	@Column(nullable = true)
+	public String getAuthAndAccredNumber() {
+		return authAndAccredNumber;
 	}
 
-	public void setaAndANum(String aAndANum) {
-		this.aAndANum = aAndANum;
+	public void setAuthAndAccredNumber(String authAndAccredNumber) {
+		this.authAndAccredNumber = authAndAccredNumber;
 	}
 
 	@Transient
-	public boolean isSubmitter() {
-		return submitter;
+	public boolean isOwnerOfForm() {
+		return ownerOfForm;
 	}
 
-	public void setSubmitter(boolean submitter) {
-		this.submitter = submitter;
+	public void setOwnerOfForm(boolean ownerOfForm) {
+		this.ownerOfForm = ownerOfForm;
 	}
 
 	@Transient

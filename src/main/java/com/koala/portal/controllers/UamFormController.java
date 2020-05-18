@@ -54,7 +54,7 @@ public class UamFormController extends BaseController {
 	
 	@RequestMapping(value = "/uamForm/{id}", method = RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseStatus(HttpStatus.OK)
-	@ApiOperation(value = "Based on role, return all UAM forms this person is permitted to see.  There is an optional field that will filter all forms by their status.", response = UserDetails.class)
+	@ApiOperation(value = "Based on role, return the UAM form and any details the user is permitted to see.", response = UserDetails.class)
 	@ApiResponses(value = {
 	        @ApiResponse(code = 200, message = "The form."),
 	        @ApiResponse(code = 401, message = "You are not authorized to enter the system because we don't know who you are."),
@@ -64,6 +64,19 @@ public class UamFormController extends BaseController {
 	@PreAuthorize("isFullyAuthenticated()")
 	public UamForm get(@PathVariable(required = true, name="id") long id) throws InvalidFormException, EntityNotFoundException {
 		return uamFormServices.get(id, getUser());
+	}
+	
+	@RequestMapping(value = "/uamForm", method = RequestMethod.POST, produces={MediaType.APPLICATION_JSON_VALUE})
+	@ResponseStatus(HttpStatus.CREATED)
+	@ApiOperation(value = "Based on role, return all UAM forms this person is permitted to see.  Currently only a KOALA Admin can create a new form and kick off the process.", response = UserDetails.class)
+	@ApiResponses(value = {
+	        @ApiResponse(code = 201, message = "The form has been created.  An email has gone out to the person associated with the assigneeId."),
+	        @ApiResponse(code = 401, message = "You are not authorized to enter the system because we don't know who you are."),
+	        @ApiResponse(code = 403, message = "You are not authorized to enter the system because we DO know who you are and we still don't trust your ass.")
+	})
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public UamForm create(@RequestParam(required = true, name="assigneeId") String assigneeId) throws InvalidFormException, EntityNotFoundException {
+		return uamFormServices.create(assigneeId, getUser());
 	}
 	
 }

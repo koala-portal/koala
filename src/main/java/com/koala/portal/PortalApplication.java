@@ -1,14 +1,12 @@
 package com.koala.portal;
 
-import com.koala.portal.models.Tool;
-import com.koala.portal.repos.ToolRepo;
+import java.util.Arrays;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -20,14 +18,12 @@ import com.koala.portal.exceptions.InvalidFormException;
 import com.koala.portal.models.Faq;
 import com.koala.portal.models.FaqCategory;
 import com.koala.portal.models.Note;
+import com.koala.portal.models.Tool;
 import com.koala.portal.models.UamForm;
 import com.koala.portal.models.UserDetails;
+import com.koala.portal.repos.ToolRepo;
 import com.koala.portal.services.FaqServices;
 import com.koala.portal.services.UamFormServices;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import java.util.Arrays;
 
 @SpringBootApplication
 @EnableAutoConfiguration
@@ -126,20 +122,18 @@ public class PortalApplication {
 		}
 
 		try {
-			UamForm form = new UamForm();
+			
 			UserDetails user = new UserDetails("John Doe", "KOALA-VIEWER", PortalRoles.PARTNER);
+			UserDetails adminUser = new UserDetails("John Doe", "KOALA-ADMIN", PortalRoles.ADMIN);
 
-			form.setOrganization("COM/APACHE/KAFKA");
-			form.setaAndANum("ABC/123");
-
-			UamForm newForm = uamFormServices.save(user, form);
+			UamForm newForm = uamFormServices.create(user.getUserCreds(), adminUser);
 
 			Note note = new Note(	newForm.getId(),
 									"Mock Random Text from Non-KOALA person",
 									true);
 			uamFormServices.addNote(user, note);
 
-			UserDetails adminUser = new UserDetails("John Doe", "KOALA-ADMIN", PortalRoles.ADMIN);
+			
 			note = new Note(	newForm.getId(),
 					"Mock Random Text from KOALA Admin",
 					true);

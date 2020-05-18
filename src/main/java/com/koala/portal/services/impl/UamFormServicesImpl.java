@@ -6,8 +6,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
@@ -38,6 +39,29 @@ public class UamFormServicesImpl implements UamFormServices {
 	
 	@Autowired
 	private HistoryEntryRepo historyRepo;
+
+	@Value("${uam.form.send.assignee.email:false}") // value after ':' is the default
+	private boolean sendNotificationEmail;
+	
+	@Override
+	public UamForm create(String assigneeId, UserDetails user) {
+		if (user.getRole() != PortalRoles.ADMIN)
+			throw new AccessDeniedException("Only Admins have permission to create a new UAM Form.");
+
+		UamForm newForm = new UamForm();
+		newForm.setCreatedBy(user.getUserCreds());
+		newForm.setCreated(new Date());
+		newForm.setOwnerId(assigneeId);
+		newForm.setStatus(FormStatus.DRAFT);
+		
+		UamForm savedForm = uamFormRepo.save(newForm);
+		
+		if (sendNotificationEmail) {
+			//@TODO - Wire up a mail client and start firing off emails
+		}
+		
+		return savedForm;
+	}
 
 	@Override
 	public List<UamForm> getAll(UserDetails user) throws InvalidFormException {
@@ -83,17 +107,6 @@ public class UamFormServicesImpl implements UamFormServices {
 		if (user.getRole().isInternalKoalaRole())
 			uamForm.getHistory().addAll(historyRepo.findByEntityIdAndEntityTypeOrderByDoneOn(uamForm.getId(), EntityType.UAM_FORM));			
 	}
-
-	@Override
-	public UamForm save(UserDetails user, UamForm form) throws InvalidFormException {
-		form.setCreated(new Date());
-		form.setOwnerId(user.getUserCreds());
-		form.setCreatedBy(user.getUserCreds());
-		form.setStatus(FormStatus.DRAFT);
-		UamForm newForm = uamFormRepo.save(form);
-		
-		return newForm;
-	}
 	
 	private void fullyPopulateTickets(List<UamForm> forms, UserDetails user) throws InvalidFormException {
 		for (UamForm f : forms)
@@ -111,6 +124,9 @@ public class UamFormServicesImpl implements UamFormServices {
 		
 		//Now figure out what actions the logged in person can do depending on their role and the status of the form.
 		form.setPermittedActions(getPermittedActions(user.getRole(), form.getStatus()));
+		
+		//Is the person requesting this form the person it was assigned to????
+		form.setOwnerOfForm(user.getUserCreds().equals(form.getOwnerId()));
 	}
 	
 	private Set<FormAction> getPermittedActions(PortalRoles role, FormStatus status) throws InvalidFormException {
@@ -207,6 +223,5 @@ public class UamFormServicesImpl implements UamFormServices {
 											user.getUserCreds(),
 											new Date());
 		historyRepo.save(he);
-	}
-	
+	}	
 }

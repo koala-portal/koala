@@ -11,8 +11,8 @@ import com.koala.portal.models.UamForm;
 import com.koala.portal.models.UserDetails;
 
 public interface UamFormServices {
-	public UamForm save(UserDetails user, UamForm form) throws InvalidFormException;
 	public UamForm get(long id, UserDetails user) throws InvalidFormException, EntityNotFoundException;
+	public UamForm create(String assigneeId, UserDetails user);
 	
 	public List<UamForm> getAll(UserDetails user) throws InvalidFormException;
 	public List<UamForm> getAll(UserDetails user, FormStatus status) throws InvalidFormException;

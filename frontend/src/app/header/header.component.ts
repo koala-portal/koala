@@ -3,10 +3,11 @@ import { Component } from '@angular/core';
 
 import { Ticket } from '../tickets/ticket.model';
 import { TicketService } from '../tickets/ticket.service';
-import { User } from '../k-tools/user.model';
+import { MessageService } from 'src/app/shared/message.service';
 
 import { ToastrService } from 'ngx-toastr';
-import { KToolsService } from '../k-tools/k-tools.service';
+import { WhoAmIServices } from '../shared/whoami.services';
+
 
 @Component({
   selector: 'app-header',
@@ -19,23 +20,30 @@ export class HeaderComponent {
   tickets: Ticket[];
   constructor(
     private ticketService: TicketService,
-    private ktService: KToolsService,
+    private messageService: MessageService,
+    private whoAmIServices: WhoAmIServices,
     private toastr: ToastrService,
     public appService: AppService
   ) {}
 
   ngOnInit(): void {
-    this.ktService.whoamiEmitter.subscribe((user: User) => {
-      this.toastr.show(
-        'Currently you hold the role of <strong>' +
-          user.role +
-          '</strong> within the system.',
-        'Welcome to KOALA ' + user.userName
-      );
-    });
+    //Get the user's role
+    this.whoAmIServices.whoAmI().subscribe(
+        (user)=> {
+          this.toastr.show(
+            'Currently you hold the role of <strong>' +
+              user.role +
+              '</strong> within the system.',
+            'Welcome to KOALA ' + user.userName
+          );
+        },
+        (error: any)=> {
+          this.messageService.showErrorWithDetailsTst(  error.error.resolution,
+                                                        error.error.error);
+        }
+    );
 
     this.tickets = this.ticketService.getTickets();
-    this.ktService.whoAmI();
   }
 
   onClickMenu() {

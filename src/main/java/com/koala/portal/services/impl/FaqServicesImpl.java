@@ -1,6 +1,6 @@
 package com.koala.portal.services.impl;
 
-import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -11,25 +11,38 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
+import com.koala.portal.daos.FaqDao;
 import com.koala.portal.exceptions.EntityNotFoundException;
 import com.koala.portal.exceptions.InvalidFormException;
 import com.koala.portal.models.Faq;
 import com.koala.portal.models.FaqCategory;
+import com.koala.portal.models.FaqViewTracker;
+import com.koala.portal.models.FaqViewsId;
 import com.koala.portal.repos.FaqCategoryRepo;
 import com.koala.portal.repos.FaqRepo;
+import com.koala.portal.repos.FaqViewsRepo;
 import com.koala.portal.services.FaqServices;
 
 @Service
 public class FaqServicesImpl implements FaqServices {
 
 	@Autowired
-	private FaqRepo faqRepo;
+	protected FaqRepo faqRepo;
 	
 	@Autowired
-	private FaqCategoryRepo faqCategoryRepo;
+	protected FaqDao faqDao;
 	
-	@Value("${max.num.top.questions:3}") // value after ':' is the default
+	@Autowired
+	protected FaqCategoryRepo faqCategoryRepo;
+	
+	@Autowired
+	protected FaqViewsRepo faqViewsRepo;
+	
+	@Value("${max.num.top.questions:5}") // value after ':' is the default
 	private int maxTopQuestions;
+	
+	@Value("${days.back.top.faqs:30}") // value after ':' is the default
+	private int daysBackTopFaqs;
 		
 	@Override
 	public List<Faq> getAll() {		
@@ -40,17 +53,15 @@ public class FaqServicesImpl implements FaqServices {
 	public List<Faq> getAll(Integer categoryId) throws EntityNotFoundException {
 		FaqCategory fc = getFaqCategory(categoryId);	//If the category ID is invalid an EntityNotFoundException will be thrown from getFaqCategory().
 		
-		//If they selected the "Top Questions" category then we select n number of FAQs, reguardless of their assigned category, and return those.
+		//If they selected the "Top Questions" category then we select n number of FAQs, regardless of their assigned category, and return those based on how far back we want to look.
 		if (fc.isTopQuestionsCategory()) {
-			List<Faq> topFaqs = new ArrayList<>();
-			int counter = 0;
-			for (Faq f : faqRepo.findAllByOrderByTimesViewedDesc()) {
-				topFaqs.add(f);
-				counter++;
-				if (counter == maxTopQuestions)
-					break;
-			}
-			return topFaqs;
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(new Date());
+			cal.add(Calendar.DAY_OF_MONTH, 1);	//Take the hours out of the equation
+			Date to = cal.getTime();
+			cal.add(Calendar.DAY_OF_MONTH, ((Integer.valueOf(daysBackTopFaqs)+1)*-1));
+
+			return faqDao.getTopFaqs(cal.getTime(), to, maxTopQuestions);
 		} else {
 			return faqRepo.findByCategoryOrderByTitle(fc);
 		}
@@ -108,32 +119,7 @@ public class FaqServicesImpl implements FaqServices {
 		
 		faqRepo.deleteById(id);
 	}
-	
 
-	@Override
-	public void removeCategory(long id) throws InvalidFormException, EntityNotFoundException {
-		Optional<FaqCategory> fcOption = faqCategoryRepo.findById(id);
-		if (!fcOption.isPresent())
-			throw new EntityNotFoundException("FAQ Category", Long.toString(id));
-		
-		//Make sure there are not FAQs tied to this category.  Also make sure that it's not the Top Questions category
-		FaqCategory fc = fcOption.get();
-		if (fc.isTopQuestionsCategory())
-			throw new InvalidFormException("FAQ categories marked as a 'Top Questions' category cannot be deleted", "Nothing can be done through the service, please contact the development team if you truly need this category removed.");
-		
-		if (faqRepo.findByCategoryOrderByTitle(fc).size() != 0)
-			throw new InvalidFormException("You cannot delete a FAQ category that has FAQs assigned to it.", "First remove all associated FAQs from this category and then try again.");
-		
-		faqCategoryRepo.delete(fc);
-	}
-
-	@Override
-	public void viewed(long id) throws EntityNotFoundException {
-		Faq faq = getFaq(id);
-		faq.viewed();
-		faqRepo.save(faq);
-	}
-	
 	private Faq getFaq(long id) throws EntityNotFoundException {
 		Optional<Faq> faq = faqRepo.findById(id);
 		
@@ -142,7 +128,7 @@ public class FaqServicesImpl implements FaqServices {
 		
 		return faq.get();
 	}
-
+	
 	@Override
 	public List<FaqCategory> getAllCategories() {
 		return faqCategoryRepo.findAllByOrderByTopQuestionsCategoryDescTitleAsc();
@@ -164,14 +150,31 @@ public class FaqServicesImpl implements FaqServices {
 	}
 	
 	@Override
-	public void update(FaqCategory newFaqCategory) throws InvalidFormException, EntityNotFoundException {
-		if (newFaqCategory.getId() <= 0)
-			throw new InvalidFormException("You provided a FAQ category with an ID field set to " + newFaqCategory.getId() + ".  When updating a FAQ category its existing ID must be used.", "Re-submit your form with the ID field of the FAQ category set to the proper value.");
+	public void update(FaqCategory updatedFaqCategory) throws InvalidFormException, EntityNotFoundException {
+		if (updatedFaqCategory.getId() <= 0)
+			throw new InvalidFormException("You provided a FAQ category with an ID field set to " + updatedFaqCategory.getId() + ".  When updating a FAQ category its existing ID must be used.", "Re-submit your form with the ID field of the FAQ category set to the proper value.");
 		
-		sharedSaveUpdateValidation(newFaqCategory);
-		getFaqCategory(newFaqCategory.getId());
+		sharedSaveUpdateValidation(updatedFaqCategory);
+		getFaqCategory(updatedFaqCategory.getId());
 		
-		faqCategoryRepo.save(newFaqCategory);
+		faqCategoryRepo.save(updatedFaqCategory);
+	}
+
+	@Override
+	public void removeCategory(long id) throws InvalidFormException, EntityNotFoundException {
+		Optional<FaqCategory> fcOption = faqCategoryRepo.findById(id);
+		if (!fcOption.isPresent())
+			throw new EntityNotFoundException("FAQ Category", Long.toString(id));
+		
+		//Make sure there are not FAQs tied to this category.  Also make sure that it's not the Top Questions category
+		FaqCategory fc = fcOption.get();
+		if (fc.isTopQuestionsCategory())
+			throw new InvalidFormException("FAQ categories marked as a 'Top Questions' category cannot be deleted", "Nothing can be done through the service, please contact the development team if you truly need this category removed.");
+		
+		if (faqRepo.findByCategoryOrderByTitle(fc).size() != 0)
+			throw new InvalidFormException("You cannot delete a FAQ category that has FAQs assigned to it.", "First remove all associated FAQs from this category and then try again.");
+		
+		faqCategoryRepo.delete(fc);
 	}
 	
 	private void sharedSaveUpdateValidation(FaqCategory faq) throws InvalidFormException {
@@ -188,5 +191,32 @@ public class FaqServicesImpl implements FaqServices {
 			throw new EntityNotFoundException("FAQ Category", Long.toString(id));
 		
 		return faqCategory.get();
+	}
+	
+	private final Calendar cal = Calendar.getInstance();
+	@Override
+	public void viewed(long id) throws EntityNotFoundException {
+		//First capture the total number of times this FAQ has been viewed in the same table as the content of the FAQ
+		Faq faq = getFaq(id);
+		faq.viewed();
+		faqRepo.save(faq);
+		
+		cal.setTime(new Date());
+		cal.set(Calendar.HOUR_OF_DAY, 12);
+		cal.set(Calendar.MINUTE, 00);
+		cal.set(Calendar.SECOND, 00);
+		cal.set(Calendar.MILLISECOND, 0);
+
+		FaqViewTracker fvt = new FaqViewTracker(new FaqViewsId(id, cal.getTime()));
+
+		Optional<FaqViewTracker> viewedObj = faqViewsRepo.findById(fvt.getFaqViewsId());
+		if (viewedObj.isPresent()) {
+			FaqViewTracker val = viewedObj.get();
+			val.setCounter(val.getCounter() + 1);
+			faqViewsRepo.save(val);
+		} else {
+			fvt.setCounter(1);
+			faqViewsRepo.save(fvt);
+		}
 	}
 }

@@ -1,4 +1,10 @@
-import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { Faq } from '../faq.model';
 import { FaqCategory } from '../faq-category.model';
 import { FaqsService } from '../faqs.service';
@@ -8,8 +14,8 @@ import { MessageService } from 'src/app/shared/message.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FaqFormDialogComponent } from '../faq-form-dialog/faq-form-dialog.component';
 import { FaqCategoryFormDialogComponent } from '../faq-category-form-dialog/faq-category-form-dialog.component';
-import { KToolsService } from '../../k-tools/k-tools.service';
-import { User } from '../../k-tools/user.model';
+import { ConfigServices } from '../../shared/config.services';
+import { WhoAmIServices } from '../../shared/whoami.services';
 
 @Component({
   selector: 'app-faqs-list',
@@ -21,7 +27,10 @@ export class FaqListComponent implements OnInit, OnDestroy {
   selectedFaq: Faq;
 
   faqCategories: FaqCategory[];
-  faqs:Faq[]
+  faqs: Faq[];
+
+  maxNumFaqs: string;
+  clicksOverNumberOfDays: string;
 
   private paramsSub: Subscription;
 
@@ -32,55 +41,96 @@ export class FaqListComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private route: ActivatedRoute,
     private dialog: MatDialog,
-    private ktService: KToolsService
+    private configServices: ConfigServices,
+    private whoAmIServices: WhoAmIServices
   ) {}
 
   ngOnInit(): void {
     //Get the user's role
-    this.ktService.whoamiEmitter.subscribe((user:User) => {
-      this.userIsAdmin = user.role == "ADMIN";
-    });
+    this.whoAmIServices.whoAmI().subscribe(
+      (user) => {
+        this.userIsAdmin = user.role == 'ADMIN';
+      },
+      (error: any) => {
+        this.messageService.showErrorWithDetailsTst(
+          error.error.resolution,
+          error.error.error
+        );
+        this.userIsAdmin = false; //Ensure that we don't let them operate as an admin
+      }
+    );
+
+    //Get the config values for the Top Questions category
+    this.configServices.getPublicConfig('max.num.top.questions').subscribe(
+      (val) => {
+        this.maxNumFaqs = val;
+      },
+      (error: any) => {
+        this.messageService.showErrorWithDetailsTst(
+          error.error.resolution,
+          error.error.error
+        );
+      }
+    );
+
+    this.configServices.getPublicConfig('days.back.top.faqs').subscribe(
+      (val) => {
+        this.clicksOverNumberOfDays = val;
+      },
+      (error: any) => {
+        this.messageService.showErrorWithDetailsTst(
+          error.error.resolution,
+          error.error.error
+        );
+      }
+    );
 
     //Load the list of categories
     this.faqsService.loadFaqCategories().subscribe(
-        (faqCats:FaqCategory[])=> {
-          this.faqCategories = faqCats;
-        },
-        (error: any)=> {
-          this.messageService.showErrorWithDetailsTst(  error.error.resolution,
-                                                        error.error.error);
-        },
-        ()=> {
-          //By default we want to load the Top Questions FAQs
-          for (var x=0; x < this.faqCategories.length; x++)
-            if (this.faqCategories[x].topQuestionsCategory)
-              this.onClickCategory(this.faqCategories[x]);
-        }
+      (faqCats: FaqCategory[]) => {
+        this.faqCategories = faqCats;
+      },
+      (error: any) => {
+        this.messageService.showErrorWithDetailsTst(
+          error.error.resolution,
+          error.error.error
+        );
+      },
+      () => {
+        //By default we want to load the Top Questions FAQs
+        for (let x = 0; x < this.faqCategories.length; x++)
+          if (this.faqCategories[x].topQuestionsCategory)
+            this.onClickCategory(this.faqCategories[x]);
+      }
     );
 
     //Set up a listener for any time a new FAQ Category is created
-    this.faqsService.saveFaqCategoriesEmitter.subscribe((faqCat:FaqCategory) => {
-      this.faqCategories.push(faqCat);
-    });
+    this.faqsService.saveFaqCategoriesEmitter.subscribe(
+      (faqCat: FaqCategory) => {
+        this.faqCategories.push(faqCat);
+      }
+    );
 
     //Set up a listener for any time an existing FAQ Category is modified
-    this.faqsService.updateFaqCategoriesEmitter.subscribe((faqCat:FaqCategory) => {
-      for (var x=0; x < this.faqCategories.length; x++) {
-        if (this.faqCategories[x].id == faqCat.id) {
-          this.faqCategories[x].title = faqCat.title;
-          this.faqCategories[x].description = faqCat.description;
+    this.faqsService.updateFaqCategoriesEmitter.subscribe(
+      (faqCat: FaqCategory) => {
+        for (var x = 0; x < this.faqCategories.length; x++) {
+          if (this.faqCategories[x].id == faqCat.id) {
+            this.faqCategories[x].title = faqCat.title;
+            this.faqCategories[x].description = faqCat.description;
+          }
         }
       }
-    });
+    );
 
     //Set up a listener for any time a new FAQ is created and put it at the top of the list
-    this.faqsService.saveFaqEmitter.subscribe((faq:Faq) => {
+    this.faqsService.saveFaqEmitter.subscribe((faq: Faq) => {
       this.faqs.push(faq);
     });
 
     //Set up a listener for any time a FAQ is updated
-    this.faqsService.updateFaqEmitter.subscribe((faq:Faq) => {
-      for (var x=0; x < this.faqs.length; x++) {
+    this.faqsService.updateFaqEmitter.subscribe((faq: Faq) => {
+      for (var x = 0; x < this.faqs.length; x++) {
         if (this.faqs[x].id == faq.id) {
           this.faqs[x].title = faq.title;
           this.faqs[x].description = faq.description;
@@ -104,14 +154,17 @@ export class FaqListComponent implements OnInit, OnDestroy {
 
   onClickCategory(category: FaqCategory): void {
     this.filterFaqCategory = category;
-    
+
     this.faqsService.loadFaqs(category.id).subscribe(
-        (faqs:Faq[])=> {
-          this.faqs = faqs;
-        },
-        (error: any)=> {
-          this.messageService.showErrorWithDetailsTst(error.error.error, error.error.resolution);
-        }
+      (faqs: Faq[]) => {
+        this.faqs = faqs;
+      },
+      (error: any) => {
+        this.messageService.showErrorWithDetailsTst(
+          error.error.error,
+          error.error.resolution
+        );
+      }
     );
   }
 
@@ -151,15 +204,18 @@ export class FaqListComponent implements OnInit, OnDestroy {
       .subscribe((confirm) => {
         if (confirm) {
           this.faqsService.deleteFaqCategory(category).subscribe(
-            ()=> {
-            var index = this.faqCategories.indexOf(category);
-            if (index !== -1) this.faqCategories.splice(index, 1);
-            this.filterFaqCategory = null;
-          },
-          (error: any)=> {
-            this.messageService.showErrorWithDetailsTst(error.error.error, error.error.resolution);
-          }
-    );;
+            () => {
+              var index = this.faqCategories.indexOf(category);
+              if (index !== -1) this.faqCategories.splice(index, 1);
+              this.filterFaqCategory = null;
+            },
+            (error: any) => {
+              this.messageService.showErrorWithDetailsTst(
+                error.error.error,
+                error.error.resolution
+              );
+            }
+          );
         }
       });
   }
@@ -168,7 +224,9 @@ export class FaqListComponent implements OnInit, OnDestroy {
     this.selectedFaq = faq;
   }
 
-  openFaqCategoryFormDialog(faqCategory?: FaqCategory): MatDialogRef<FaqCategoryFormDialogComponent, FaqCategory> {
+  openFaqCategoryFormDialog(
+    faqCategory?: FaqCategory
+  ): MatDialogRef<FaqCategoryFormDialogComponent, FaqCategory> {
     return this.dialog.open(FaqCategoryFormDialogComponent, {
       disableClose: true,
       panelClass: 'form-dialog',

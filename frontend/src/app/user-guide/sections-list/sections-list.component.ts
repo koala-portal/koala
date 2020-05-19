@@ -1,10 +1,13 @@
-import { MessageService } from './../../shared/message.service';
-import { UserGuideService } from './../user-guide.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Section } from '../section.model';
-import { Subscription } from 'rxjs';
-import { SectionFormDialogComponent } from '../section-form-dialog/section-form-dialog.component';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
+
+import { UserGuideService } from './../user-guide.service';
+import { Section } from '../section.model';
+import { SectionFormDialogComponent } from '../section-form-dialog/section-form-dialog.component';
+
+import { Subscription } from 'rxjs';
+import { MessageService } from 'src/app/shared/message.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-sections-list',
@@ -19,15 +22,21 @@ export class SectionsListComponent implements OnInit, OnDestroy {
   private userGuideSub: Subscription;
 
   constructor(
+    private route: ActivatedRoute,
     private userGuideService: UserGuideService,
     private messageService: MessageService,
     private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
+    this.userGuideService.setUserGuide(this.route.snapshot.data.userGuide);
     this.userGuideSub = this.userGuideService.userGuide$.subscribe(
       (userGuide) => {
-        this.sections = userGuide.sections;
+        if (userGuide && userGuide.sections) {
+          this.sections = userGuide.sections;
+        } else {
+          this.sections = [];
+        }
       }
     );
   }

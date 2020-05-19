@@ -1,38 +1,34 @@
-import { AppRoutingModule } from './app-routing.module';
-import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { BrowserModule } from '@angular/platform-browser';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FlexLayoutModule } from '@angular/flex-layout';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { Injector, NgModule } from '@angular/core';
 
-import { AppComponent } from './app.component';
-import { MaterialModule } from './shared/material.module';
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
-import { TicketsComponent } from './tickets/tickets.component';
-import { TicketListComponent } from './tickets/ticket-list/ticket-list.component';
-import { TicketItemComponent } from './tickets/ticket-item/ticket-item.component';
-import { DropdownDirective } from './shared/dropdown.directive';
-import { FaqsComponent } from './faqs/faqs.component';
-import { FaqStarredComponent } from './faqs/faq-starred/faq-starred.component';
-import { KoalaSearchComponent } from './koala-search/koala-search.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TicketFormComponent } from './tickets/ticket-form/ticket-form.component';
+import { ToastrModule } from 'ngx-toastr';
+
 import { AbodeComponent } from './abode/abode.component';
-import { FaqListComponent } from './faqs/faq-list/faq-list.component';
+import { AppComponent } from './app.component';
+import { FaqAccordionComponent } from './faqs/faq-accordion/faq-accordion.component';
 import { FaqCategoryFormDialogComponent } from './faqs/faq-category-form-dialog/faq-category-form-dialog.component';
 import { FaqCategoryFormComponent } from './faqs/faq-category-form/faq-category-form.component';
 import { FaqFormDialogComponent } from './faqs/faq-form-dialog/faq-form-dialog.component';
 import { FaqFormComponent } from './faqs/faq-form/faq-form.component';
-import { FaqAccordionComponent } from './faqs/faq-accordion/faq-accordion.component';
-import { SharedModule } from './shared/shared.module';
-import { UserGuideModule } from './user-guide/user-guide.module';
+import { FaqListComponent } from './faqs/faq-list/faq-list.component';
+import { FaqStarredComponent } from './faqs/faq-starred/faq-starred.component';
+import { FaqsComponent } from './faqs/faqs.component';
+import { FooterComponent } from './footer/footer.component';
+import { HeaderComponent } from './header/header.component';
+import { HttpSecurityInterceptor } from './http-security.interceptor';
 import { KToolsModule } from './k-tools/k-tools.module';
+import { KoalaSearchComponent } from './koala-search/koala-search.component';
+import { ServiceLocator } from './locator.service';
+import { ReleaseNotesModule } from './release-notes/release-notes.module';
+import { DropdownDirective } from './shared/dropdown.directive';
+import { SharedModule } from './shared/shared.module';
+import { TicketFormComponent } from './tickets/ticket-form/ticket-form.component';
+import { TicketItemComponent } from './tickets/ticket-item/ticket-item.component';
+import { TicketListComponent } from './tickets/ticket-list/ticket-list.component';
+import { TicketsComponent } from './tickets/tickets.component';
+import { CoreModule } from './core.module';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { HttpInterceptor } from './http.interceptor';
-
-import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -57,18 +53,10 @@ import { ToastrModule } from 'ngx-toastr';
     SidenavComponent,
   ],
   imports: [
-    BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    NgbModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MaterialModule,
-    FlexLayoutModule,
+    CoreModule,
     SharedModule,
-    UserGuideModule,
     KToolsModule,
+    ReleaseNotesModule,
     ToastrModule.forRoot({
       timeOut: 5000,
       positionClass: 'toast-bottom-right',
@@ -84,7 +72,16 @@ import { ToastrModule } from 'ngx-toastr';
       useClass: HttpInterceptor,
       multi: true,
     },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpSecurityInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private injector: Injector) {
+    ServiceLocator.injector = injector;
+  }
+}

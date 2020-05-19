@@ -4,7 +4,7 @@
     mat-fab
     color="primary"
     matTooltip="Add a new section"
-    (click)="onClickAddSection()"
+    (click)="onClickPlusFab()"
   >
     <mat-icon>add</mat-icon>
   </button>
@@ -21,15 +21,19 @@
       fxLayoutGap="16px"
     >
       <!-- Tool Card -->
-      <app-k-tool-item [kTool]="kTool"></app-k-tool-item>
+      <app-k-tool-item
+        [kTool]="kTool"
+        (updated)="onToolUpdated($event)"
+        (deleted)="onToolDeleted()"
+      ></app-k-tool-item>
 
       <!-- Section Links -->
-      <mat-card>
+      <mat-card *ngIf="userGuide">
         <mat-card-title> <h2>Contents</h2> </mat-card-title>
         <mat-card-content fxLayout="column" fxLayoutGap="8px">
           <a
-            *ngFor="let section of kTool.userGuide.sections"
-            [routerLink]="['content']"
+            *ngFor="let section of userGuide.sections"
+            [routerLink]="['user-guide']"
             [fragment]="section.title"
             mat-button
             class="text-decoration-none"
@@ -61,7 +65,7 @@
       <a
         class="text-reset text-decoration-none"
         mat-tab-link
-        routerLink="content"
+        routerLink="user-guide"
         routerLinkActive
         #guideLink="routerLinkActive"
         [active]="guideLink.isActive"

@@ -1,0 +1,119 @@
+<mat-card style="width: 320px;">
+  <mat-card-title>
+    <div fxLayout="row" fxLayoutAlign="space-between">
+      <span>{{ kTool.name }}</span>
+      <mat-icon [ngClass]="kTool.starred ? '' : 'invisible'">
+        star
+      </mat-icon>
+    </div>
+  </mat-card-title>
+  <mat-card-content>
+    <strong>{{ kTool.numUsers | shortNumber }}</strong> users
+    <mat-card-subtitle class="mt-1">
+      {{ kTool.description }}
+    </mat-card-subtitle>
+  </mat-card-content>
+  <mat-divider></mat-divider>
+  <mat-card-content class="mb-2">
+    <a
+      mat-button
+      class="mt-2 text-reset text-decoration-none p-2 w-100"
+      [routerLink]="['/k-tools', kTool.id, 'user-guide']"
+      [ngClass]="isGuideLinkHidden ? 'd-none' : ''"
+    >
+      <div fxLayout="row">
+        <mat-icon class="mr-3 line-height-normal" color="disabled">
+          menu_book
+        </mat-icon>
+        <div
+          class="line-height-normal"
+          fxLayout="column"
+          fxLayoutAlign="center start"
+        >
+          <span>Guide</span>
+          <small class="text-muted">{{ kTool.name }}'s User Guide</small>
+        </div>
+      </div>
+    </a>
+    <a
+      mat-button
+      class="mt-2 text-reset text-decoration-none p-2 w-100"
+      [routerLink]="['/faqs', kTool.id]"
+    >
+      <div fxLayout="row">
+        <mat-icon class="mr-3 line-height-normal" color="disabled">
+          help_outline
+        </mat-icon>
+        <div
+          class="line-height-normal"
+          fxLayout="column"
+          fxLayoutAlign="center start"
+        >
+          <span>FAQ</span>
+          <small class="text-muted"
+            >{{ kTool.name }}'s Frequently Asked Questions</small
+          >
+        </div>
+      </div>
+    </a>
+    <a
+      mat-button
+      class="mt-2 text-reset text-decoration-none p-2 w-100"
+      target="_blank"
+      [href]="'http://' + kTool.url"
+    >
+      <div fxLayout="row">
+        <mat-icon class="mr-3 line-height-normal" color="disabled">
+          language
+        </mat-icon>
+        <div
+          class="line-height-normal"
+          fxLayout="column"
+          fxLayoutAlign="center start"
+        >
+          <span>{{ kTool.url }}</span>
+          <small class="text-muted">{{ kTool.name }}</small>
+        </div>
+      </div>
+    </a>
+  </mat-card-content>
+  <mat-divider></mat-divider>
+  <mat-card-actions [ngClass]="userIsAdmin ? 'mb-0' : ''">
+    <button mat-button class="color-primary">RAISE TICKET</button>
+  </mat-card-actions>
+  <mat-divider *ngIf="userIsAdmin"></mat-divider>
+  <mat-card-footer *ngIf="userIsAdmin">
+    <div class="p-1" fxLayoutAlign="end">
+      <button
+        mat-icon-button
+        color="accent"
+        matTooltip="Star Tool"
+        (click)="onClickStarTool(kTool)"
+      >
+        <mat-icon>
+          {{ kTool.starred ? "star" : "star_border" }}
+        </mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        color="primary"
+        matTooltip="Edit Tool"
+        (click)="onClickEditTool(kTool)"
+      >
+        <mat-icon>
+          edit
+        </mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        color="warn"
+        matTooltip="Delete Tool"
+        (click)="onClickDeleteTool(kTool)"
+      >
+        <mat-icon>
+          delete
+        </mat-icon>
+      </button>
+    </div>
+  </mat-card-footer>
+</mat-card>

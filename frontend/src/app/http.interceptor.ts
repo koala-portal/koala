@@ -1,9 +1,8 @@
-import { map, tap, switchMap, delay } from 'rxjs/operators';
-import { AppService } from './app.service';
-import { HttpHandler, HttpRequest, HttpEvent } from '@angular/common/http';
-
-import { Observable } from 'rxjs';
+import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+import { AppService } from './app.service';
 
 @Injectable()
 export class HttpInterceptor implements HttpInterceptor {
@@ -17,13 +16,29 @@ export class HttpInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     this.requestCount++;
     this.appService.isLoading = true;
+    let requestCompleted = false;
     return next.handle(req).pipe(
       tap(() => {
-        this.requestCount--;
-        if (this.requestCount === 0) {
-          this.appService.isLoading = false;
+        if (!requestCompleted) {
+          requestCompleted = true;
+          this.onRequestCompleted();
         }
+      }),
+      catchError((error) => {
+        if (!requestCompleted) {
+          requestCompleted = true;
+          this.onRequestCompleted();
+        }
+
+        return throwError(error);
       })
     );
+  }
+
+  onRequestCompleted(): void {
+    this.requestCount--;
+    if (this.requestCount === 0) {
+      this.appService.isLoading = false;
+    }
   }
 }

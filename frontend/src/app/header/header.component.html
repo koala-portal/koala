@@ -1,38 +1,15 @@
-<nav
-  class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top"
-  id="main-nav"
->
-  <div fxLayout="row">
-    <a href="" class="navbar-brand">Koala</a>
-    <button
-      class="navbar-toggler"
-      data-toggle="collapse"
-      data-target="#navbarCollapse"
-    >
-      <span class="navbar-toggler-icon"></span>
+<mat-toolbar class="bg-dark" fxLayout="column">
+  <mat-toolbar-row>
+    <button mat-icon-button class="mr-3" (click)="onClickMenu()">
+      <mat-icon>
+        {{ appService.sidenavIsOpen ? "menu_open" : "menu" }}
+      </mat-icon>
     </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" routerLink="/faqs">FAQs</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" routerLink="/tickets"
-            >My Tickets
-            <span class="fa-stack" *ngIf="tickets?.length > 0">
-              <span class="fa fa-circle-thin fa-stack-2x text-primary"></span>
-              <strong class="fa-stack-1x">
-                {{ tickets.length }}
-              </strong>
-            </span></a
-          >
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/k-tools" routerLinkActive="active"
-            >Tools</a
-          >
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
+    <span>KOALA</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-progress-bar
+  class="primary-progress"
+  [mode]="appService.isLoading ? 'query' : 'determinate'"
+  [value]="100"
+></mat-progress-bar>

@@ -1,3 +1,4 @@
+import { AppService } from './../app.service';
 import { Component } from '@angular/core';
 
 import { Ticket } from '../tickets/ticket.model';
@@ -19,7 +20,8 @@ export class HeaderComponent {
   constructor(
     private ticketService: TicketService,
     private ktService: KToolsService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    public appService: AppService
   ) {}
 
   ngOnInit(): void {
@@ -34,5 +36,9 @@ export class HeaderComponent {
 
     this.tickets = this.ticketService.getTickets();
     this.ktService.whoAmI();
+  }
+
+  onClickMenu() {
+    this.appService.sidenavIsOpen = !this.appService.sidenavIsOpen;
   }
 }

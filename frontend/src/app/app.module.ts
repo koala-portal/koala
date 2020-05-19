@@ -1,7 +1,7 @@
 import { AppRoutingModule } from './app-routing.module';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -29,6 +29,8 @@ import { FaqAccordionComponent } from './faqs/faq-accordion/faq-accordion.compon
 import { SharedModule } from './shared/shared.module';
 import { UserGuideModule } from './user-guide/user-guide.module';
 import { KToolsModule } from './k-tools/k-tools.module';
+import { SidenavComponent } from './sidenav/sidenav.component';
+import { HttpInterceptor } from './http.interceptor';
 
 import { ToastrModule } from 'ngx-toastr';
 
@@ -52,6 +54,7 @@ import { ToastrModule } from 'ngx-toastr';
     FaqFormDialogComponent,
     FaqFormComponent,
     FaqAccordionComponent,
+    SidenavComponent,
   ],
   imports: [
     BrowserModule,
@@ -74,6 +77,13 @@ import { ToastrModule } from 'ngx-toastr';
       titleClass: 'toast-title',
       tapToDismiss: true,
     }), //This allows us to create a common/global config that all pop-ups will follow throughout the app.  Current options a developer can use are: success/error/warning/info/show.
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })

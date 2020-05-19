@@ -10,4 +10,8 @@ export class SidenavComponent implements OnInit {
   constructor(public appService: AppService) {}
 
   ngOnInit(): void {}
+
+  onClickLink() {
+    this.appService.sidenavIsOpen = false;
+  }
 }

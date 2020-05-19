@@ -1,11 +1,16 @@
-import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
+import {
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { AppService } from './app.service';
 
 @Injectable()
-export class HttpInterceptor implements HttpInterceptor {
+export class HttpTrackerInterceptor implements HttpInterceptor {
   requestCount = 0;
 
   constructor(private appService: AppService) {}

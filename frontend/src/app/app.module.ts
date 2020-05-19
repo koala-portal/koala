@@ -1,3 +1,4 @@
+import { HttpTrackerInterceptor } from './http-tracker.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Injector, NgModule } from '@angular/core';
 
@@ -28,7 +29,6 @@ import { TicketListComponent } from './tickets/ticket-list/ticket-list.component
 import { TicketsComponent } from './tickets/tickets.component';
 import { CoreModule } from './core.module';
 import { SidenavComponent } from './sidenav/sidenav.component';
-import { HttpInterceptor } from './http.interceptor';
 
 @NgModule({
   declarations: [
@@ -69,7 +69,7 @@ import { HttpInterceptor } from './http.interceptor';
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: HttpInterceptor,
+      useClass: HttpTrackerInterceptor,
       multi: true,
     },
     {

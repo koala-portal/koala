@@ -2,13 +2,12 @@ package com.koala.portal.controllers;
 
 import java.util.List;
 
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,7 +33,7 @@ public class UamFormController extends BaseController {
 	@Autowired
 	private UamFormServices uamFormServices;
 
-	@RequestMapping(value = "/uamForms", method = RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/uamform", method = RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Based on role, return all UAM forms this person is permitted to see.  There is an optional field that will filter all forms by their status.", response = UserDetails.class)
 	@ApiResponses(value = {
@@ -52,7 +51,7 @@ public class UamFormController extends BaseController {
 		}
 	}
 	
-	@RequestMapping(value = "/uamForm/{id}", method = RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/uamform/{id}", method = RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Based on role, return the UAM form and any details the user is permitted to see.", response = UserDetails.class)
 	@ApiResponses(value = {
@@ -66,7 +65,7 @@ public class UamFormController extends BaseController {
 		return uamFormServices.get(id, getUser());
 	}
 	
-	@RequestMapping(value = "/uamForm", method = RequestMethod.POST, produces={MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/uamform", method = RequestMethod.POST, produces={MediaType.APPLICATION_JSON_VALUE}, consumes= {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseStatus(HttpStatus.CREATED)
 	@ApiOperation(value = "Based on role, return all UAM forms this person is permitted to see.  Currently only a KOALA Admin can create a new form and kick off the process.", response = UserDetails.class)
 	@ApiResponses(value = {
@@ -75,8 +74,8 @@ public class UamFormController extends BaseController {
 	        @ApiResponse(code = 403, message = "You are not authorized to enter the system because we DO know who you are and we still don't trust your ass.")
 	})
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public UamForm create(@RequestParam(required = true, name="assigneeId") String assigneeId) throws InvalidFormException, EntityNotFoundException {
-		return uamFormServices.create(assigneeId, getUser());
+	public UamForm create(@RequestBody UserDetails user) throws InvalidFormException, EntityNotFoundException {
+		return uamFormServices.create(user.getUserCreds(), getUser());
 	}
 	
 }

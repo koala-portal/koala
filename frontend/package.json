@@ -25,6 +25,8 @@
     "@angular/router": "~9.1.0",
     "@material/drawer": "^5.1.0",
     "@ng-bootstrap/ng-bootstrap": "^6.0.2",
+    "ag-grid-angular": "^23.1.1",
+    "ag-grid-community": "^23.1.1",
     "bootstrap": "^4.4.1",
     "font-awesome": "^4.7.0",
     "jquery": "^1.9.1",

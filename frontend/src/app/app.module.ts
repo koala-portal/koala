@@ -2,7 +2,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Injector, NgModule } from '@angular/core';
 
 import { ToastrModule } from 'ngx-toastr';
-
+import { AgGridModule } from 'ag-grid-angular';
 import { AbodeComponent } from './abode/abode.component';
 import { AppComponent } from './app.component';
 import { FaqAccordionComponent } from './faqs/faq-accordion/faq-accordion.component';
@@ -27,6 +27,11 @@ import { TicketItemComponent } from './tickets/ticket-item/ticket-item.component
 import { TicketListComponent } from './tickets/ticket-list/ticket-list.component';
 import { TicketsComponent } from './tickets/tickets.component';
 import { CoreModule } from './core.module';
+import { UamFormComponent } from './uam-form/uam-form.component';
+import { UamFormListComponent } from './uam-form/uam-form-list/uam-form-list.component';
+import { NewUamFormComponent } from './uam-form/new-uam-form/new-uam-form.component';
+import { NewUamFormDialogComponent } from './uam-form/new-uam-form-dialog/new-uam-form-dialog.component';
+
 
 @NgModule({
   declarations: [
@@ -48,12 +53,17 @@ import { CoreModule } from './core.module';
     FaqFormDialogComponent,
     FaqFormComponent,
     FaqAccordionComponent,
+    UamFormComponent,
+    UamFormListComponent,
+    NewUamFormComponent,
+    NewUamFormDialogComponent
   ],
   imports: [
     CoreModule,
     SharedModule,
     KToolsModule,
     ReleaseNotesModule,
+    AgGridModule.withComponents([]),
     ToastrModule.forRoot({
       timeOut: 5000,
       positionClass: 'toast-bottom-right',

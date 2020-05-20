@@ -1,5 +1,6 @@
 package com.koala.portal.services.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -7,10 +8,14 @@ import org.springframework.stereotype.Component;
 
 import com.koala.portal.domain.PortalRoles;
 import com.koala.portal.models.User;
+import com.koala.portal.services.NameResolutionService;
 
 @Component
 public class UserDetailsServiceImpl implements UserDetailsService {
 
+	@Autowired
+	private NameResolutionService nameResolutionService;
+	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		//This should be the DN of the person logging in.
@@ -28,7 +33,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	private User createDummyUser(PortalRoles role, String userName) {
 		User u = new User();
 		u.setUsername(userName);
-		u.setUserLabel("John Doe");
+		u.setUserLabel(nameResolutionService.resolveToLabel(userName));
 		u.setEnabled(true);
 		u.setAccountNonLocked(true);
 		u.addRole(role);

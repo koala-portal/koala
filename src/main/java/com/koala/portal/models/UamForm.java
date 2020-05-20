@@ -57,6 +57,8 @@ public class UamForm implements Serializable {
 	private String createdByLabel;
 	@ApiModelProperty(notes = "The human readable name of the person who last updated the form.", allowEmptyValue=true, dataType="String")
 	private String updatedByLabel;
+	@ApiModelProperty(notes = "The human readable name of the person who owns and is responsible for filling out the form.", allowEmptyValue=true, dataType="String")
+	private String ownerLabel;
 	
 	@ApiModelProperty(notes = "Any and all notes tied to this form that the user is permitted to see.", allowEmptyValue=true, dataType="List of Notes")
 	private List<Note> notes;
@@ -188,6 +190,15 @@ public class UamForm implements Serializable {
 
 	public void setUpdatedByLabel(String updatedByLabel) {
 		this.updatedByLabel = updatedByLabel;
+	}
+
+	@Transient
+	public String getOwnerLabel() {
+		return ownerLabel;
+	}
+
+	public void setOwnerLabel(String ownerLabel) {
+		this.ownerLabel = ownerLabel;
 	}
 
 	@Transient

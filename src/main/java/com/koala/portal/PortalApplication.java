@@ -138,6 +138,11 @@ public class PortalApplication {
 					"Mock Random Text from KOALA Admin",
 					true);
 			uamFormServices.addNote(adminUser, note);
+			
+			newForm.setOrganization("PRG/Panda Express");
+			newForm.setAuthAndAccredNumber("abc/123");
+			uamFormServices.update(	newForm,
+									user);
 
 
 			uamFormServices.performAction(	newForm.getId(),

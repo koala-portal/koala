@@ -32,6 +32,8 @@ $koala-theme: mat-light-theme($koala-primary, $koala-accent, $koala-warn);
 @import "../src/styles/fontAwesome";
 @import "../src/styles/modals";
 @import "../src/styles/koala";
+@import "../node_modules/ag-grid-community/src/styles/ag-grid.scss";
+@import "../node_modules/ag-grid-community/src/styles/ag-theme-alpine/sass/ag-theme-alpine-mixin.scss";
 
 $fa-font-path: "../node_modules/font-awesome/fonts";
 @import "../node_modules/font-awesome/scss/font-awesome";
@@ -61,4 +63,8 @@ footer {
 
   color: white;
   height: 40px;
+}
+
+.ag-theme-alpine {
+    @include ag-theme-alpine;
 }

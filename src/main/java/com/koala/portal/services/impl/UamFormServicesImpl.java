@@ -6,9 +6,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import org.springframework.security.access.AccessDeniedException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
@@ -25,6 +26,7 @@ import com.koala.portal.models.UamForm;
 import com.koala.portal.models.UserDetails;
 import com.koala.portal.repos.HistoryEntryRepo;
 import com.koala.portal.repos.UamFormRepo;
+import com.koala.portal.services.NameResolutionService;
 import com.koala.portal.services.NotesServices;
 import com.koala.portal.services.UamFormServices;
 
@@ -39,6 +41,9 @@ public class UamFormServicesImpl implements UamFormServices {
 	
 	@Autowired
 	private HistoryEntryRepo historyRepo;
+	
+	@Autowired
+	private NameResolutionService nameResolutionService;
 
 	@Value("${uam.form.send.assignee.email:false}") // value after ':' is the default
 	private boolean sendNotificationEmail;
@@ -63,6 +68,14 @@ public class UamFormServicesImpl implements UamFormServices {
 		return savedForm;
 	}
 
+
+	@Override
+	public void update(UamForm uamForm, UserDetails user) throws EntityNotFoundException, InvalidFormException {
+		uamForm.setUpdated(new Date());
+		uamForm.setUpdatedBy(user.getUserCreds());
+		uamFormRepo.save(uamForm);
+	}
+	
 	@Override
 	public List<UamForm> getAll(UserDetails user) throws InvalidFormException {
 		return getAll(user, null);
@@ -93,7 +106,6 @@ public class UamFormServicesImpl implements UamFormServices {
 		UamForm uamForm = uamFormOpt.get();
 		addNotesAndHistory(uamForm, user);
 		fullyPopulateTicket(uamForm, user);
-		
 		
 		return uamForm;
 	}
@@ -127,6 +139,10 @@ public class UamFormServicesImpl implements UamFormServices {
 		
 		//Is the person requesting this form the person it was assigned to????
 		form.setOwnerOfForm(user.getUserCreds().equals(form.getOwnerId()));
+		
+		form.setOwnerLabel(nameResolutionService.resolveToLabel(form.getOwnerId()));
+		form.setCreatedByLabel(nameResolutionService.resolveToLabel(form.getCreatedBy()));
+		form.setUpdatedByLabel(nameResolutionService.resolveToLabel(form.getUpdatedBy()));
 	}
 	
 	private Set<FormAction> getPermittedActions(PortalRoles role, FormStatus status) throws InvalidFormException {
@@ -223,5 +239,5 @@ public class UamFormServicesImpl implements UamFormServices {
 											user.getUserCreds(),
 											new Date());
 		historyRepo.save(he);
-	}	
+	}
 }

@@ -1,0 +1,34 @@
+<mat-card>
+  <mat-card-title>Create New Mission System Registration</mat-card-title>
+  <mat-divider></mat-divider>
+  <form
+    class="d-flex flex-column"
+    [formGroup]="newUamForm"
+    novalidate
+    (ngSubmit)="onSubmit(newUamForm)"
+  >
+
+    <mat-form-field appearance="outline">
+      <mat-label>Owner</mat-label>
+      <mat-select formControlName="owner" [compareWith]="compareUsers">
+        <mat-option *ngFor="let user of listOfUsers" [value]="user">
+          {{ user.userName }} <span *ngIf="user.role != 'PARTNER'" style="font-size: 8pt;">(KOALA Employee)</span>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="d-flex flex-row justify-content-between">
+      <button mat-raised-button type="button" (click)="onClickCancel()">
+        Cancel
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="!newUamForm.valid"
+      >
+        Save
+      </button>
+    </div>
+  </form>
+</mat-card>

@@ -19,5 +19,6 @@ public interface UamFormServices {
 	
 	public void addNote(UserDetails user, Note note) throws InvalidFormException;
 	public void performAction(long id, FormAction action, UserDetails user) throws EntityNotFoundException, InvalidFormException;
+	public void update(UamForm uamForm, UserDetails user) throws EntityNotFoundException, InvalidFormException;
 	
 }

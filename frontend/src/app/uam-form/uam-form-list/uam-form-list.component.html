@@ -1,0 +1,49 @@
+<div fxLayout="row" fxLayoutAlign="center center" class="k-header">
+  <button
+    *ngIf="userIsAdmin"
+    mat-fab
+    color="primary"
+    matTooltip="Create New Mission System Registration"
+    (click)="onClickCreateNewForm()"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+  <div fxFlex class="k-header-title">Mission System Registrations</div>
+</div>
+
+<div class="mat-elevation-z8" class="p-4">
+  <div fxLayout="row">
+    <!-- Category Selector -->
+    <div fxFlex="20">
+      <hr />
+      Facets (Coming Soon?)
+      <hr />
+    </div>
+
+    <!-- Categories -->
+    <div fxFlex="80" class="pl-3" id="faq-section" >
+      <!-- Categories List -->
+      <div class="w-100">
+        <div>
+          <mat-card class="mb-4 faq-first-card" >
+            <ag-grid-angular 
+                #uamFormGrid
+                style="width: 100%; height: 500px;"
+                class="ag-theme-alpine"
+
+                [rowData]="rowData"
+
+                [columnDefs]="gridOptions.columnDefs"
+                [defaultColDef]="gridOptions.defaultColDef"
+
+                (cell-clicked)="onUamFormSelected($event)"
+                rowSelection="multiple"
+                >
+            </ag-grid-angular>
+          </mat-card>
+          <button (click)="getSelectedRows()">Get Selected Row(s)</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,15 +1,16 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { BaseRestServices } from './base-rest.services';
 
 @Injectable({ providedIn: 'root' })
-export class ConfigServices {
+export class ConfigServices extends BaseRestServices {
 
-  constructor(private http: HttpClient) { }
+  constructor() {
+    super();
+  }
 
   public getPublicConfig(key:String): Observable<String> {
-    var url = 'https://localhost:8443/api/config/' + key;
-    return this.http.get<String>(url); 
+    return super.getHttpClient().get<String>(super.getBaseHost() + '/api/config/' + key);
   }
 
 }

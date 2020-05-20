@@ -31,6 +31,7 @@ import { UserGuideModule } from './user-guide/user-guide.module';
 import { KToolsModule } from './k-tools/k-tools.module';
 
 import { ToastrModule } from 'ngx-toastr';
+import { TicketFormDialogComponent } from './tickets/ticket-form-dialog/ticket-form-dialog.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { ToastrModule } from 'ngx-toastr';
     FaqFormDialogComponent,
     FaqFormComponent,
     FaqAccordionComponent,
+    TicketFormDialogComponent,
   ],
   imports: [
     BrowserModule,

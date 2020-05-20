@@ -5,6 +5,8 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({ providedIn: 'root' })
 export class ConfigServices {
 
+  readonly koalaOrgName: string = "KXX";
+
   constructor(private http: HttpClient) { }
 
   public getPublicConfig(key:String): Observable<String> {

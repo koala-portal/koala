@@ -1,9 +1,12 @@
 @import "../../../styles/variables";
 @import "../../../styles/chips";
+
 .mat-table {
   border-collapse: separate;
   border-spacing: 0px 12px;
   padding-right: 10px;
+  background: transparent;
+
   @extend .koala-grey-text-4;
 
   .tic-banner {
@@ -31,10 +34,22 @@
 
   .mat-row {
     box-shadow: 5px 5px 5px $liteGrey;
-    &:hover {
-      @extend .koala-greyBlue-bg-1;
-      cursor: pointer;
-    }
+  }
+}
+
+.mat-paginator{
+  background: transparent;
+}
+
+.ticket-item {
+  border-top:1px solid #ddd;
+}
+
+.ticket-title {
+  padding: 0px 0px 10px 5px;
+
+  div {
+    padding-top:5px;
   }
 }
 

@@ -1,98 +1,119 @@
 <mat-card>
-  <mat-card-title>{{ formMode }}</mat-card-title>
-  <mat-divider></mat-divider>
-  <form [formGroup]="ticketForm" novalidate (ngSubmit)="onSubmit(ticketForm)">
-    <mat-card-content>
-      <div fxLayout="row wrap">
+  <div class="mat-elevation-z8">
+
+    <mat-card-title>
+      {{ formMode }}
+      <button mat-icon-button matTooltip="Full Screen" (click)="fullScreenClick()"
+      [ngClass]="fullScreen ? 'full-screen' : 'form-dialog'">
+        <mat-icon>fullscreen</mat-icon>
+      </button>
+      <button mat-icon-button matTooltip="Close" (click)="onCancel()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-card-title>
+
+    <mat-sidenav-container>
+      <!-- Right  side -->
+      <mat-sidenav #sidenav [mode]="mode.value" [opened]="true" position="start">
+
         <mat-list>
-          <mat-list-item>General Information</mat-list-item>
+          <div mat-subheader>Overview</div>
           <mat-divider></mat-divider>
-          <div fxLayout="row wrap">
-            <mat-form-field fxFlex="33" appearance="outline">
-              <mat-select
-                placeholder="Service Desk Type"
-                formControlName="serviceDeskTypes"
-              >
-                <mat-option
-                  *ngFor="let serviceDeskType of serviceDeskTypes"
-                  [value]="serviceDeskType.name"
-                >
-                  {{ serviceDeskType.name }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <mat-form-field fxFlx="50" appearance="outline">
-              <mat-label>Ticket Title</mat-label>
-              <input type="text" matInput required formControlName="title" />
-            </mat-form-field>
-            <mat-form-field fxFlex="100" appearance="outline">
-              <mat-label>Description</mat-label>
-              <textarea
-                type="text"
-                matInput
-                required
-                formControlName="description"
-              ></textarea>
-            </mat-form-field>
-          </div>
-          <mat-list-item>Service Desk Type Specific fields</mat-list-item>
+          <div mat-subheader>Comments/Log</div>
           <mat-divider></mat-divider>
-          <div fxLayout="row wrap">
-            <mat-form-field appearance="outline">
-              <mat-label>Example Field 1</mat-label>
-              <input type="text" matInput required />
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>Example Field 1</mat-label>
-              <input type="text" matInput required />
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>Example Field 2</mat-label>
-              <input type="text" matInput required />
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>Example Field 3</mat-label>
-              <input type="text" matInput required />
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>Example Field 4</mat-label>
-              <input type="text" matInput required />
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>Example Field 5</mat-label>
-              <input type="text" matInput required />
-            </mat-form-field>
-          </div>
-          <mat-list-item>K's Internal Fields Only</mat-list-item>
-          <mat-divider></mat-divider>
-          <div fxLayout="row wrap">
-            <mat-form-field appearance="outline">
-              <mat-label>Example Field 1</mat-label>
-              <input type="text" matInput required />
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>Example Field 1</mat-label>
-              <input type="text" matInput required />
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>Example Field 2</mat-label>
-              <input type="text" matInput required />
-            </mat-form-field>
-          </div>
+          <div mat-subheader>History</div>
+
         </mat-list>
-      </div>
-    </mat-card-content>
-    <mat-divider></mat-divider>
-    <mat-card-footer>
-      <div fxLayout="row" fxLayoutAlign="end center">
-        <button mat-raised-button type="button" (click)="onCancel()">
-          Cancel
-        </button>
-        <button mat-raised-button type="button">Save as Draft</button>
-        <button mat-raised-button color="primary" type="submit">
-          Update
-        </button>
-      </div>
-    </mat-card-footer>
-  </form>
+      </mat-sidenav>
+      <!-- Left side -->
+      <mat-sidenav-content>
+
+
+        <mat-divider></mat-divider>
+        <form [formGroup]="ticketForm" novalidate (ngSubmit)="onSubmit(ticketForm)" fxFlex="95">
+          <mat-card-content>
+            <div fxLayout="row wrap">
+              <mat-list>
+                <mat-list-item>General Information</mat-list-item>
+                <mat-divider></mat-divider>
+                <div fxLayout="row wrap">
+                  <mat-form-field fxFlex="33" appearance="outline">
+                    <mat-select placeholder="Service Desk Type" formControlName="serviceDeskTypes">
+                      <mat-option *ngFor="let serviceDeskType of serviceDeskTypes" [value]="serviceDeskType.name">
+                        {{ serviceDeskType.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field fxFlx="50" appearance="outline">
+                    <mat-label>Ticket Title</mat-label>
+                    <input type="text" matInput required formControlName="title" />
+                  </mat-form-field>
+                  <mat-form-field fxFlex="100" appearance="outline">
+                    <mat-label>Description</mat-label>
+                    <textarea type="text" matInput required formControlName="description"></textarea>
+                  </mat-form-field>
+                </div>
+                <mat-list-item>Service Desk Type Specific fields</mat-list-item>
+                <mat-divider></mat-divider>
+                <div fxLayout="row wrap">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Example Field 1</mat-label>
+                    <input type="text" matInput required />
+                  </mat-form-field>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Example Field 1</mat-label>
+                    <input type="text" matInput required />
+                  </mat-form-field>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Example Field 2</mat-label>
+                    <input type="text" matInput required />
+                  </mat-form-field>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Example Field 3</mat-label>
+                    <input type="text" matInput required />
+                  </mat-form-field>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Example Field 4</mat-label>
+                    <input type="text" matInput required />
+                  </mat-form-field>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Example Field 5</mat-label>
+                    <input type="text" matInput required />
+                  </mat-form-field>
+                </div>
+                <mat-list-item>K's Internal Fields Only</mat-list-item>
+                <mat-divider></mat-divider>
+                <div fxLayout="row wrap">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Example Field 1</mat-label>
+                    <input type="text" matInput required />
+                  </mat-form-field>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Example Field 1</mat-label>
+                    <input type="text" matInput required />
+                  </mat-form-field>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Example Field 2</mat-label>
+                    <input type="text" matInput required />
+                  </mat-form-field>
+                </div>
+              </mat-list>
+            </div>
+          </mat-card-content>
+          <mat-divider></mat-divider>
+          <mat-card-footer>
+            <div fxLayout="row" fxLayoutAlign="end center">
+              <button mat-raised-button type="button" (click)="onCancel()">
+                Cancel
+              </button>
+              <button mat-raised-button type="button">Save as Draft</button>
+              <button mat-raised-button color="primary" type="submit">
+                Update
+              </button>
+            </div>
+          </mat-card-footer>
+        </form>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
 </mat-card>

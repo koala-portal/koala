@@ -1,8 +1,9 @@
 import { UserGuideService } from './user-guide.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { KTool } from '../shared/k-tool.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+
+import { KTool } from '../shared/k-tool.model';
 import { KToolsService } from '../k-tools/k-tools.service';
 import { Section } from './section.model';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';

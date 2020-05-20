@@ -4,6 +4,7 @@ import { Observable, of, Subject } from 'rxjs';
 import { Ticket } from './ticket.model';
 import { StatusMap } from './ticket.model';
 import { MyTicket } from './ticket.model';
+import { RequestType } from './ticket.model'
 import { KToolsService } from '../k-tools/k-tools.service';
 import { KTool } from '../shared/k-tool.model';
 // import { KTool } from '../shared/k-tool.model';
@@ -22,10 +23,9 @@ export class TicketService {
       title: 'one example',
       ticketNumber: 'C-1',
       serviceDeskTypes: 'Report a bug',
-      kTool: 'Nationals',
+      kTool: 'Bing',
       status: 'Draft',
       assigned: 'Captain America (creator)',
-      priority: 'High',
       created: '01/01/2010',
       updated: '01/05/2012',
       organization: 'ABC/XYZ/123',
@@ -36,10 +36,9 @@ export class TicketService {
       title: 'test one',
       ticketNumber: 'C-1',
       serviceDeskTypes: 'Report a bug',
-      kTool: 'Astros',
+      kTool: 'Google',
       status: 'Draft',
       assigned: 'Charlie Brown (creator)',
-      priority: 'High',
       created: '01/01/2010',
       updated: '01/05/2012',
       organization: 'ABC/XYZ/123',
@@ -50,10 +49,9 @@ export class TicketService {
       title: 'test one',
       ticketNumber: 'C-1',
       serviceDeskTypes: 'Report a bug',
-      kTool: 'Astros',
+      kTool: 'Google',
       status: 'Resolved',
       assigned: '',
-      priority: 'High',
       created: '01/01/2010',
       updated: '01/05/2012',
       organization: 'ABC/XYZ/123',
@@ -64,10 +62,9 @@ export class TicketService {
       title: 'polyjuice potion',
       ticketNumber: 'C-1',
       serviceDeskTypes: 'Report a bug',
-      kTool: 'Astros',
+      kTool: 'WinRAR',
       status: 'Open',
       assigned: 'unassigned',
-      priority: 'High',
       created: '01/01/2010',
       updated: '01/05/2012',
       organization: 'ABC/XYZ/123',
@@ -78,10 +75,9 @@ export class TicketService {
       title: 'Another test to show ',
       ticketNumber: 'C-1',
       serviceDeskTypes: 'Report a bug',
-      kTool: 'Dodgers',
+      kTool: 'Twiiter',
       status: 'Assigned',
       assigned: 'Kingpin',
-      priority: 'High',
       created: '01/01/2010',
       updated: '01/05/2012',
       organization: 'ABC/XYZ/123',
@@ -92,10 +88,9 @@ export class TicketService {
       title: 'Obi Wan Kenobi cannot access site',
       ticketNumber: 'C-1',
       serviceDeskTypes: 'Report a bug',
-      kTool: 'Nationals',
+      kTool: 'Bing',
       status: 'Canceled',
       assigned: '',
-      priority: 'High',
       created: '01/01/2010',
       updated: '01/05/2012',
       organization: 'ABC/XYZ/123',
@@ -115,6 +110,14 @@ export class TicketService {
     { status: 'Created by me', checked: true },
     { status: 'Assigned to me', checked: true }    
   ];
+
+  private requestTypes: RequestType[] = [
+    { requestType: 'Mission System Registration', description: 'Submit a registration form for your system.', matIcon: 'how_to_vote', role: "ADMIN"},
+    { requestType: 'Report a bug', description: 'Submit a bug or issue with one of our tools', matIcon: 'bug_report', role: "VIEWER"},
+    { requestType: 'Raise a Question', description: 'Ask a question regarding a process within our organization. ', matIcon: 'help', role: "VIEWER"},
+    { requestType: 'Suggest an Improvement', description: 'Suggest an improved with one of our applications or SDKs.', matIcon: 'feedback', role: "VIEWER"},
+  ];
+
   constructor(private ktService: KToolsService) {}
 
   getTicket(ticketNo: string): Ticket {
@@ -135,6 +138,10 @@ export class TicketService {
 
   getMyViews(): MyTicket[] {
     return this.myTicketStatus.slice();
+  }
+
+  getRequestTypes(): RequestType[]{
+    return this.requestTypes.slice();
   }
 
   //TODO fix this.. jmd

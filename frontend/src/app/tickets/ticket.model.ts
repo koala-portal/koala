@@ -9,8 +9,7 @@ export interface Ticket {
   kTool: string;
   status: string;
   assigned: string;
-  priority: string;
-created: string;
+  created: string;
   updated: string;
   organization: string;
 }
@@ -24,4 +23,11 @@ export interface StatusMap {
 export interface MyTicket {
   status: string;
   checked: boolean;
+}
+
+export interface RequestType {
+  requestType: string;
+  description: string;
+  matIcon: string;
+  role: string;
 }

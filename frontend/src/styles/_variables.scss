@@ -15,13 +15,14 @@ $charcoal: #3d4c5f;
 $livid: #5e96cd;
 $grey: #555555;
 $liteGrey: #ccc;
+$darkGrey: #2b292b;
 
 // Bootstrap Color System
 $primary: $mint;
 $secondary: $livid;
 
 $k-colors: ("mint", $mint), ("carminePink", $carminePink), ("amber", $amber), ("charcoal", $charcoal), ("livid", $livid),
-  ("greyBlue", $greyBlue), ("green", $green), ("blue", $blue), ("grey", $grey);
+  ("greyBlue", $greyBlue), ("green", $green), ("blue", $blue), ("grey", $grey), ("darkGrey", $darkGrey);
 
 // Make lighter or darker version of the core colors background
 @mixin color-weight($class, $base-color, $weight) {
@@ -60,3 +61,4 @@ $k-colors: ("mint", $mint), ("carminePink", $carminePink), ("amber", $amber), ("
 @include color-weight(koala-green, $green, 4);
 @include color-weight(koala-grey, $grey, 4);
 @include color-weight(koala-liteGrey, $liteGrey, 4);
+@include color-weight(koala-darkGrey, $darkGrey, 4);

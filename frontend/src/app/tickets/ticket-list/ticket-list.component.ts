@@ -26,8 +26,6 @@ export class TicketListComponent implements OnInit {
   myViews: MyTicket[];
   kTools: KToolActive[];
   kToolsActive: KToolActive[];
-
-  // ticketsTable = new MatTableDataSource(this.tickets);
   displayedColumns: string[] = ['stat'];
   sideNavEvents: string[] = [];
   mode = new FormControl('side');
@@ -123,15 +121,11 @@ export class TicketListComponent implements OnInit {
     this.ticketChangeSub.unsubscribe();
   }
 
-  // TODO: Reconfig to use shared modal component
-  // openModal(data?: Ticket): void {
-  //   const dialogConfig = new MatDialogConfig();
-  //   dialogConfig.disableClose = true;
-  //   dialogConfig.id = 'modal-component';
-  //   dialogConfig.height = '350px';
-  //   dialogConfig.width = '600px';
-  //   dialogConfig.data = data;
-  //   dialogConfig.panelClass = 'form-dialog';
-  //   const modalDialog = this.dialog.open(ModalComponent, dialogConfig);
-  // }
+  saveFilterView(): void {
+    //TODO
+  }
+
+  exportFilter(): void {
+    //TODO
+  }
 }

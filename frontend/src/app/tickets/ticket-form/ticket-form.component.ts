@@ -1,5 +1,5 @@
 import { Component, Inject, EventEmitter, Output, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import {
   MAT_DIALOG_DATA,
   MatDialogRef,
@@ -22,6 +22,10 @@ export class TicketFormComponent implements OnInit {
   formMode: string;
   ticketForm: FormGroup;
   serviceDeskTypes = [];
+  mode = new FormControl('side');
+  opened: boolean;
+  fullScreen: boolean = false;
+  ticketType: string;
 
   constructor(
     private ticketService: TicketService,
@@ -43,10 +47,10 @@ export class TicketFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // TODO: add ktool values
 
     if (this.data) {
       this.formMode = 'Ticket ' + this.data.ticketNumber;
+      this.ticketType = this.data.serviceDeskTypes;
       this.ticketForm.patchValue(this.data);
     } else {
       this.formMode = 'Create new Ticket';
@@ -88,9 +92,13 @@ export class TicketFormComponent implements OnInit {
   getServiceDeskType() {
     return [
       { id: '1', name: 'Report a bug' },
-      { id: '2', name: 'Trouble Ticket' },
-      { id: '3', name: 'Submit a Question' },
-      { id: '4', name: 'Sugest an Improvement' },
+      { id: '2', name: 'Submit a Request' },
+      { id: '3', name: 'Raise a Question' },
+      { id: '4', name: 'Suggest an Improvement' },
     ];
+  }
+
+  fullScreenClick(): void {
+    this.fullScreen = !this.fullScreen;
   }
 }

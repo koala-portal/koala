@@ -27,6 +27,8 @@ export class UamFormListComponent implements OnInit, OnDestroy {
   ) {}
 
   @ViewChild('uamFormGrid') uamFormGrid: AgGridAngular;
+  private gridApi;
+  private gridColumnApi;
 
   willEmailBeSent: String;
 
@@ -36,7 +38,7 @@ export class UamFormListComponent implements OnInit, OnDestroy {
 
   gridOptions = {
     columnDefs: [
-      {headerName: 'Org', field: 'organization', checkboxSelection: true },
+      {headerName: 'Org', field: 'organization' },
       {headerName: 'Owner', field: 'ownerLabel'},
       {headerName: 'Status', field: 'status'},
       {headerName: 'Created By', field: 'createdByLabel'},
@@ -45,18 +47,44 @@ export class UamFormListComponent implements OnInit, OnDestroy {
     ],
     defaultColDef: {
       flex: 1,
-      minWidth: 100,
+      filter: 'agTextColumnFilter', 
+      minWidth: 150,
       // allow every column to be aggregated
-      enableValue: true,
+      enableValue: false,
       // allow every column to be grouped
       enableRowGroup: true,
       // allow every column to be pivoted
-      enablePivot: true,
-      sortable: true,
-      filter: true
-  },
-  sideBar: 'columns'
-};
+      enablePivot: false,
+      sortable: true
+    }
+  };
+
+
+  sideBar = {
+    toolPanels: [{
+      id: 'columns',
+      labelDefault: 'Columns',
+      labelKey: 'columns',
+      iconKey: 'columns',
+      toolPanel: 'agColumnsToolPanel',
+      toolPanelParams: {
+        suppressRowGroups: false,
+        suppressValues: true,
+        suppressPivots: true,
+        suppressPivotMode: true,
+        suppressSideButtons: true,
+        suppressColumnFilter: false,
+        suppressColumnSelectAll: true,
+        suppressColumnExpandAll: true,
+      }
+    },{
+      id: 'filters',
+      labelDefault: 'Filters',
+      labelKey: 'filters',
+      iconKey: 'filter',
+      toolPanel: 'agFiltersToolPanel',
+    }]
+  };
 
   rowData: UamForm[];
 
@@ -113,8 +141,8 @@ export class UamFormListComponent implements OnInit, OnDestroy {
     alert(`Selected nodes: ${selectedDataStringPresentation}`);
   }
 
-  onUamFormSelected(event) {
-    alert(event);
+  exportToExcel() {
+    this.gridApi.exportDataAsExcel(this.getParams());
   }
 
   ngOnDestroy(): void {
@@ -131,5 +159,25 @@ export class UamFormListComponent implements OnInit, OnDestroy {
       panelClass: 'form-dialog',
       width: '500px'
     });
+  }
+
+  onGridReady(params) {
+    this.gridApi = params.api;
+    this.gridColumnApi = params.columnApi;
+  }
+
+  getParams() {
+    return {
+      allColumns: true,
+      columnGroups: true,
+      columnKeys: true,
+      onlySelected: false,
+      onlySelectedAllPages: false,
+      skipFooters: true,
+      skipGroups: false,
+      skipHeader: false,
+      skipPinnedTop: false,
+      skipPinnedBottom: false,
+    };
   }
 }

@@ -2,7 +2,10 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Injector, NgModule } from '@angular/core';
 
 import { ToastrModule } from 'ngx-toastr';
+
 import { AgGridModule } from 'ag-grid-angular';
+import 'ag-grid-enterprise';
+
 import { AbodeComponent } from './abode/abode.component';
 import { AppComponent } from './app.component';
 import { FaqAccordionComponent } from './faqs/faq-accordion/faq-accordion.component';

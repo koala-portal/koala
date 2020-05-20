@@ -30,18 +30,16 @@
                 #uamFormGrid
                 style="width: 100%; height: 500px;"
                 class="ag-theme-alpine"
-
                 [rowData]="rowData"
-
-                [columnDefs]="gridOptions.columnDefs"
-                [defaultColDef]="gridOptions.defaultColDef"
-
-                (cell-clicked)="onUamFormSelected($event)"
+                [gridOptions]="gridOptions"
+                [sideBar]="sideBar"
                 rowSelection="multiple"
+                (gridReady)="onGridReady($event)"
                 >
             </ag-grid-angular>
           </mat-card>
           <button (click)="getSelectedRows()">Get Selected Row(s)</button>
+          <button (click)="exportToExcel()" style="margin-left: 15px;">Export To Excel</button>
         </div>
       </div>
     </div>

@@ -1,3 +1,4 @@
+import { User } from './../shared/user.model';
 import { AppService } from './../app.service';
 import { Component } from '@angular/core';
 
@@ -16,7 +17,9 @@ import { WhoAmIServices } from '../shared/whoami.services';
 export class HeaderComponent {
   // TODO: set up hide/show additional views for tickets
 
+  user: User;
   tickets: Ticket[];
+
   constructor(
     private ticketService: TicketService,
     private messageService: MessageService,
@@ -29,6 +32,7 @@ export class HeaderComponent {
     //Get the user's role
     this.whoAmIServices.whoAmI().subscribe(
       (user) => {
+        this.user = user;
         this.toastr.show(
           'Currently you hold the role of <strong>' +
             user.role +

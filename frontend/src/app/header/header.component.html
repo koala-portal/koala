@@ -1,7 +1,20 @@
 <mat-toolbar class="bg-dark" fxLayout="column">
-  <mat-toolbar-row>
+  <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
     <div>
       <app-link-list fxLayout="row" fxLayoutGap="16px"></app-link-list>
+    </div>
+
+    <div
+      class="mat-text"
+      fxLayout="row"
+      fxLayoutAlign="center center"
+      *ngIf="user"
+    >
+      <mat-icon class="mr-2">
+        account_circle
+      </mat-icon>
+      <span class="mr-2">{{ user.userName }}</span>
+      <span>[{{ user.role }}]</span>
     </div>
   </mat-toolbar-row>
 </mat-toolbar>

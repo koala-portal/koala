@@ -1,12 +1,7 @@
 <mat-toolbar class="bg-dark" fxLayout="column">
   <mat-toolbar-row>
-    <button mat-icon-button class="mr-3" (click)="onClickMenu()">
-      <mat-icon>
-        {{ appService.sidenavIsOpen ? "menu" : "menu" }}
-      </mat-icon>
-    </button>
     <div>
-      <app-link-list fxLayout="row" fxLayoutGap="6px"></app-link-list>
+      <app-link-list fxLayout="row" fxLayoutGap="16px"></app-link-list>
     </div>
   </mat-toolbar-row>
 </mat-toolbar>

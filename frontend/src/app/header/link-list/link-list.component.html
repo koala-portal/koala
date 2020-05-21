@@ -5,10 +5,11 @@
   (click)="onClickLink()"
   >Koala</a
 >
-<mat-divider></mat-divider>
+<mat-divider [vertical]="true"></mat-divider>
 <a
   mat-button
   routerLink="k-tools"
+  routerLinkActive="active"
   class="text-decoration-none text-reset text-left"
   (click)="onClickLink()"
   >Tools</a
@@ -16,12 +17,13 @@
 <a
   mat-button
   routerLink="tickets"
+  routerLinkActive="active"
   class="text-decoration-none text-reset text-left py-1"
   (click)="onClickLink()"
 >
   <div fxLayout="row" fxLayoutAlign="before center">
-    <span class="mr-2">Tickets</span>
-    <span class="pill primary">{{ ticketCount }}</span>
+    <span class="mr-2">Registration & Requests</span>
+    <span class="pill primary" *ngIf="ticketCount">{{ ticketCount }}</span>
   </div>
 
   <!-- <button mat-raised-button color="primary" class="p-1">4</button> -->
@@ -29,7 +31,8 @@
 <a
   mat-button
   routerLink="faqs"
+  routerLinkActive="active"
   class="text-decoration-none text-reset text-left"
   (click)="onClickLink()"
-  >FAQ</a
+  >FAQs</a
 >

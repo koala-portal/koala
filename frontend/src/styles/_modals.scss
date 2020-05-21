@@ -1,5 +1,12 @@
 // Dialog for form use:
 .form-dialog {
+  box-shadow:  0px 1px 10px 3px grey;
+
+.mat-elevation-z8 {
+  box-shadow: 0px 0px 0px 0px white;
+  margin: 5px;
+}
+  
   .mat-dialog-container {
     padding: 0px !important;
     min-height: 200px !important;

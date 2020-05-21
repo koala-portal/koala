@@ -16,6 +16,7 @@ export interface Ticket {
 
 export interface StatusMap {
   status: string;
+  description: string;
   color: string;
   checked: boolean;
 }

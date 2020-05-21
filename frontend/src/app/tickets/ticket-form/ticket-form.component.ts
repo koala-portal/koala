@@ -43,13 +43,13 @@ export class TicketFormComponent implements OnInit {
       serviceDeskTypes: [''],
     });
 
-    this.serviceDeskTypes = this.getServiceDeskType();
   }
 
   ngOnInit(): void {
 
     if (this.data) {
-      this.formMode = 'Ticket ' + this.data.ticketNumber;
+      
+      this.formMode = 'Mission System Registration ';
       this.ticketType = this.data.serviceDeskTypes;
       this.ticketForm.patchValue(this.data);
     } else {
@@ -89,13 +89,9 @@ export class TicketFormComponent implements OnInit {
     }
   }
 
-  getServiceDeskType() {
-    return [
-      { id: '1', name: 'Report a bug' },
-      { id: '2', name: 'Submit a Request' },
-      { id: '3', name: 'Raise a Question' },
-      { id: '4', name: 'Suggest an Improvement' },
-    ];
+  statColor(stat: string): string {
+    const status = this.ticketService.getStatus(stat);
+    return status.color;
   }
 
   fullScreenClick(): void {

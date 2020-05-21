@@ -98,11 +98,12 @@ export class TicketService {
   ];
 
   private ticketStatus: StatusMap[] = [
-    { status: 'Draft', color: 'koala-amber-bg-2', checked: true },
-    { status: 'Open', color: 'koala-green-bg-2', checked: true },
-    { status: 'Assigned', color: 'koala-livid-bg-3', checked: true },
-    { status: 'Resolved', color: 'koala-charcoal-bg-1', checked: true },
-    { status: 'Canceled', color: 'koala-carminePink-bg-2', checked: true },
+    { status: 'Draft', description: 'User creates a form but does not submit it to our team.', color: 'koala-amber-bg-2', checked: true },
+    { status: 'Open', description: 'some more text', color: 'koala-green-bg-2', checked: true },
+    { status: 'Assigned', description: 'some more text', color: 'koala-livid-bg-3', checked: true },
+    { status: 'Queued', description: 'some more text', color: 'koala-green-bg-2', checked: true },
+    { status: 'Resolved', description: 'some more text', color: 'koala-charcoal-bg-1', checked: true },
+    { status: 'Canceled', description: 'some more text', color: 'koala-carminePink-bg-2', checked: true },
   ];
 
 
@@ -144,23 +145,18 @@ export class TicketService {
     return this.requestTypes.slice();
   }
 
+  getRequestTypeVals(requestType: string): RequestType {
+    return this.requestTypes.find((x) => x.requestType === requestType);
+  }
+
   //TODO fix this.. jmd
   filterTickets(selectedTools, selectedStatuses, filterText): Ticket[] {
-    // const jmd = [1, 2, 3, 4].filter(function (e) {
-    //   return this.indexOf(e) < 0;
-    // }, selectedTools);
-
-    console.log('tools', selectedTools);
-    console.log('status', selectedStatuses);
-    console.log(filterText);
-
     const filteredTickets = this.tickets.filter((ticket) => {
       return (
         !filterText ||
         ticket.title.toLowerCase().includes(filterText.toLowerCase())
       );
     });
-    //console.log(filteredTickets);
     return filteredTickets;
   }
 

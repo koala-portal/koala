@@ -10,6 +10,7 @@ public class PermittedConfigProperties {
 	private static void loadSet() {
 		publicProperties.add("max.num.top.questions");
 		publicProperties.add("days.back.top.faqs");
+		publicProperties.add("uam.form.send.assignee.email");
 	}
 	
 	public static boolean isPublicProperty(String val) {

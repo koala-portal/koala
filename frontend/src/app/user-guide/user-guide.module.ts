@@ -1,36 +1,19 @@
 import { NgModule } from '@angular/core';
 
-import { ReleaseNotesComponent } from './release-notes/release-notes.component';
-import { SectionsListComponent } from './sections-list/sections-list.component';
-import { SectionFormComponent } from './section-form/section-form.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { SectionFormDialogComponent } from './section-form-dialog/section-form-dialog.component';
+import { SectionFormComponent } from './section-form/section-form.component';
+import { SectionsListComponent } from './sections-list/sections-list.component';
 import { UserGuideComponent } from './user-guide.component';
-import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
-import { MaterialModule } from '../shared/material.module';
-import { AppRoutingModule } from '../app-routing.module';
-import { SharedModule } from '../shared/shared.module';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { KToolsModule } from '../k-tools/k-tools.module';
+import { CoreModule } from '../core.module';
 
 @NgModule({
   declarations: [
-    ReleaseNotesComponent,
     SectionsListComponent,
     SectionFormComponent,
     SectionFormDialogComponent,
     UserGuideComponent,
   ],
-  imports: [
-    AppRoutingModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    MaterialModule,
-    BrowserModule,
-    SharedModule,
-    FlexLayoutModule,
-    KToolsModule,
-  ],
+  imports: [CoreModule, SharedModule],
 })
 export class UserGuideModule {}

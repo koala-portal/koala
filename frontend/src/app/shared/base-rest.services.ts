@@ -1,23 +1,26 @@
 import { Injectable, isDevMode } from '@angular/core';
-import { HttpClient, HttpXhrBackend } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { ServiceLocator } from '../locator.service';
 
 @Injectable()
 export class BaseRestServices {
-
   private http: HttpClient;
-  private devUrl: String = "https://localhost:8443";
+  private devUrl = 'https://localhost:8443';
 
   /**
    * Build a common HttpClient object to hanle all of our REST calls
    */
   constructor() {
-    this.http = new HttpClient(new HttpXhrBackend({ build: () => new XMLHttpRequest() }));
+    this.http = ServiceLocator.injector.get(HttpClient);
     if (isDevMode()) {
-      console.log("Running in DEV mode: All REST calls will be directed at " + this.devUrl);
+      console.log(
+        'Running in DEV mode: All REST calls will be directed at ' + this.devUrl
+      );
     } else {
-      console.log("Running in PROD mode: All REST calls will be relative to this server");
+      console.log(
+        'Running in PROD mode: All REST calls will be relative to this server'
+      );
     }
-
   }
 
   /**
@@ -30,11 +33,11 @@ export class BaseRestServices {
   /**
    * Determine if we're running in Dev-Mode and if so provide the localhost address, otherwise we're in the compiled jar and we should use relative URLs.
    */
-  protected getBaseHost(): String {
+  protected getBaseHost(): string {
     if (isDevMode()) {
       return this.devUrl;
     } else {
-      return "";
+      return '';
     }
   }
 }

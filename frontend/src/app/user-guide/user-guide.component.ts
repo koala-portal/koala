@@ -1,13 +1,16 @@
-import { UserGuideService } from './user-guide.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+
 import { Subscription } from 'rxjs';
 
-import { KTool } from '../shared/k-tool.model';
-import { KToolsService } from '../k-tools/k-tools.service';
-import { Section } from './section.model';
-import { MatDialogRef, MatDialog } from '@angular/material/dialog';
+import { ReleaseNotesFormDialogComponent } from 'src/app/release-notes/release-notes-form-dialog/release-notes-form-dialog.component';
+import { ReleaseNotes } from 'src/app/release-notes/release-notes.model';
+import { KTool } from 'src/app/shared/k-tool.model';
 import { SectionFormDialogComponent } from './section-form-dialog/section-form-dialog.component';
+import { Section } from './section.model';
+import { UserGuide } from './user-guide.model';
+import { UserGuideService } from './user-guide.service';
 
 @Component({
   selector: 'app-user-guide',
@@ -16,26 +19,27 @@ import { SectionFormDialogComponent } from './section-form-dialog/section-form-d
 })
 export class UserGuideComponent implements OnInit, OnDestroy {
   kTool: KTool;
+  userGuide: UserGuide;
 
   selectedSection: Section = null;
 
-  private routeParamsSub: Subscription;
   private sectionSub: Subscription;
+  private userGuideSub: Subscription;
 
   constructor(
     private route: ActivatedRoute,
-    private kToolsService: KToolsService,
     private userGuideService: UserGuideService,
     private router: Router,
     private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
-    this.routeParamsSub = this.route.params.subscribe((params) => {
-      this.kTool = this.kToolsService.findById(params.id);
-      this.userGuideService.setUserGuide(this.kTool.userGuide);
-    });
-
+    this.kTool = this.route.snapshot.data.kTool;
+    this.userGuideSub = this.userGuideService.userGuide$.subscribe(
+      (userGuide) => {
+        this.userGuide = userGuide;
+      }
+    );
     this.sectionSub = this.userGuideService.currentSection$.subscribe(
       (section) => {
         this.selectedSection = section;
@@ -44,8 +48,8 @@ export class UserGuideComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.routeParamsSub.unsubscribe();
     this.sectionSub.unsubscribe();
+    this.userGuideSub.unsubscribe();
   }
 
   onClickSectionLink(section: Section): void {
@@ -53,15 +57,29 @@ export class UserGuideComponent implements OnInit, OnDestroy {
     this.scrollToSection(section);
   }
 
-  onClickAddSection(): void {
-    this.openSectionFormDialog()
-      .afterClosed()
-      .subscribe((section: Section) => {
-        if (section) {
-          this.userGuideService.setCurrentSection(section);
-          this.scrollToSection(section);
-        }
-      });
+  onClickPlusFab(): void {
+    if (this.router.url.includes('/user-guide')) {
+      this.openSectionFormDialog()
+        .afterClosed()
+        .subscribe((section: Section) => {
+          if (section) {
+            this.userGuideService.setCurrentSection(section);
+            this.scrollToSection(section);
+          }
+        });
+    } else if (this.router.url.includes('/release-notes')) {
+      this.openReleaseNotesFormDialog({
+        kTool: this.kTool,
+      } as ReleaseNotes);
+    }
+  }
+
+  onToolUpdated(kTool: KTool): void {
+    this.kTool = kTool;
+  }
+
+  onToolDeleted(): void {
+    this.router.navigate(['k-tools']);
   }
 
   private scrollToSection(section: Section): void {
@@ -82,6 +100,18 @@ export class UserGuideComponent implements OnInit, OnDestroy {
       width: '1080px',
       height: 'auto',
       data: section,
+    });
+  }
+
+  private openReleaseNotesFormDialog(
+    releaseNotes?: ReleaseNotes
+  ): MatDialogRef<ReleaseNotesFormDialogComponent, ReleaseNotes> {
+    return this.dialog.open(ReleaseNotesFormDialogComponent, {
+      disableClose: true,
+      panelClass: 'form-dialog',
+      width: '1080px',
+      height: 'auto',
+      data: releaseNotes,
     });
   }
 }

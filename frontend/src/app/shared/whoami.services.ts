@@ -5,12 +5,11 @@ import { BaseRestServices } from './base-rest.services';
 
 @Injectable({ providedIn: 'root' })
 export class WhoAmIServices extends BaseRestServices {
-
   constructor() {
     super();
   }
 
   public whoAmI(): Observable<User> {
-    return super.getHttpClient().get<User>(super.getBaseHost() + '/api/whoami'); 
+    return super.getHttpClient().get<User>(super.getBaseHost() + '/api/whoami');
   }
 }

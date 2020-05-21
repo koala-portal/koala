@@ -2,6 +2,11 @@
   @extend .koala-charcoal-bg-5;
 }
 
+// Additional Bootstrap-like utility classes
+.background-primary {
+  background-color: $primary;
+}
+
 .pb-10 {
   padding-bottom: 150px !important;
 }
@@ -24,6 +29,10 @@
 
 .toast-title {
   text-decoration: underline;
+}
+
+.preserve-whitespace {
+  white-space: pre-line;
 }
 
 // Page Title/headers

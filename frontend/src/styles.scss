@@ -1,3 +1,4 @@
+@import "../src/styles/spinners";
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @import "~@angular/material/theming";
@@ -27,6 +28,7 @@ $koala-theme: mat-light-theme($koala-primary, $koala-accent, $koala-warn);
 
 @import "../src/styles/variables";
 @import "../src/styles/cards";
+@import "../src/styles/chips";
 @import "../src/styles/buttons";
 @import "../src/styles/form";
 @import "../src/styles/fontAwesome";
@@ -34,6 +36,7 @@ $koala-theme: mat-light-theme($koala-primary, $koala-accent, $koala-warn);
 @import "../src/styles/koala";
 @import "../node_modules/ag-grid-community/src/styles/ag-grid.scss";
 @import "../node_modules/ag-grid-community/src/styles/ag-theme-alpine/sass/ag-theme-alpine-mixin.scss";
+
 
 $fa-font-path: "../node_modules/font-awesome/fonts";
 @import "../node_modules/font-awesome/scss/font-awesome";
@@ -59,8 +62,6 @@ main {
 }
 
 footer {
-  @extend .bg-greyBlue-4;
-
   color: white;
   height: 40px;
 }

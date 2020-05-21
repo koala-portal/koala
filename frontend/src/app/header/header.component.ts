@@ -8,7 +8,6 @@ import { MessageService } from 'src/app/shared/message.service';
 import { ToastrService } from 'ngx-toastr';
 import { WhoAmIServices } from '../shared/whoami.services';
 
-
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -29,24 +28,22 @@ export class HeaderComponent {
   ngOnInit(): void {
     //Get the user's role
     this.whoAmIServices.whoAmI().subscribe(
-        (user)=> {
-          this.toastr.show(
-            'Currently you hold the role of <strong>' +
-              user.role +
-              '</strong> within the system.',
-            'Welcome to KOALA ' + user.userName
-          );
-        },
-        (error: any)=> {
-          this.messageService.showErrorWithDetailsTst(  error.error.resolution,
-                                                        error.error.error);
-        }
+      (user) => {
+        this.toastr.show(
+          'Currently you hold the role of <strong>' +
+            user.role +
+            '</strong> within the system.',
+          'Welcome to KOALA ' + user.userName
+        );
+      },
+      (error: any) => {
+        this.messageService.showErrorWithDetailsTst(
+          error.error.resolution,
+          error.error.error
+        );
+      }
     );
 
     this.tickets = this.ticketService.getTickets();
-  }
-
-  onClickMenu() {
-    this.appService.sidenavIsOpen = !this.appService.sidenavIsOpen;
   }
 }

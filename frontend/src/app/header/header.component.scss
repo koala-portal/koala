@@ -1,14 +1,5 @@
 @import "src/styles/variables";
 
-.navbar {
-  border-bottom: $primary 3px solid;
-  opacity: 0.8;
-}
-
-.fa-stack {
-  font-size: 0.8em;
-}
-
 :host {
   position: fixed;
   top: 0;

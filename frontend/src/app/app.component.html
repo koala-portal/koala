@@ -1,24 +1,11 @@
-<mat-sidenav-container class="header-offset">
-  <mat-sidenav
-    #sidenav
-    [fixedInViewport]="true"
-    mode="over"
-    [opened]="appService.sidenavIsOpen"
-    (closed)="appService.sidenavIsOpen = false"
-  >
-    <app-sidenav></app-sidenav>
-  </mat-sidenav>
+<app-header></app-header>
 
-  <mat-sidenav-content>
-    <app-header></app-header>
+<main class="header-offset">
+  <div fxLayout="row" fxLayoutAlign="center center" id="mainzo">
+    <div fxFlex id="main-body" class="dark-overlay">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</main>
 
-    <main>
-      <div fxLayout="row" fxLayoutAlign="center center" id="mainzo">
-        <div fxFlex id="main-body" class="dark-overlay">
-          <router-outlet></router-outlet>
-        </div>
-      </div>
-    </main>
-    <footer></footer>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+<footer></footer>

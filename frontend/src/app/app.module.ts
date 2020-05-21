@@ -28,7 +28,6 @@ import { TicketItemComponent } from './tickets/ticket-item/ticket-item.component
 import { TicketListComponent } from './tickets/ticket-list/ticket-list.component';
 import { TicketsComponent } from './tickets/tickets.component';
 import { CoreModule } from './core.module';
-import { SidenavComponent } from './sidenav/sidenav.component';
 import { LinkListComponent } from './header/link-list/link-list.component';
 
 @NgModule({
@@ -51,7 +50,6 @@ import { LinkListComponent } from './header/link-list/link-list.component';
     FaqFormDialogComponent,
     FaqFormComponent,
     FaqAccordionComponent,
-    SidenavComponent,
     LinkListComponent,
   ],
   imports: [

@@ -24,11 +24,7 @@ export class LinkListComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.ticketsSub.unsubscribe();
-  }
-
-  onClickLink() {
-    this.appService.sidenavIsOpen = false;
   }
 }

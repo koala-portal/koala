@@ -1,5 +1,5 @@
 .k-container {
-  @extend .bg-charcoal-5;
+  @extend .koala-charcoal-bg-5;
 }
 
 // Additional Bootstrap-like utility classes
@@ -51,6 +51,7 @@
     position: absolute;
     left: 10px;
     bottom: -26px;
+    z-index: 2;
 
     & ~ .k-header-title {
       margin-left: 55px;

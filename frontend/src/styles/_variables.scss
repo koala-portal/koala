@@ -4,33 +4,27 @@
 
 $liteGreen: #85b268;
 $green: #56a423;
-$lime: #42a700;
-$liteBlue: #7d84a5;
 $blue: #536786;
-$yellow: #caab76;
-$ad: #b3c6a6;
-$pink: #b96c7f;
 $greyBlue: #7f8895;
-$teal: #009c8f;
-
 $white: #fff;
 $black: #000;
-
-// k's custom colors:
 $mint: #00c6a9;
 $carminePink: #f15e6e;
 $amber: #ffc100;
 $charcoal: #3d4c5f;
 $livid: #5e96cd;
+$grey: #555555;
+$liteGrey: #ccc;
+$darkGrey: #2b292b;
 
 // Bootstrap Color System
 $primary: $mint;
 $secondary: $livid;
 
-$k-colors: ("mint", $mint), ("carminePink", $carminePink), ("amber", $amber),
-  ("charcoal", $charcoal), ("livid", $livid), ("greyBlue", $greyBlue);
+$k-colors: ("mint", $mint), ("carminePink", $carminePink), ("amber", $amber), ("charcoal", $charcoal), ("livid", $livid),
+  ("greyBlue", $greyBlue), ("green", $green), ("blue", $blue), ("grey", $grey), ("darkGrey", $darkGrey);
 
-// Make lighter or darker version of the core colors
+// Make lighter or darker version of the core colors background
 @mixin color-weight($class, $base-color, $weight) {
   $bg-color: null;
 
@@ -46,15 +40,25 @@ $k-colors: ("mint", $mint), ("carminePink", $carminePink), ("amber", $amber),
       $bg-color: darken($base-color, $weight * 10%);
     }
 
-    .#{$class}-#{$i} {
+    // Background colors
+    .#{$class}-bg-#{$i} {
       background-color: $bg-color;
+    }
+    // Text Colors
+    .#{$class}-text-#{$i} {
+      color: $bg-color;
     }
   }
 }
 
-// Build out all background color variants:
-@include color-weight(bg-mint, $mint, 4);
-@include color-weight(bg-charcoal, $charcoal, 4);
-@include color-weight(bg-livid, $livid, 4);
-@include color-weight(bg-carminePink, $carminePink, 4);
-@include color-weight(bg-greyBlue, $greyBlue, 4);
+@include color-weight(koala-mint, $mint, 4);
+@include color-weight(koala-charcoal, $charcoal, 4);
+@include color-weight(koala-livid, $livid, 4);
+@include color-weight(koala-carminePink, $carminePink, 4);
+@include color-weight(koala-greyBlue, $greyBlue, 4);
+@include color-weight(koala-blue, $blue, 4);
+@include color-weight(koala-amber, $amber, 4);
+@include color-weight(koala-green, $green, 4);
+@include color-weight(koala-grey, $grey, 4);
+@include color-weight(koala-liteGrey, $liteGrey, 4);
+@include color-weight(koala-darkGrey, $darkGrey, 4);

@@ -1,13 +1,18 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { BaseRestServices } from './base-rest.services';
 
 @Injectable({ providedIn: 'root' })
-export class ConfigServices {
-  constructor(private http: HttpClient) {}
+export class ConfigServices extends BaseRestServices {
+  readonly koalaOrgName: string = 'KXX';
+
+  constructor() {
+    super();
+  }
 
   public getPublicConfig(key: string): Observable<string> {
-    const url = 'https://localhost:8443/api/config/' + key;
-    return this.http.get<string>(url);
+    return super
+      .getHttpClient()
+      .get<string>(super.getBaseHost() + '/api/config/' + key);
   }
 }

@@ -3,6 +3,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Injector, NgModule } from '@angular/core';
 
 import { ToastrModule } from 'ngx-toastr';
+import { AgGridModule } from 'ag-grid-angular';
+import 'ag-grid-enterprise';
 
 import { AbodeComponent } from './abode/abode.component';
 import { AppComponent } from './app.component';
@@ -29,6 +31,11 @@ import { TicketListComponent } from './tickets/ticket-list/ticket-list.component
 import { TicketsComponent } from './tickets/tickets.component';
 import { CoreModule } from './core.module';
 import { LinkListComponent } from './header/link-list/link-list.component';
+import { UamFormComponent } from './uam-form/uam-form.component';
+import { UamFormListComponent } from './uam-form/uam-form-list/uam-form-list.component';
+import { NewUamFormComponent } from './uam-form/new-uam-form/new-uam-form.component';
+import { NewUamFormDialogComponent } from './uam-form/new-uam-form-dialog/new-uam-form-dialog.component';
+import { TicketFormDialogComponent } from './tickets/ticket-form-dialog/ticket-form-dialog.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +57,11 @@ import { LinkListComponent } from './header/link-list/link-list.component';
     FaqFormDialogComponent,
     FaqFormComponent,
     FaqAccordionComponent,
+    TicketFormDialogComponent,
+    UamFormComponent,
+    UamFormListComponent,
+    NewUamFormComponent,
+    NewUamFormDialogComponent,
     LinkListComponent,
   ],
   imports: [
@@ -57,6 +69,7 @@ import { LinkListComponent } from './header/link-list/link-list.component';
     SharedModule,
     KToolsModule,
     ReleaseNotesModule,
+    AgGridModule.withComponents([]),
     ToastrModule.forRoot({
       timeOut: 5000,
       positionClass: 'toast-bottom-right',

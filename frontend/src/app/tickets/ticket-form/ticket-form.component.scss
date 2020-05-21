@@ -1,0 +1,45 @@
+@import "../../../styles/variables";
+.mat-button-focus-overlay {
+    background-color: transparent!important;
+}
+.mat-card{
+    padding: 0px;
+
+    .mat-subheader {
+        padding: 16px 10px;
+    }
+
+    .mat-button-focus-overlay {
+        background-color: transparent!important;
+    }
+
+    .mat-form-field{
+        margin-left: 5px;
+    }
+    
+}
+
+.right-drawer {
+    max-width: 250px;
+    font-size: .9em;
+    padding: 0px 10px 10px 10px;
+    color: rgba(0, 0, 0, 0.54);
+
+    .stat-brd {
+        padding: 3px 4px;
+        text-align: center;
+        border-radius: 3px;
+      }
+
+    span {
+        color:black;
+    }
+    mat-icon{
+        font-size:.9em;
+        padding-top:5px;
+    }
+
+    .comment {
+        padding-bottom: 3px
+    }
+}

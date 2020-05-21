@@ -10,6 +10,11 @@ import { TicketItemComponent } from './tickets/ticket-item/ticket-item.component
 import { FaqsComponent } from './faqs/faqs.component';
 import { FaqListComponent } from './faqs/faq-list/faq-list.component';
 
+import { UamFormComponent } from './uam-form/uam-form.component';
+import { UamFormListComponent } from './uam-form/uam-form-list/uam-form-list.component';
+
+
+
 const appRoutes: Routes = [
   { path: '', component: AbodeComponent },
   {
@@ -36,7 +41,15 @@ const appRoutes: Routes = [
         component: FaqListComponent,
       },
     ],
-  },
+  },{
+    path: 'uam-forms',
+    component: UamFormComponent,
+    children: [{
+        path: '',
+        pathMatch: 'full',
+        component: UamFormListComponent,
+      }]
+  }
 ];
 @NgModule({
   imports: [

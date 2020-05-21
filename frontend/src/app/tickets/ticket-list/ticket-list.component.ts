@@ -1,14 +1,19 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatSort } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
+// import { MatSort } from '@angular/material/sort';
+// import { MatPaginator } from '@angular/material/paginator';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
+import { FormControl, NgModel } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
+import { StatusMap } from '../ticket.model';
+import { MyTicket } from '../ticket.model';
 import { Ticket } from '../ticket.model';
 import { TicketService } from '../ticket.service';
 import { TicketItemComponent } from '../ticket-item/ticket-item.component';
 import { TicketFormComponent } from '../ticket-form/ticket-form.component';
+import { KToolActive } from 'src/app/shared/k-tool.model';
+import { KToolsService } from '../../k-tools/k-tools.service';
+import { MatListOption } from '@angular/material/list';
 
 @Component({
   selector: 'app-ticket-list',
@@ -17,30 +22,37 @@ import { TicketFormComponent } from '../ticket-form/ticket-form.component';
 })
 export class TicketListComponent implements OnInit {
   tickets: Ticket[];
-  // ticketsTable = new MatTableDataSource(this.tickets);
-  displayedColumns: string[] = [
-    'ticketNo',
-    'sdType',
-    'kTool',
-    'name',
-    'description',
-    'icons',
-  ];
+  ticketStatus: StatusMap[];
+  myViews: MyTicket[];
+  kTools: KToolActive[];
+  kToolsActive: KToolActive[];
+  displayedColumns: string[] = ['stat'];
+  sideNavEvents: string[] = [];
+  mode = new FormControl('side');
+  opened: boolean;
+  visible = true;
+  selectable = true;
+  removable = true;
+  filterText = '';
+  direction = 'asc';
+  status = '';
+  statusSelect = '';
 
   private ticketChangeSub: Subscription;
 
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-
   constructor(
     private ticketService: TicketService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private kToolsService: KToolsService
   ) {}
 
   ngOnInit(): void {
     this.tickets = this.ticketService.getTickets();
-    // this.ticketsTable = new MatTableDataSource<Ticket>(this.tickets);
-    // this.tickets.paginator = this.paginator;
+    this.ticketStatus = this.ticketService.getStatuses();
+    this.myViews = this.ticketService.getMyViews();
+    this.kTools = this.kToolsService
+      .getKTools()
+      .map((v) => ({ ...v, isActive: true }));
 
     this.ticketChangeSub = this.ticketService.ticket$.subscribe(
       (tickets: Ticket[]) => {
@@ -67,25 +79,53 @@ export class TicketListComponent implements OnInit {
     });
   }
 
-  //Fix mat filter for applying this.
-  applyFilter(event: Event): void {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.ticketService.filterTickets(filterValue);
+  statColor(stat: string): string {
+    const status = this.ticketService.getStatus(stat);
+    return status.color;
+  }
+
+  getFilteredTickets(): void {
+    this.tickets = this.ticketService.getTickets();
+
+    const ticketFiltering = this.ticketService.filterTickets(
+      this.kToolsActive,
+      this.ticketStatus,
+      this.filterText
+    );
+
+    this.tickets = ticketFiltering;
+  }
+
+  // mat chips
+  removeMatChip(kTool: { isActive: boolean }): boolean {
+    kTool.isActive = false;
+    this.findByActive();
+    return kTool.isActive;
+  }
+
+  //Find by selected Tools on sidenav
+  findByActive(): void {
+    this.kToolsActive = this.kTools.filter((tool) => tool.isActive);
+  }
+
+  selectionChange(option: MatListOption): void {
+    const selectedStatus = [];
+    console.log(option);
+    console.log(this.statusSelect);
+    if (option.selected) {
+      console.log('checked');
+    }
   }
 
   ngOnDestroy(): void {
     this.ticketChangeSub.unsubscribe();
   }
 
-  // TODO: Reconfig to use shared modal component
-  // openModal(data?: Ticket): void {
-  //   const dialogConfig = new MatDialogConfig();
-  //   dialogConfig.disableClose = true;
-  //   dialogConfig.id = 'modal-component';
-  //   dialogConfig.height = '350px';
-  //   dialogConfig.width = '600px';
-  //   dialogConfig.data = data;
-  //   dialogConfig.panelClass = 'form-dialog';
-  //   const modalDialog = this.dialog.open(ModalComponent, dialogConfig);
-  // }
+  saveFilterView(): void {
+    //TODO
+  }
+
+  exportFilter(): void {
+    //TODO
+  }
 }

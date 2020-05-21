@@ -9,14 +9,8 @@
   >
     <mat-form-field appearance="outline">
       <mat-label>Category</mat-label>
-      <mat-select
-        formControlName="category"
-        [compareWith]="compareFaqCategories"
-      >
-        <mat-option
-          *ngFor="let faqCategory of faqCategories"
-          [value]="faqCategory"
-        >
+      <mat-select formControlName="category" [compareWith]="compareFaqCategories">
+        <mat-option *ngFor="let faqCategory of faqCategories" [value]="faqCategory">
           {{ faqCategory.title }}
         </mat-option>
       </mat-select>

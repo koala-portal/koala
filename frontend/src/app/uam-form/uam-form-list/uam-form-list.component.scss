@@ -1,0 +1,13 @@
+#faq-section {
+  position: relative;
+
+  .mat-card {
+    box-shadow: none;
+  }
+
+  #view-questions {
+    position: absolute;
+    top: -40px;
+    right: 5px;
+  }
+}

@@ -2,10 +2,12 @@
   <mat-toolbar-row>
     <button mat-icon-button class="mr-3" (click)="onClickMenu()">
       <mat-icon>
-        {{ appService.sidenavIsOpen ? "menu_open" : "menu" }}
+        {{ appService.sidenavIsOpen ? "menu" : "menu" }}
       </mat-icon>
     </button>
-    <span>KOALA</span>
+    <div>
+      <app-link-list fxLayout="row" fxLayoutGap="6px"></app-link-list>
+    </div>
   </mat-toolbar-row>
 </mat-toolbar>
 <mat-progress-bar

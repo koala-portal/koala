@@ -1,32 +1,7 @@
-<div class="bg-dark p-2" style="width: 220px; height: 100%;">
-  <div fxLayout="column">
-    <a
-      mat-button
-      routerLink=""
-      class="text-decoration-none"
-      (click)="onClickLink()"
-      >Homepage</a
-    >
-    <a
-      mat-button
-      routerLink="k-tools"
-      class="text-decoration-none"
-      (click)="onClickLink()"
-      >Tools</a
-    >
-    <a
-      mat-button
-      routerLink="tickets"
-      class="text-decoration-none"
-      (click)="onClickLink()"
-      >Tickets</a
-    >
-    <a
-      mat-button
-      routerLink="faqs"
-      class="text-decoration-none"
-      (click)="onClickLink()"
-      >FAQ</a
-    >
-  </div>
+<div class="p-2 pt-3" style="width: 250px; height: 100%;">
+  <app-link-list
+    fxLayout="column"
+    fxLayoutGap="6px"
+    class="text-uppercase text-left"
+  ></app-link-list>
 </div>

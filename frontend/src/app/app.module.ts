@@ -29,6 +29,7 @@ import { TicketListComponent } from './tickets/ticket-list/ticket-list.component
 import { TicketsComponent } from './tickets/tickets.component';
 import { CoreModule } from './core.module';
 import { SidenavComponent } from './sidenav/sidenav.component';
+import { LinkListComponent } from './header/link-list/link-list.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { SidenavComponent } from './sidenav/sidenav.component';
     FaqFormComponent,
     FaqAccordionComponent,
     SidenavComponent,
+    LinkListComponent,
   ],
   imports: [
     CoreModule,

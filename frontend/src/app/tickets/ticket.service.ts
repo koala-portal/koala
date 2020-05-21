@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, Subject } from 'rxjs';
+import { Observable, of, Subject, BehaviorSubject } from 'rxjs';
 
 import { Ticket } from './ticket.model';
 import { KToolsService } from '../k-tools/k-tools.service';
@@ -7,8 +7,6 @@ import { KToolsService } from '../k-tools/k-tools.service';
 
 @Injectable({ providedIn: 'root' })
 export class TicketService {
-  ticket$ = new Subject<Ticket[]>();
-
   private tickets: Ticket[] = [
     {
       id: 'CBS-0001',
@@ -59,6 +57,8 @@ export class TicketService {
       kTool: 'Nationals',
     },
   ];
+
+  ticket$ = new BehaviorSubject<Ticket[]>(this.getTickets());
 
   constructor(private ktService: KToolsService) {}
 

@@ -1,0 +1,13 @@
+@import "src/styles/variables";
+
+.pill.primary {
+  border-radius: 13px;
+  padding: 4px;
+  background-color: $primary;
+  min-width: 26px;
+  height: 26px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 0;
+}

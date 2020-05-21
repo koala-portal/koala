@@ -1,17 +1,11 @@
 import { AppService } from './../app.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { TicketService } from '../tickets/ticket.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.scss'],
 })
-export class SidenavComponent implements OnInit {
-  constructor(public appService: AppService) {}
-
-  ngOnInit(): void {}
-
-  onClickLink() {
-    this.appService.sidenavIsOpen = false;
-  }
-}
+export class SidenavComponent {}

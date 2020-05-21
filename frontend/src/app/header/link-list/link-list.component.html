@@ -1,0 +1,35 @@
+<a
+  mat-button
+  routerLink=""
+  class="text-decoration-none text-center text-reset"
+  (click)="onClickLink()"
+  >Koala</a
+>
+<mat-divider></mat-divider>
+<a
+  mat-button
+  routerLink="k-tools"
+  class="text-decoration-none text-reset text-left"
+  (click)="onClickLink()"
+  >Tools</a
+>
+<a
+  mat-button
+  routerLink="tickets"
+  class="text-decoration-none text-reset text-left py-1"
+  (click)="onClickLink()"
+>
+  <div fxLayout="row" fxLayoutAlign="before center">
+    <span class="mr-2">Tickets</span>
+    <span class="pill primary">{{ ticketCount }}</span>
+  </div>
+
+  <!-- <button mat-raised-button color="primary" class="p-1">4</button> -->
+</a>
+<a
+  mat-button
+  routerLink="faqs"
+  class="text-decoration-none text-reset text-left"
+  (click)="onClickLink()"
+  >FAQ</a
+>

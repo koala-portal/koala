@@ -1,13 +1,82 @@
 @import "../../../styles/variables";
+@import "../../../styles/chips";
 
-#ticket-list {
-  .wp-100 {
-    width: 100px;
+.mat-table {
+  border-collapse: separate;
+  border-spacing: 0px 12px;
+  padding-right: 10px;
+  background: transparent;
+
+  @extend .koala-grey-text-4;
+
+  .tic-banner {
+    width: 7px;
+    margin-right: 5px;
+  }
+
+  .k-cell {
+    padding-bottom: 5px;
+    div:first-child {
+      font-weight: bold;
+    }
+  }
+
+  .ticket-title {
+    color: blue;
+    font-size: 1.2em;
+  }
+
+  .stat-brd {
+    padding: 3px 4px;
+    text-align: center;
+    border-radius: 3px;
+  }
+
+  .mat-row {
+    box-shadow: 5px 5px 5px $liteGrey;
   }
 }
 
-.mat-row:hover {
-  @extend .bg-greyBlue-1;
+.mat-paginator{
+  background: transparent;
+}
 
-  cursor: pointer;
+.ticket-item {
+  border-top:1px solid #ddd;
+}
+
+.ticket-title {
+  padding: 0px 0px 10px 5px;
+
+  div {
+    padding-top:5px;
+  }
+}
+
+mat-sidenav {
+  width: 250px;
+
+  #tic-filter-header {
+    @extend .koala-liteGrey-bg-3;
+  }
+
+  .mat-list-text {
+    font-size: 0.9em;
+  }
+
+  #mat-chip-list-ktools {
+    padding: 0px 5px;
+  }
+
+  .mat-h2 {
+    margin: 10px 5px 10px;
+  }
+}
+
+mat-sidenav-content {
+  padding-top: 20px;
+}
+
+.mat-drawer-container {
+  top: -25px;
 }

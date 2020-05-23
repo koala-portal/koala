@@ -1,68 +1,13 @@
-<mat-card>
-  <mat-card-title>{{ data.title }}</mat-card-title>
-  <mat-divider></mat-divider>
-  <mat-card-content>
-    <form>
-      <div>
-        <mat-form-field appearance="outline">
-          <mat-label>Title</mat-label>
-          <input
-            matInput
-            name="title"
-            #username="ngModel"
-            type="text"
-            placeholder="Title"
-            [disabled]="true"
-            [(ngModel)]="data.title"
-          />
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Id</mat-label>
-          <input
-            matInput
-            name="id"
-            #username="ngModel"
-            type="text"
-            placeholder="Id"
-            [disabled]="true"
-            [(ngModel)]="data.id"
-          />
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Ticket Number</mat-label>
-          <input
-            matInput
-            name="ticketNumber"
-            #username="ngModel"
-            type="text"
-            placeholder="Ticket Number"
-            [disabled]="true"
-            [(ngModel)]="data.ticketNumber"
-          />
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Description</mat-label>
-          <input
-            matInput
-            name="description"
-            #username="ngModel"
-            type="text"
-            placeholder="Title"
-            [disabled]="true"
-            [(ngModel)]="data.description"
-          />
-        </mat-form-field>
-      </div>
-    </form>
-  </mat-card-content>
-
-  <mat-divider></mat-divider>
-  <mat-card-footer>
-    <div fxLayout="row" fxLayoutAlign="end center">
-      <button mat-raised-button (click)="closeDialog()">Close</button>
-      <button mat-raised-button color="primary" (click)="editTicket()">
-        Submit
-      </button>
+<!-- TO DO update this to be angular material layout...-->
+<div class="p-2">
+  <a
+    class="clickable list-group-item clearfix"
+    [routerLink]="[index]"
+    routerLinkActive="active"
+  >
+    <div class="pull-left">
+      <h4 class="list-group-item-heading">{{ ticket.title }}</h4>
+      <!-- <p class="list-group-item-text">{{ ticket.description }}</p> -->
     </div>
-  </mat-card-footer>
-</mat-card>
+  </a>
+</div>

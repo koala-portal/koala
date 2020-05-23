@@ -5,6 +5,8 @@ import { BaseRestServices } from './base-rest.services';
 @Injectable({ providedIn: 'root' })
 export class ConfigServices extends BaseRestServices {
 
+  readonly koalaOrgName: string = "KXX";
+
   constructor() {
     super();
   }

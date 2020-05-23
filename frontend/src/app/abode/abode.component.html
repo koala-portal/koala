@@ -3,33 +3,58 @@
     <div class="dark-overlay">
       <div class="p-4 display-4 w-80 pb-10">
         <div class="d-flex flex-column row-hl">
-          <div class="p-4 item-hl">
-            Welcome to <strong>Koala</strong>, K's Service Desk
-          </div>
-          <div class="item-hl">
-            <input
-              type="text"
-              class="form-control form-control-lg"
-              placeholder="Find help and services"
-            />
-          </div>
+          <div class="w-75">Welcome to <strong>Koala:</strong> <br>{{koalaOrgName}} Registratation and Request Portal </div>
+        </div>
+        <div class="d-flex flex-column pt-3">
+          <h1>View {{koalaOrgName}} documentation, submit requests and ask
+            for help with our tools. Lorem ipsum dolor sit amet
+            consectetur adipisicing elit. Maxime exercitationem
+            ullam, ipsam beatae eaque perspiciatis, velit deserunt,
+            alias id eius ducimus corporis! Perspiciatis deserunt </h1>
         </div>
       </div>
     </div>
   </div>
+  <section class="koala-darkGrey-bg-5">
+    <div class="text-center py-5">
+      <h1 class="display-5 pt-1">
+        Inquires & Requests
+        <mat-divider></mat-divider>
+      </h1>
+      
+      <p class="lead pb-1">
+        Submit a reqeust or support ticket to {{koalaOrgName}} group
+      </p>
+      <div id="requestTypes" fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center start" class="pb-1">
+        <div fxFlex="70" fxLayoutGap="20px" *ngFor="let reqType of requestTypes" class="clickable text-left requestTypes">
+            <mat-card (click)="newTicketForm(reqType.requestType)">
+            <mat-card-header>
+              <div mat-card-avatar><mat-icon> {{ reqType.matIcon }}</mat-icon></div>
+              <mat-card-title>
+                {{ reqType.requestType }}
+              </mat-card-title>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+            <mat-card-content>
+              {{ reqType.description }}
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
 
   <!--Top FAQ links-->
   <section id="explore-head-section" class="bg-dark">
     <div class="text-center py-5">
-      <h1 class="display-5 pt-3">Top Questions Answered</h1>
+      <h1 class="display-5 pt-3">Top Questions Answered<mat-divider></mat-divider></h1>
       <p class="lead">
         Before you submit a ticket, view the top answers our teams get
       </p>
-      <div
-        class="d-flex w-7 flex-wrap row-hl"
-        style="width: 50%; margin: auto;"
-      >
-      <!--
+      <div class="d-flex w-7 flex-wrap row-hl" style="width: 50%; margin: auto;">
+        <!--
         <app-faq-starred class="w-100"></app-faq-starred>
         -->
       </div>

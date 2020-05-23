@@ -34,6 +34,7 @@ import { UamFormComponent } from './uam-form/uam-form.component';
 import { UamFormListComponent } from './uam-form/uam-form-list/uam-form-list.component';
 import { NewUamFormComponent } from './uam-form/new-uam-form/new-uam-form.component';
 import { NewUamFormDialogComponent } from './uam-form/new-uam-form-dialog/new-uam-form-dialog.component';
+import { TicketFormDialogComponent } from './tickets/ticket-form-dialog/ticket-form-dialog.component';
 
 
 @NgModule({
@@ -56,6 +57,7 @@ import { NewUamFormDialogComponent } from './uam-form/new-uam-form-dialog/new-ua
     FaqFormDialogComponent,
     FaqFormComponent,
     FaqAccordionComponent,
+    TicketFormDialogComponent,
     UamFormComponent,
     UamFormListComponent,
     NewUamFormComponent,

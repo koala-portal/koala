@@ -1,8 +1,8 @@
+import { HttpTrackerInterceptor } from './http-tracker.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Injector, NgModule } from '@angular/core';
 
 import { ToastrModule } from 'ngx-toastr';
-
 import { AgGridModule } from 'ag-grid-angular';
 import 'ag-grid-enterprise';
 
@@ -30,12 +30,12 @@ import { TicketItemComponent } from './tickets/ticket-item/ticket-item.component
 import { TicketListComponent } from './tickets/ticket-list/ticket-list.component';
 import { TicketsComponent } from './tickets/tickets.component';
 import { CoreModule } from './core.module';
+import { LinkListComponent } from './header/link-list/link-list.component';
 import { UamFormComponent } from './uam-form/uam-form.component';
 import { UamFormListComponent } from './uam-form/uam-form-list/uam-form-list.component';
 import { NewUamFormComponent } from './uam-form/new-uam-form/new-uam-form.component';
 import { NewUamFormDialogComponent } from './uam-form/new-uam-form-dialog/new-uam-form-dialog.component';
 import { TicketFormDialogComponent } from './tickets/ticket-form-dialog/ticket-form-dialog.component';
-
 
 @NgModule({
   declarations: [
@@ -61,7 +61,8 @@ import { TicketFormDialogComponent } from './tickets/ticket-form-dialog/ticket-f
     UamFormComponent,
     UamFormListComponent,
     NewUamFormComponent,
-    NewUamFormDialogComponent
+    NewUamFormDialogComponent,
+    LinkListComponent,
   ],
   imports: [
     CoreModule,
@@ -79,6 +80,11 @@ import { TicketFormDialogComponent } from './tickets/ticket-form-dialog/ticket-f
     }), //This allows us to create a common/global config that all pop-ups will follow throughout the app.  Current options a developer can use are: success/error/warning/info/show.
   ],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpTrackerInterceptor,
+      multi: true,
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpSecurityInterceptor,

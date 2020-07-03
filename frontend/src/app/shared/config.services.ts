@@ -4,15 +4,15 @@ import { BaseRestServices } from './base-rest.services';
 
 @Injectable({ providedIn: 'root' })
 export class ConfigServices extends BaseRestServices {
-
-  readonly koalaOrgName: string = "KXX";
+  readonly koalaOrgName: string = 'KXX';
 
   constructor() {
     super();
   }
 
-  public getPublicConfig(key:String): Observable<String> {
-    return super.getHttpClient().get<String>(super.getBaseHost() + '/api/config/' + key);
+  public getPublicConfig(key: string): Observable<string> {
+    return super
+      .getHttpClient()
+      .get<string>(super.getBaseHost() + '/api/config/' + key);
   }
-
 }

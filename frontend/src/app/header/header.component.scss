@@ -1,9 +1,13 @@
-@import "../../styles/variables";
-.navbar {
-  border-bottom: $primary 3px solid;
-  opacity: 0.8;
-}
+@import "src/styles/variables";
 
-.fa-stack {
-  font-size: 0.8em;
+:host {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+
+  app-link-list {
+    color: white;
+  }
 }

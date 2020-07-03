@@ -1,11 +1,10 @@
-
 export interface HistoryEntry {
   id: number;
   entityId: number;
-  entityType: String;
-  orgStatus: String;
-  action: String;
-  newStatus: String,
-  doneBy: String;
+  entityType: string;
+  orgStatus: string;
+  action: string;
+  newStatus: string;
+  doneBy: string;
   doneOn: Date;
 }

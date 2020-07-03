@@ -9,14 +9,12 @@ import { UamFormServices } from '../uam-form.services';
 import { UamForm } from '../uam-form.model';
 import { NewUamFormDialogComponent } from '../new-uam-form-dialog/new-uam-form-dialog.component';
 
-
 @Component({
   selector: 'uam-form-list',
   templateUrl: './uam-form-list.component.html',
   styleUrls: ['./uam-form-list.component.scss'],
 })
 export class UamFormListComponent implements OnInit, OnDestroy {
-
   constructor(
     private messageService: MessageService,
     private route: ActivatedRoute,
@@ -30,7 +28,7 @@ export class UamFormListComponent implements OnInit, OnDestroy {
   private gridApi;
   private gridColumnApi;
 
-  willEmailBeSent: String;
+  willEmailBeSent: string;
 
   userIsAdmin = false;
 
@@ -38,16 +36,16 @@ export class UamFormListComponent implements OnInit, OnDestroy {
 
   gridOptions = {
     columnDefs: [
-      {headerName: 'Org', field: 'organization' },
-      {headerName: 'Owner', field: 'ownerLabel'},
-      {headerName: 'Status', field: 'status'},
-      {headerName: 'Created By', field: 'createdByLabel'},
-      {headerName: 'Created', field: 'created'},
-      {headerName: 'A & A', field: 'authAndAccredNumber'}
+      { headerName: 'Org', field: 'organization' },
+      { headerName: 'Owner', field: 'ownerLabel' },
+      { headerName: 'Status', field: 'status' },
+      { headerName: 'Created By', field: 'createdByLabel' },
+      { headerName: 'Created', field: 'created' },
+      { headerName: 'A & A', field: 'authAndAccredNumber' },
     ],
     defaultColDef: {
       flex: 1,
-      filter: 'agTextColumnFilter', 
+      filter: 'agTextColumnFilter',
       minWidth: 150,
       // allow every column to be aggregated
       enableValue: false,
@@ -55,35 +53,37 @@ export class UamFormListComponent implements OnInit, OnDestroy {
       enableRowGroup: true,
       // allow every column to be pivoted
       enablePivot: false,
-      sortable: true
-    }
+      sortable: true,
+    },
   };
 
-
   sideBar = {
-    toolPanels: [{
-      id: 'columns',
-      labelDefault: 'Columns',
-      labelKey: 'columns',
-      iconKey: 'columns',
-      toolPanel: 'agColumnsToolPanel',
-      toolPanelParams: {
-        suppressRowGroups: false,
-        suppressValues: true,
-        suppressPivots: true,
-        suppressPivotMode: true,
-        suppressSideButtons: true,
-        suppressColumnFilter: false,
-        suppressColumnSelectAll: true,
-        suppressColumnExpandAll: true,
-      }
-    },{
-      id: 'filters',
-      labelDefault: 'Filters',
-      labelKey: 'filters',
-      iconKey: 'filter',
-      toolPanel: 'agFiltersToolPanel',
-    }]
+    toolPanels: [
+      {
+        id: 'columns',
+        labelDefault: 'Columns',
+        labelKey: 'columns',
+        iconKey: 'columns',
+        toolPanel: 'agColumnsToolPanel',
+        toolPanelParams: {
+          suppressRowGroups: false,
+          suppressValues: true,
+          suppressPivots: true,
+          suppressPivotMode: true,
+          suppressSideButtons: true,
+          suppressColumnFilter: false,
+          suppressColumnSelectAll: true,
+          suppressColumnExpandAll: true,
+        },
+      },
+      {
+        id: 'filters',
+        labelDefault: 'Filters',
+        labelKey: 'filters',
+        iconKey: 'filter',
+        toolPanel: 'agFiltersToolPanel',
+      },
+    ],
   };
 
   rowData: UamForm[];
@@ -91,53 +91,63 @@ export class UamFormListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     //Get the user's role
     this.whoAmIServices.whoAmI().subscribe(
-        (user)=> {
-          this.userIsAdmin = user.role == "ADMIN";
-        },
-        (error: any)=> {
-          this.messageService.showErrorWithDetailsTst(  error.error.resolution,
-                                                        error.error.error);
-          this.userIsAdmin = false; //Ensure that we don't let them operate as an admin 
-        }
+      (user) => {
+        this.userIsAdmin = user.role == 'ADMIN';
+      },
+      (error: any) => {
+        this.messageService.showErrorWithDetailsTst(
+          error.error.resolution,
+          error.error.error
+        );
+        this.userIsAdmin = false; //Ensure that we don't let them operate as an admin
+      }
     );
 
     //Get the config values for the Top Questions category
-    this.configServices.getPublicConfig("uam.form.send.assignee.email").subscribe(
-        (val)=> {
+    this.configServices
+      .getPublicConfig('uam.form.send.assignee.email')
+      .subscribe(
+        (val) => {
           this.willEmailBeSent = val;
         },
-        (error: any)=> {
-          this.messageService.showErrorWithDetailsTst(  error.error.resolution,
-                                                        error.error.error);
+        (error: any) => {
+          this.messageService.showErrorWithDetailsTst(
+            error.error.resolution,
+            error.error.error
+          );
         }
-    );
+      );
 
     //By default lets load everything the user has access to
     this.loadAllUamForms(null);
 
     //Set up a listener for any time a new UAM Form is created
-    this.uamFormServices.saveNewUamFormEmitter.subscribe((newForm:UamForm) => {
+    this.uamFormServices.saveNewUamFormEmitter.subscribe((newForm: UamForm) => {
       this.loadAllUamForms(null);
     });
   }
 
   //Pass in null to get all UAM forms for this user
-  loadAllUamForms(status:String): void {
+  loadAllUamForms(status: string): void {
     this.uamFormServices.loadUamForms(status).subscribe(
-        (val)=> {
-          this.rowData = val;
-        },
-        (error: any)=> {
-          this.messageService.showErrorWithDetailsTst(  error.error.resolution,
-                                                        error.error.error);
-        }
+      (val) => {
+        this.rowData = val;
+      },
+      (error: any) => {
+        this.messageService.showErrorWithDetailsTst(
+          error.error.resolution,
+          error.error.error
+        );
+      }
     );
   }
 
   getSelectedRows() {
     const selectedNodes = this.uamFormGrid.api.getSelectedNodes();
-    const selectedData = selectedNodes.map( node => node.data );
-    const selectedDataStringPresentation = selectedData.map( node => node.id + ' ' + node.ownerId).join(', ');
+    const selectedData = selectedNodes.map((node) => node.data);
+    const selectedDataStringPresentation = selectedData
+      .map((node) => node.id + ' ' + node.ownerId)
+      .join(', ');
     alert(`Selected nodes: ${selectedDataStringPresentation}`);
   }
 
@@ -157,7 +167,7 @@ export class UamFormListComponent implements OnInit, OnDestroy {
     return this.dialog.open(NewUamFormDialogComponent, {
       disableClose: true,
       panelClass: 'form-dialog',
-      width: '500px'
+      width: '500px',
     });
   }
 

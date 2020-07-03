@@ -1,9 +1,9 @@
 export interface Note {
   id: number;
   entityId: number;
-  category: String;
-  text: String;
-  createdBy: String;
+  category: string;
+  text: string;
+  createdBy: string;
   created: Date;
   publicViewable: Boolean;
   editable: Boolean;

@@ -61,11 +61,6 @@ main {
   flex: auto;
 }
 
-footer {
-  color: white;
-  height: 40px;
-}
-
 .ag-theme-alpine {
     @include ag-theme-alpine;
 }

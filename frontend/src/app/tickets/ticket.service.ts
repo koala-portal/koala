@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, Subject } from 'rxjs';
+import { Observable, of, Subject, BehaviorSubject } from 'rxjs';
 
 import { Ticket } from './ticket.model';
 import { StatusMap } from './ticket.model';
 import { MyTicket } from './ticket.model';
-import { RequestType } from './ticket.model'
+import { RequestType } from './ticket.model';
 import { KToolsService } from '../k-tools/k-tools.service';
 import { KTool } from '../shared/k-tool.model';
 // import { KTool } from '../shared/k-tool.model';
 
 @Injectable({ providedIn: 'root' })
 export class TicketService {
-  ticket$ = new Subject<Ticket[]>();
   selectedStatus$ = new Subject<StatusMap[]>();
   selectedMyTicket$ = new Subject<MyTicket[]>();
   selctedTools$ = new Subject<KTool[]>();
@@ -97,26 +96,78 @@ export class TicketService {
     },
   ];
 
-  private ticketStatus: StatusMap[] = [
-    { status: 'Draft', description: 'User creates a form but does not submit it to our team.', color: 'koala-amber-bg-2', checked: true },
-    { status: 'Open', description: 'some more text', color: 'koala-green-bg-2', checked: true },
-    { status: 'Assigned', description: 'some more text', color: 'koala-livid-bg-3', checked: true },
-    { status: 'Queued', description: 'some more text', color: 'koala-green-bg-2', checked: true },
-    { status: 'Resolved', description: 'some more text', color: 'koala-charcoal-bg-1', checked: true },
-    { status: 'Canceled', description: 'some more text', color: 'koala-carminePink-bg-2', checked: true },
-  ];
+  ticket$ = new BehaviorSubject<Ticket[]>(this.getTickets());
 
+  private ticketStatus: StatusMap[] = [
+    {
+      status: 'Draft',
+      description: 'User creates a form but does not submit it to our team.',
+      color: 'koala-amber-bg-2',
+      checked: true,
+    },
+    {
+      status: 'Open',
+      description: 'some more text',
+      color: 'koala-green-bg-2',
+      checked: true,
+    },
+    {
+      status: 'Assigned',
+      description: 'some more text',
+      color: 'koala-livid-bg-3',
+      checked: true,
+    },
+    {
+      status: 'Queued',
+      description: 'some more text',
+      color: 'koala-green-bg-2',
+      checked: true,
+    },
+    {
+      status: 'Resolved',
+      description: 'some more text',
+      color: 'koala-charcoal-bg-1',
+      checked: true,
+    },
+    {
+      status: 'Canceled',
+      description: 'some more text',
+      color: 'koala-carminePink-bg-2',
+      checked: true,
+    },
+  ];
 
   private myTicketStatus: MyTicket[] = [
     { status: 'Created by me', checked: true },
-    { status: 'Assigned to me', checked: true }    
+    { status: 'Assigned to me', checked: true },
   ];
 
   private requestTypes: RequestType[] = [
-    { requestType: 'Mission System Registration', description: 'Submit a registration form for your system.', matIcon: 'how_to_vote', role: "ADMIN"},
-    { requestType: 'Report a bug', description: 'Submit a bug or issue with one of our tools', matIcon: 'bug_report', role: "VIEWER"},
-    { requestType: 'Raise a Question', description: 'Ask a question regarding a process within our organization. ', matIcon: 'help', role: "VIEWER"},
-    { requestType: 'Suggest an Improvement', description: 'Suggest an improved with one of our applications or SDKs.', matIcon: 'feedback', role: "VIEWER"},
+    {
+      requestType: 'Mission System Registration',
+      description: 'Submit a registration form for your system.',
+      matIcon: 'how_to_vote',
+      role: 'ADMIN',
+    },
+    {
+      requestType: 'Report a bug',
+      description: 'Submit a bug or issue with one of our tools',
+      matIcon: 'bug_report',
+      role: 'VIEWER',
+    },
+    {
+      requestType: 'Raise a Question',
+      description:
+        'Ask a question regarding a process within our organization. ',
+      matIcon: 'help',
+      role: 'VIEWER',
+    },
+    {
+      requestType: 'Suggest an Improvement',
+      description: 'Suggest an improved with one of our applications or SDKs.',
+      matIcon: 'feedback',
+      role: 'VIEWER',
+    },
   ];
 
   constructor(private ktService: KToolsService) {}
@@ -141,7 +192,7 @@ export class TicketService {
     return this.myTicketStatus.slice();
   }
 
-  getRequestTypes(): RequestType[]{
+  getRequestTypes(): RequestType[] {
     return this.requestTypes.slice();
   }
 

@@ -1,0 +1,38 @@
+<a mat-button routerLink="" class="text-decoration-none text-center text-reset"
+  >Koala</a
+>
+<mat-divider [vertical]="true"></mat-divider>
+<a
+  mat-button
+  routerLink="k-tools"
+  routerLinkActive="active"
+  class="text-decoration-none text-reset text-left"
+  >Tools</a
+>
+<a
+  mat-button
+  routerLink="tickets"
+  routerLinkActive="active"
+  class="text-decoration-none text-reset text-left py-1"
+>
+  <div fxLayout="row" fxLayoutAlign="before center">
+    <span class="mr-2">Registration & Requests</span>
+    <span class="pill primary" *ngIf="ticketCount">{{ ticketCount }}</span>
+  </div>
+
+  <!-- <button mat-raised-button color="primary" class="p-1">4</button> -->
+</a>
+<a
+  mat-button
+  routerLink="faqs"
+  routerLinkActive="active"
+  class="text-decoration-none text-reset text-left"
+  >FAQs</a
+>
+<a
+  mat-button
+  routerLink="uam-forms"
+  routerLinkActive="active"
+  class="text-decoration-none text-reset text-left py-1"
+  >Mission System Registrations</a
+>
